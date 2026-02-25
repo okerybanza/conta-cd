@@ -1,0 +1,38 @@
+declare const _default: {
+    NODE_ENV: string;
+    PORT: string | number;
+    DATABASE_URL: string | undefined;
+    JWT_SECRET: string;
+    JWT_REFRESH_SECRET: string;
+    JWT_EXPIRES_IN: string;
+    JWT_REFRESH_EXPIRES_IN: string;
+    BCRYPT_ROUNDS: string;
+    LOG_LEVEL: string;
+    CORS_ORIGIN: string;
+    FRONTEND_URL: string;
+    DATABASE_READ_URL: string | undefined;
+    REDIS_URL: string;
+    BCC_API_URL: string;
+    WHATSAPP_API_URL: string | undefined;
+    WHATSAPP_API_TOKEN: string | undefined;
+    SMTP_HOST: string;
+    SMTP_PORT: string;
+    SMTP_USER: string | undefined;
+    SMTP_PASS: string | undefined;
+    SMTP_FROM: string;
+    SMTP_NOTIF_FROM: string;
+    SUPPORT_EMAIL: string;
+    UPLOAD_DIR: string;
+    MAX_FILE_SIZE: number;
+    GOOGLE_CLIENT_ID: string | undefined;
+    GOOGLE_CLIENT_SECRET: string | undefined;
+    APPLE_CLIENT_ID: string | undefined;
+    APPLE_TEAM_ID: string | undefined;
+    APPLE_KEY_ID: string | undefined;
+    APPLE_PRIVATE_KEY: string | undefined;
+    MICROSOFT_CLIENT_ID: string | undefined;
+    MICROSOFT_CLIENT_SECRET: string | undefined;
+    MICROSOFT_TENANT_ID: string;
+};
+export default _default;
+//# sourceMappingURL=env.d.ts.map

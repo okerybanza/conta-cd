@@ -1,0 +1,7 @@
+nohup: ignoring input
+
+> conta-frontend@1.0.0 preview
+> vite preview --port 3000 --host 0.0.0.0 --port 3000 --host 0.0.0.0
+
+  ➜  Local:   http://localhost:3000/
+  ➜  Network: http://185.250.37.250:3000/

@@ -1,0 +1,1 @@
+import{d as n}from"./index-CjyuK5MW.js";class r{async getBalance(e,a,s){return(await n.get(`/hr/leave-balances/employee/${e}/balance`,{params:{leaveType:a,year:s}})).data}async getEmployeeBalances(e,a){return(await n.get(`/hr/leave-balances/employee/${e}`,{params:{year:a}})).data}}const o=new r;export{o as l};

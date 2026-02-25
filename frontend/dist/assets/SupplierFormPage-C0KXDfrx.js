@@ -1,0 +1,1 @@
+import{j as e}from"./index-CjyuK5MW.js";function r(){return e.jsxs("div",{className:"p-6",children:[e.jsx("h1",{className:"text-lg font-semibold mb-2",children:"Formulaire fournisseur"}),e.jsx("p",{className:"text-sm text-gray-600",children:"Cette page de création/modification de fournisseur est en cours de réimplémentation."})]})}export{r as default};

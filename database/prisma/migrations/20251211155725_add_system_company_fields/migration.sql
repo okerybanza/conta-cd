@@ -1,0 +1,1 @@
+-- Migration auto-fixée - SELECT 1;

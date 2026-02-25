@@ -1,0 +1,1 @@
+import{d as s}from"./index-CjyuK5MW.js";class e{async initPayment(a){return(await s.post("/payments/visapay/init",a)).data}async checkPaymentStatus(a){return(await s.get(`/payments/visapay/status/${a}`)).data}}const p=new e;export{p as v};

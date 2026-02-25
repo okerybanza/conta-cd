@@ -1,0 +1,6 @@
+-- AlterTable
+ALTER TABLE "invoices" ADD COLUMN IF NOT EXISTS "reference" VARCHAR(255),
+ADD COLUMN IF NOT EXISTS "po_number" VARCHAR(255),
+ADD COLUMN IF NOT EXISTS "shipping_address" TEXT,
+ADD COLUMN IF NOT EXISTS "shipping_city" VARCHAR(100),
+ADD COLUMN IF NOT EXISTS "shipping_country" VARCHAR(100);

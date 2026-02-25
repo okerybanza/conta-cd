@@ -1,0 +1,1 @@
+import{j as e}from"./index-CjyuK5MW.js";function s(){return e.jsxs("div",{className:"p-6",children:[e.jsx("h1",{className:"text-lg font-semibold mb-2",children:"Formulaire d'écriture comptable"}),e.jsx("p",{className:"text-sm text-gray-600",children:"Cette page est en cours de réimplémentation. Vous pouvez consulter les écritures dans la liste dédiée."})]})}export{s as default};

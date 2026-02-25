@@ -1,0 +1,1 @@
+import{j as e}from"./index-CjyuK5MW.js";function t(){return e.jsxs("div",{className:"p-6",children:[e.jsx("h1",{className:"text-lg font-semibold mb-2",children:"Formulaire dépense"}),e.jsx("p",{className:"text-sm text-gray-600",children:"Cette page de création/modification de dépense est en cours de réimplémentation."})]})}export{t as default};

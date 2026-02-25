@@ -1,0 +1,1 @@
+import{j as e}from"./index-CjyuK5MW.js";function t(){return e.jsxs("div",{className:"p-6",children:[e.jsx("h1",{className:"text-2xl font-bold",children:"Journal d'Audit"}),e.jsx("p",{className:"text-gray-600 mt-2",children:"Page en cours de développement"})]})}export{t as default};
