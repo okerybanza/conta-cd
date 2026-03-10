@@ -1,0 +1,6 @@
+src/pages/auth/ForgotPasswordPage.tsx(1,3): error TS1443: Module declaration names may only use ' or " quoted strings.
+src/pages/auth/ForgotPasswordPage.tsx(186,31): error TS1434: Unexpected keyword or identifier.
+src/pages/auth/ForgotPasswordPage.tsx(186,45): error TS1005: ';' expected.
+src/pages/auth/ForgotPasswordPage.tsx(234,1): error TS1160: Unterminated template literal.
+src/pages/onboarding/AccountantSelectPlanPage.tsx(9,1): error TS1109: Expression expected.
+src/pages/onboarding/AccountantSelectPlanPage.tsx(9,3): error TS1434: Unexpected keyword or identifier.

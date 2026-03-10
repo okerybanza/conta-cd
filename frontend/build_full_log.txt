@@ -1,0 +1,347 @@
+2026-01-27T11:45:40.369Z vite:config no config file found.
+2026-01-27T11:45:40.427Z vite:config using resolved config: {
+  root: '/home/conta/conta.cd-prod/frontend',
+  base: '/',
+  mode: 'production',
+  configFile: undefined,
+  logLevel: undefined,
+  clearScreen: undefined,
+  build: {
+    target: [ 'es2020', 'edge88', 'firefox78', 'chrome87', 'safari14' ],
+    cssTarget: [ 'es2020', 'edge88', 'firefox78', 'chrome87', 'safari14' ],
+    outDir: 'dist',
+    assetsDir: 'assets',
+    assetsInlineLimit: 4096,
+    cssCodeSplit: true,
+    sourcemap: false,
+    rollupOptions: {},
+    minify: 'esbuild',
+    terserOptions: {},
+    write: true,
+    emptyOutDir: null,
+    copyPublicDir: true,
+    manifest: false,
+    lib: false,
+    ssr: false,
+    ssrManifest: false,
+    ssrEmitAssets: false,
+    reportCompressedSize: true,
+    chunkSizeWarningLimit: 500,
+    watch: null,
+    commonjsOptions: { include: [Array], extensions: [Array] },
+    dynamicImportVarsOptions: { warnOnError: true, exclude: [Array] },
+    modulePreload: { polyfill: true },
+    cssMinify: true
+  },
+  configFileDependencies: [],
+  inlineConfig: {
+    root: undefined,
+    base: undefined,
+    mode: undefined,
+    configFile: undefined,
+    logLevel: undefined,
+    clearScreen: undefined,
+    build: {}
+  },
+  decodedBase: '/',
+  rawBase: '/',
+  resolve: {
+    mainFields: [ 'browser', 'module', 'jsnext:main', 'jsnext' ],
+    conditions: [],
+    extensions: [
+      '.mjs',  '.js',
+      '.mts',  '.ts',
+      '.jsx',  '.tsx',
+      '.json'
+    ],
+    dedupe: [],
+    preserveSymlinks: false,
+    alias: [ [Object], [Object] ]
+  },
+  publicDir: '/home/conta/conta.cd-prod/frontend/public',
+  cacheDir: '/home/conta/conta.cd-prod/frontend/node_modules/.vite',
+  command: 'build',
+  ssr: {
+    target: 'node',
+    optimizeDeps: { noDiscovery: true, esbuildOptions: [Object] }
+  },
+  isWorker: false,
+  mainConfig: null,
+  bundleChain: [],
+  isProduction: true,
+  plugins: [
+    'vite:build-metadata',
+    'vite:watch-package-data',
+    'vite:pre-alias',
+    'alias',
+    'vite:modulepreload-polyfill',
+    'vite:resolve',
+    'vite:html-inline-proxy',
+    'vite:css',
+    'vite:esbuild',
+    'vite:json',
+    'vite:wasm-helper',
+    'vite:worker',
+    'vite:asset',
+    'vite:wasm-fallback',
+    'vite:define',
+    'vite:css-post',
+    'vite:build-html',
+    'vite:worker-import-meta-url',
+    'vite:asset-import-meta-url',
+    'vite:force-systemjs-wrap-complete',
+    'commonjs',
+    'vite:data-uri',
+    'vite:dynamic-import-vars',
+    'vite:import-glob',
+    'vite:build-import-analysis',
+    'vite:esbuild-transpile',
+    'vite:terser',
+    'vite:reporter',
+    'vite:load-fallback'
+  ],
+  css: { lightningcss: undefined },
+  esbuild: { jsxDev: false },
+  server: {
+    preTransformRequests: true,
+    sourcemapIgnoreList: [Function: isInNodeModules$1],
+    middlewareMode: false,
+    fs: {
+      strict: true,
+      allow: [Array],
+      deny: [Array],
+      cachedChecks: undefined
+    }
+  },
+  preview: {
+    port: undefined,
+    strictPort: undefined,
+    host: undefined,
+    allowedHosts: undefined,
+    https: undefined,
+    open: undefined,
+    proxy: undefined,
+    cors: undefined,
+    headers: undefined
+  },
+  envDir: '/home/conta/conta.cd-prod/frontend',
+  env: {
+    VITE_API_URL: 'http://185.250.37.250:3001/api/v1',
+    VITE_NODE_ENV: 'production',
+    BASE_URL: '/',
+    MODE: 'production',
+    DEV: false,
+    PROD: true
+  },
+  assetsInclude: [Function: assetsInclude],
+  logger: {
+    hasWarned: false,
+    info: [Function: info],
+    warn: [Function: warn],
+    warnOnce: [Function: warnOnce],
+    error: [Function: error],
+    clearScreen: [Function: clearScreen],
+    hasErrorLogged: [Function: hasErrorLogged]
+  },
+  packageCache: Map(1) {
+    'fnpd_/home/conta/conta.cd-prod/frontend' => {
+      dir: '/home/conta/conta.cd-prod/frontend',
+      data: [Object],
+      hasSideEffects: [Function: hasSideEffects],
+      webResolvedImports: {},
+      nodeResolvedImports: {},
+      setResolvedCache: [Function: setResolvedCache],
+      getResolvedCache: [Function: getResolvedCache]
+    },
+    set: [Function (anonymous)]
+  },
+  createResolver: [Function: createResolver],
+  optimizeDeps: {
+    holdUntilCrawlEnd: true,
+    esbuildOptions: { preserveSymlinks: false }
+  },
+  worker: { format: 'iife', plugins: '() => plugins', rollupOptions: {} },
+  appType: 'spa',
+  experimental: { importGlobRestoreExtension: false, hmrPartialAccept: false },
+  webSocketToken: '13mfDs1txXEf',
+  additionalAllowedHosts: [],
+  getSortedPlugins: [Function: getSortedPlugins],
+  getSortedPluginHooks: [Function: getSortedPluginHooks]
+}
+vite v5.4.21 building for production...
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+transforming...
+✓ 2753 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                        0.49 kB │ gzip:   0.32 kB
+dist/assets/index-Dlt_R7cI.css                        59.28 kB │ gzip:   9.59 kB
+dist/assets/featureToggle-Bwa7Z7ie.js                  0.19 kB │ gzip:   0.17 kB
+dist/assets/visapay.service-BztaB_yv.js                0.24 kB │ gzip:   0.18 kB
+dist/assets/AdminAuditLogsPage-CiwFgdaq.js             0.28 kB │ gzip:   0.23 kB
+dist/assets/AdminAccountantsPage-CjQJ4e9r.js           0.29 kB │ gzip:   0.23 kB
+dist/assets/check-CWK13ZN2.js                          0.30 kB │ gzip:   0.25 kB
+dist/assets/leaveBalance.service-BcR8wHuZ.js           0.31 kB │ gzip:   0.21 kB
+dist/assets/loader-circle-bdlh0_uX.js                  0.32 kB │ gzip:   0.26 kB
+dist/assets/plus-B_dRQzWn.js                           0.33 kB │ gzip:   0.26 kB
+dist/assets/arrow-left-Cbw_27J9.js                     0.34 kB │ gzip:   0.27 kB
+dist/assets/QuotationFormPage-C8f8DnGi.js              0.34 kB │ gzip:   0.26 kB
+dist/assets/EmployeeFormPage-D4UlNtRD.js               0.35 kB │ gzip:   0.26 kB
+dist/assets/ExpenseFormPage-C8ygikje.js                0.35 kB │ gzip:   0.26 kB
+dist/assets/SupplierFormPage-DqLZN434.js               0.36 kB │ gzip:   0.26 kB
+dist/assets/smartphone-Dm1197c6.js                     0.37 kB │ gzip:   0.29 kB
+dist/assets/rotate-ccw-CflJ3Dog.js                     0.37 kB │ gzip:   0.29 kB
+dist/assets/RecurringInvoiceFormPage-CEJ75UOl.js       0.37 kB │ gzip:   0.27 kB
+dist/assets/lock-Bmoxgc84.js                           0.38 kB │ gzip:   0.30 kB
+dist/assets/JournalEntryFormPage-BksSiEyE.js           0.38 kB │ gzip:   0.28 kB
+dist/assets/supplier.service-Cq1KlPHU.js               0.39 kB │ gzip:   0.21 kB
+dist/assets/briefcase-7ACwCJaX.js                      0.39 kB │ gzip:   0.30 kB
+dist/assets/upload-C0tE2oqZ.js                         0.40 kB │ gzip:   0.30 kB
+dist/assets/download-CF-T9jCm.js                       0.41 kB │ gzip:   0.30 kB
+dist/assets/message-square-DSEIknE4.js                 0.41 kB │ gzip:   0.31 kB
+dist/assets/employee.service-D7TFxkao.js               0.41 kB │ gzip:   0.22 kB
+dist/assets/copy-CbbRRydx.js                           0.41 kB │ gzip:   0.32 kB
+dist/assets/history-FzYtjAHr.js                        0.41 kB │ gzip:   0.30 kB
+dist/assets/globe-dttbGiPU.js                          0.42 kB │ gzip:   0.30 kB
+dist/assets/CustomerFormSlideIn-Cb8VtXG_.js            0.42 kB │ gzip:   0.29 kB
+dist/assets/eye-BptagmsX.js                            0.43 kB │ gzip:   0.31 kB
+dist/assets/funnel-BfxVKNFr.js                         0.43 kB │ gzip:   0.32 kB
+dist/assets/map-pin-D6UV9KGH.js                        0.43 kB │ gzip:   0.33 kB
+dist/assets/paypal.service-DO-vEpDC.js                 0.43 kB │ gzip:   0.27 kB
+dist/assets/triangle-alert-DvIS6M4G.js                 0.44 kB │ gzip:   0.32 kB
+dist/assets/image-Bbf4uwA4.js                          0.44 kB │ gzip:   0.33 kB
+dist/assets/file-BYWBn4nJ.js                           0.44 kB │ gzip:   0.32 kB
+dist/assets/send-DEW1MDyj.js                           0.46 kB │ gzip:   0.34 kB
+dist/assets/payment.service-CsN5YkOe.js                0.46 kB │ gzip:   0.23 kB
+dist/assets/warehouse.service-lA4B3f_B.js              0.48 kB │ gzip:   0.24 kB
+dist/assets/quotation.service-LHYDiIkv.js              0.49 kB │ gzip:   0.25 kB
+dist/assets/printer-BowZbRYH.js                        0.49 kB │ gzip:   0.34 kB
+dist/assets/square-pen-C3GSOFff.js                     0.49 kB │ gzip:   0.35 kB
+dist/assets/refresh-cw-tc8Klqif.js                     0.49 kB │ gzip:   0.33 kB
+dist/assets/phone-1S1TEKRt.js                          0.50 kB │ gzip:   0.34 kB
+dist/assets/save-C_Tf6af5.js                           0.50 kB │ gzip:   0.33 kB
+dist/assets/trash-2-De_qIwsm.js                        0.50 kB │ gzip:   0.32 kB
+dist/assets/journalEntry.service-CjyvC60b.js           0.51 kB │ gzip:   0.24 kB
+dist/assets/notification.service-Xl6XWOmG.js           0.51 kB │ gzip:   0.25 kB
+dist/assets/attendance.service-DPyQW68V.js             0.55 kB │ gzip:   0.27 kB
+dist/assets/payroll.service-za04b71s.js                0.58 kB │ gzip:   0.28 kB
+dist/assets/locationOptions-ozLko3ZM.js                0.59 kB │ gzip:   0.37 kB
+dist/assets/leaveRequest.service-BjzfHNEF.js           0.61 kB │ gzip:   0.26 kB
+dist/assets/contract.service-vrjAGqZl.js               0.64 kB │ gzip:   0.27 kB
+dist/assets/user.service-DjlfmvWh.js                   0.65 kB │ gzip:   0.32 kB
+dist/assets/useQuotaError-DsgySkai.js                  0.66 kB │ gzip:   0.41 kB
+dist/assets/palette-DqJk4HAd.js                        0.68 kB │ gzip:   0.38 kB
+dist/assets/package.service-DhWpuMQZ.js                0.69 kB │ gzip:   0.28 kB
+dist/assets/settings.service-CWOp-IME.js               0.73 kB │ gzip:   0.32 kB
+dist/assets/FormInput-B9gyH9sI.js                      0.77 kB │ gzip:   0.45 kB
+dist/assets/formatters-C1g2ZjMO.js                     0.83 kB │ gzip:   0.41 kB
+dist/assets/Modal-71Qs1wpS.js                          1.00 kB │ gzip:   0.55 kB
+dist/assets/accountant.service-Bn0Uihxd.js             1.24 kB │ gzip:   0.40 kB
+dist/assets/product.service-CbCjuuvk.js                1.27 kB │ gzip:   0.63 kB
+dist/assets/customer.service-C9xYKhr9.js               1.30 kB │ gzip:   0.58 kB
+dist/assets/CustomerFormPage-Cj9WBJ5w.js               1.34 kB │ gzip:   0.69 kB
+dist/assets/fiscalPeriod.service-CQ5gjFgn.js           1.50 kB │ gzip:   0.57 kB
+dist/assets/InvoiceFormPage-oCZ40aWn.js                1.51 kB │ gzip:   0.76 kB
+dist/assets/ActionsMenu-SXxivhhK.js                    1.55 kB │ gzip:   0.83 kB
+dist/assets/account.service-B11Scoc2.js                1.67 kB │ gzip:   0.59 kB
+dist/assets/expense.service-B-L4HgPe.js                1.86 kB │ gzip:   0.51 kB
+dist/assets/creditNote.service-CTuhXqco.js             2.18 kB │ gzip:   0.76 kB
+dist/assets/admin.service-DL8tMmKv.js                  2.55 kB │ gzip:   0.67 kB
+dist/assets/invoice.service-DIlWrX3u.js                2.59 kB │ gzip:   0.96 kB
+dist/assets/PayPalReturnPage-BCESHoQv.js               2.65 kB │ gzip:   1.10 kB
+dist/assets/VisapayReturnPage-D0ariZQ9.js              3.34 kB │ gzip:   1.24 kB
+dist/assets/SettingsPage-Dysn_UH5.js                   3.49 kB │ gzip:   1.46 kB
+dist/assets/NotificationsSettingsPage-OaVaS2bx.js      4.07 kB │ gzip:   1.22 kB
+dist/assets/AccountDetailPage-B5Zc_2u8.js              4.31 kB │ gzip:   1.52 kB
+dist/assets/HrCompliancePage-D4jUCTzZ.js               4.40 kB │ gzip:   1.61 kB
+dist/assets/QuotaErrorModal-BMPVZNVJ.js                4.41 kB │ gzip:   1.67 kB
+dist/assets/NotificationsListPage-eMGoGnKc.js          4.46 kB │ gzip:   1.52 kB
+dist/assets/VerifyEmailPage-YO317LOB.js                5.00 kB │ gzip:   2.09 kB
+dist/assets/ForgotPasswordPage-BNJfioBT.js             5.08 kB │ gzip:   1.86 kB
+dist/assets/SupplierDetailPage-Cz9STGRh.js             5.47 kB │ gzip:   1.70 kB
+dist/assets/AccountantCompaniesPage-tZO03iny.js        5.67 kB │ gzip:   1.63 kB
+dist/assets/AccountFormPage-B9BcngD2.js                5.91 kB │ gzip:   1.99 kB
+dist/assets/VisapayCardCollectionPage-D5OhdzZM.js      5.94 kB │ gzip:   2.21 kB
+dist/assets/ResetPasswordPage-CC0Mtia5.js              6.36 kB │ gzip:   2.04 kB
+dist/assets/SuppliersListPage-CGJOlmMU.js              6.45 kB │ gzip:   2.04 kB
+dist/assets/WarehouseFormPage-ClYMrscE.js              6.46 kB │ gzip:   2.22 kB
+dist/assets/LeaveBalancesPage-BzhPQIvu.js              6.46 kB │ gzip:   1.95 kB
+dist/assets/CustomerForm-CDAhbJp4.js                   6.84 kB │ gzip:   2.37 kB
+dist/assets/WarehouseListPage-ysaXYQBH.js              6.93 kB │ gzip:   2.49 kB
+dist/assets/ConfirmDialog-DwnM9KYC.js                  6.95 kB │ gzip:   2.12 kB
+dist/assets/AttendanceFormPage-CHkTNfq7.js             7.10 kB │ gzip:   2.00 kB
+dist/assets/CreditNoteDetailPage-CDY5Xp44.js           7.18 kB │ gzip:   2.30 kB
+dist/assets/ProductFormPage-DiIW1FKa.js                7.23 kB │ gzip:   2.35 kB
+dist/assets/AttendancePage-CCBiNJkt.js                 7.31 kB │ gzip:   2.19 kB
+dist/assets/RegisterPage-ZOyOntxG.js                   7.38 kB │ gzip:   2.20 kB
+dist/assets/AccountantRequestsPage-MuH1YHKx.js         7.74 kB │ gzip:   2.38 kB
+dist/assets/PaymentDetailPage-CF-azi4q.js              7.88 kB │ gzip:   2.44 kB
+dist/assets/AccountantsSearchPage-Cn8u5p22.js          7.90 kB │ gzip:   2.56 kB
+dist/assets/ContractEditorPage-CGsPIODy.js             8.21 kB │ gzip:   2.77 kB
+dist/assets/AccountsListPage-DEh_stQP.js               8.29 kB │ gzip:   2.81 kB
+dist/assets/ExpenseApprovalPage-DCYlopkH.js            8.61 kB │ gzip:   2.63 kB
+dist/assets/CreditNotesListPage-DLRD81qK.js            8.70 kB │ gzip:   2.74 kB
+dist/assets/InvoiceFormSlideIn-DJRPTr8T.js             8.78 kB │ gzip:   2.92 kB
+dist/assets/PayrollPage-hdFiMAqi.js                    9.02 kB │ gzip:   2.72 kB
+dist/assets/ContactPage-BWC5cPfg.js                    9.12 kB │ gzip:   2.14 kB
+dist/assets/EmployeesListPage-DuqpmL4m.js              9.26 kB │ gzip:   2.83 kB
+dist/assets/JournalEntryDetailPage-DcU1wbRQ.js         9.28 kB │ gzip:   2.82 kB
+dist/assets/SupportPage-DOZLqW5p.js                    9.34 kB │ gzip:   2.65 kB
+dist/assets/LoginPage-C5Kw_EfJ.js                      9.42 kB │ gzip:   3.45 kB
+dist/assets/AdminCompaniesPage-CtYkXOOl.js             9.50 kB │ gzip:   2.98 kB
+dist/assets/FiscalExportPage-GyfUWEVa.js               9.53 kB │ gzip:   2.53 kB
+dist/assets/LeaveRequestsPage-CHJ8NTcu.js              9.61 kB │ gzip:   2.69 kB
+dist/assets/AccountantDashboardPage-DKaxFRN4.js        9.70 kB │ gzip:   2.37 kB
+dist/assets/QuotationsListPage-yDBEJcsZ.js             9.73 kB │ gzip:   3.24 kB
+dist/assets/UpgradePage-CkrBSsPa.js                    9.85 kB │ gzip:   3.01 kB
+dist/assets/PayrollFormPage-2ZJjL9BL.js                9.86 kB │ gzip:   2.66 kB
+dist/assets/AuditLogsPage-CaRM_ztI.js                  9.97 kB │ gzip:   2.95 kB
+dist/assets/AccountantPublicProfilePage-CsGIsuYI.js    9.99 kB │ gzip:   2.71 kB
+dist/assets/AccountantProfilePage-DDHOuSMy.js         10.28 kB │ gzip:   2.59 kB
+dist/assets/CustomerDetailPage-DULc0n9P.js            10.68 kB │ gzip:   2.81 kB
+dist/assets/AccountantSelectPlanPage-DV69yjPj.js      10.99 kB │ gzip:   3.31 kB
+dist/assets/InvoiceForm-G01KxAfk.js                   11.00 kB │ gzip:   3.65 kB
+dist/assets/PaymentsListPage-CWi4_hkp.js              11.07 kB │ gzip:   3.27 kB
+dist/assets/SelectPlanPage-mnYj8I8k.js                11.18 kB │ gzip:   3.19 kB
+dist/assets/CreditNoteFormPage-TjifCyJC.js            11.27 kB │ gzip:   3.45 kB
+dist/assets/ProductsListPage-CVlpC2QB.js              11.36 kB │ gzip:   3.79 kB
+dist/assets/StockMovementsListPage-CrTM3EUy.js        11.50 kB │ gzip:   3.52 kB
+dist/assets/InvoicePreviewPage-DKfBklAp.js            11.58 kB │ gzip:   3.19 kB
+dist/assets/ExpensesListPage-Dgc1btyS.js              12.26 kB │ gzip:   3.78 kB
+dist/assets/AdminSettingsPage-BNjA5cUD.js             12.27 kB │ gzip:   2.46 kB
+dist/assets/BalanceValidationPage-DpgKEeei.js         12.42 kB │ gzip:   3.04 kB
+dist/assets/JournalEntriesListPage-DcPa-BFv.js        13.18 kB │ gzip:   3.94 kB
+dist/assets/VATPage-1R8joWWt.js                       13.20 kB │ gzip:   2.67 kB
+dist/assets/FiscalPeriodsPage-gooFsyVS.js             13.29 kB │ gzip:   3.50 kB
+dist/assets/SubscriptionPage-D0WqKyHj.js              13.66 kB │ gzip:   3.90 kB
+dist/assets/PlansPage-B_oSViG8.js                     13.71 kB │ gzip:   3.56 kB
+dist/assets/PaymentFormSlideIn-iTGTpWri.js            13.81 kB │ gzip:   3.95 kB
+dist/assets/QuotationDetailPage-C4nNkGtW.js           13.90 kB │ gzip:   3.74 kB
+dist/assets/UserProfilePage-D694PC7s.js               14.00 kB │ gzip:   3.59 kB
+dist/assets/AgedBalancePage-xtJWbm9U.js               14.05 kB │ gzip:   3.07 kB
+dist/assets/PaymentFormPage-CPCU7JDC.js               14.07 kB │ gzip:   3.86 kB
+dist/assets/RecurringInvoicesListPage-BuhQu_mh.js     14.86 kB │ gzip:   4.11 kB
+dist/assets/CustomersListPage-sUrEVhUq.js             15.06 kB │ gzip:   4.37 kB
+dist/assets/AdminCompanyDetailPage-BiVfXSwA.js        15.44 kB │ gzip:   3.48 kB
+dist/assets/BankReconciliationPage-D8OOI94a.js        16.33 kB │ gzip:   3.98 kB
+dist/assets/ReportingPage-DL6B2Nyq.js                 16.81 kB │ gzip:   3.04 kB
+dist/assets/EmployeeDetailPage-Crjm_ja8.js            17.20 kB │ gzip:   3.89 kB
+dist/assets/AdminPaymentsPage-BcIFwWNr.js             17.71 kB │ gzip:   4.18 kB
+dist/assets/DepreciationsPage-b5mJqieE.js             17.91 kB │ gzip:   4.29 kB
+dist/assets/AccountingReportsPage--hFQ8TeT.js         18.35 kB │ gzip:   3.82 kB
+dist/assets/ReconciliationPage-D3_5i0kh.js            19.48 kB │ gzip:   3.21 kB
+dist/assets/UsersUnifiedPage-Dh3AqVny.js              19.75 kB │ gzip:   4.94 kB
+dist/assets/AdminDashboardPage-BJXRUMCE.js            20.40 kB │ gzip:   6.31 kB
+dist/assets/InvoiceDetailPage-6X7VC0qz.js             20.89 kB │ gzip:   5.18 kB
+dist/assets/InvoicesListPage-BQWC82LP.js              21.58 kB │ gzip:   5.93 kB
+dist/assets/AdminUsersPage-DWwIJH4_.js                22.37 kB │ gzip:   4.48 kB
+dist/assets/ExpenseDetailPage-BaI0d8mp.js             22.72 kB │ gzip:   6.19 kB
+dist/assets/YAxis-bEthOt--.js                         24.41 kB │ gzip:   6.25 kB
+dist/assets/AdminPlansPage-DYsEEP7-.js                25.96 kB │ gzip:   6.06 kB
+dist/assets/FinancialStatementsPage-NAKf1XsH.js       29.10 kB │ gzip:   4.46 kB
+dist/assets/DashboardPage-Bdg6ZdCT.js                 52.15 kB │ gzip:  11.72 kB
+dist/assets/CompanySettingsPage-DfTQKVTF.js           61.11 kB │ gzip:  10.71 kB
+dist/assets/index.esm-Bl02QUTL.js                     68.12 kB │ gzip:  23.19 kB
+dist/assets/index-nkUzPKA3.js                        316.16 kB │ gzip:  95.86 kB
+dist/assets/PieChart-CumNFUpO.js                     375.39 kB │ gzip: 103.25 kB
+✓ built in 30.53s

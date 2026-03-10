@@ -1,0 +1,1707 @@
+generator client {
+  provider        = "prisma-client-js"
+  output          = "../../backend/node_modules/.prisma/client"
+  previewFeatures = ["views"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model ExpenseApproval {
+  id                  String               @id
+  expenseId           String
+  companyId           String
+  ruleId              String?
+  status              String
+  requestedBy         String
+  requestedAt         DateTime             @default(now())
+  approvedBy          String?
+  approvedAt          DateTime?
+  rejectedBy          String?
+  rejectedAt          DateTime?
+  rejectionReason     String?
+  comments            String?
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @default(now())
+  ExpenseApprovalRule ExpenseApprovalRule? @relation(fields: [ruleId], references: [id])
+
+  @@index([approvedBy])
+  @@index([companyId])
+  @@index([expenseId])
+  @@index([requestedBy])
+  @@index([status])
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model ExpenseApprovalRule {
+  id                  String            @id
+  companyId           String
+  name                String
+  description         String?
+  enabled             Boolean           @default(true)
+  amountThreshold     Decimal?          @db.Decimal(10, 2)
+  categoryId          String?
+  requireJustificatif Boolean           @default(false)
+  approvers           Json              @default("[]")
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @default(now())
+  ExpenseApproval     ExpenseApproval[]
+
+  @@index([companyId])
+  @@index([enabled])
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model ExpenseAttachment {
+  id           String    @id
+  expenseId    String
+  companyId    String
+  filename     String
+  originalName String
+  mimetype     String
+  size         Int
+  url          String
+  uploadedBy   String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @default(now())
+  companies    companies @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  expenses     expenses  @relation(fields: [expenseId], references: [id], onDelete: Cascade)
+  users        users     @relation(fields: [uploadedBy], references: [id])
+
+  @@index([companyId])
+  @@index([expenseId])
+  @@index([uploadedBy])
+}
+
+model accounts {
+  id                                                            String                @id
+  company_id                                                    String
+  code                                                          String                @db.VarChar(20)
+  name                                                          String                @db.VarChar(255)
+  type                                                          String                @db.VarChar(50)
+  category                                                      String?               @db.VarChar(50)
+  parent_id                                                     String?
+  is_active                                                     Boolean?              @default(true)
+  balance                                                       Decimal               @default(0) @db.Decimal(15, 2)
+  description                                                   String?
+  created_at                                                    DateTime              @default(now())
+  updated_at                                                    DateTime
+  companies                                                     companies             @relation(fields: [company_id], references: [id], onDelete: Cascade)
+  accounts                                                      accounts?             @relation("accountsToaccounts", fields: [parent_id], references: [id])
+  other_accounts                                                accounts[]            @relation("accountsToaccounts")
+  bank_statements                                               bank_statements[]
+  depreciations_depreciations_asset_account_idToaccounts        depreciations[]       @relation("depreciations_asset_account_idToaccounts")
+  depreciations_depreciations_depreciation_account_idToaccounts depreciations[]       @relation("depreciations_depreciation_account_idToaccounts")
+  expense_categories                                            expense_categories[]
+  expenses                                                      expenses[]
+  journal_entry_lines                                           journal_entry_lines[]
+  suppliers                                                     suppliers[]
+
+  @@unique([company_id, code])
+  @@index([category])
+  @@index([company_id])
+  @@index([is_active])
+  @@index([parent_id])
+  @@index([type])
+}
+
+model currency_settings {
+  id                String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  company_id        String    @unique(map: "unique_currency_settings_per_company")
+  base_currency     String    @default("CDF") @db.VarChar(3)
+  auto_update_rates Boolean?  @default(false)
+  rate_provider     String?   @default("manual") @db.VarChar(50)
+  api_key           String?   @db.VarChar(255)
+  last_rate_update  DateTime? @db.Timestamp(6)
+  created_at        DateTime? @default(now()) @db.Timestamp(6)
+  updated_at        DateTime? @default(now()) @updatedAt @db.Timestamp(6)
+  companies         companies @relation(fields: [company_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([company_id], map: "idx_currency_settings_company")
+}
+
+model exchange_rates {
+  id             String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  from_currency  String    @db.VarChar(3)
+  to_currency    String    @db.VarChar(3)
+  rate           Decimal   @db.Decimal(18, 8)
+  effective_date DateTime  @db.Date
+  source         String?   @default("manual") @db.VarChar(50)
+  created_at     DateTime? @default(now()) @db.Timestamp(6)
+  updated_at     DateTime? @default(now()) @updatedAt @db.Timestamp(6)
+
+  @@unique([from_currency, to_currency, effective_date], map: "unique_rate_per_date")
+  @@index([from_currency, to_currency, effective_date(sort: Desc)], map: "idx_exchange_rates_currencies_date")
+  @@index([effective_date(sort: Desc)], map: "idx_exchange_rates_effective_date")
+}
+
+model attendances {
+  id           String    @id
+  company_id   String
+  employee_id  String
+  date         DateTime  @db.Date
+  check_in     DateTime?
+  check_out    DateTime?
+  hours_worked Decimal?  @default(0) @db.Decimal(5, 2)
+  status       String    @default("present") @db.VarChar(50)
+  leave_type   String?   @db.VarChar(50)
+  notes        String?
+  created_at   DateTime  @default(now())
+  updated_at   DateTime
+  companies    companies @relation(fields: [company_id], references: [id], onDelete: Cascade)
+  employees    employees @relation(fields: [employee_id], references: [id], onDelete: Cascade)
+
+  @@unique([company_id, employee_id, date])
+  @@index([company_id])
+  @@index([date])
+  @@index([employee_id])
+  @@index([status])
+}
+
+model audit_logs {
+  id            String     @id
+  company_id    String?
+  user_id       String?
+  action        String     @db.VarChar(100)
+  entity_id     String?    @db.VarChar(255)
+  changes       Json?      @default("{}")
+  ip_address    String?    @db.VarChar(45)
+  user_agent    String?
+  created_at    DateTime   @default(now())
+  entity        String     @db.VarChar(100)
+  after_state   Json?
+  before_state  Json?
+  justification String?
+  module        String?    @db.VarChar(50)
+  user_role     String?    @db.VarChar(50)
+  hash          String?    @db.VarChar(64)
+  previous_hash String?    @db.VarChar(64)
+  reason        String?    @db.VarChar(500)
+  companies     companies? @relation(fields: [company_id], references: [id])
+
+  @@index([company_id])
+  @@index([created_at])
+  @@index([entity_id])
+  @@index([entity])
+  @@index([user_id])
+  @@index([module])
+  @@index([action])
+}
+
+model domain_events {
+  id             String     @id
+  type           String     @db.VarChar(100)
+  entity_type    String     @db.VarChar(100)
+  entity_id      String     @db.VarChar(255)
+  data           Json
+  metadata       Json
+  occurred_at    DateTime   @default(now())
+  company_id     String?
+  user_id        String?
+  correlation_id String?    @db.VarChar(100)
+  causation_id   String?    @db.VarChar(100)
+  companies      companies? @relation(fields: [company_id], references: [id])
+
+  @@index([company_id])
+  @@index([entity_id])
+  @@index([type])
+  @@index([occurred_at])
+}
+
+model bank_statements {
+  id                String              @id
+  company_id        String
+  account_id        String
+  statement_number  String              @db.VarChar(100)
+  start_date        DateTime            @db.Date
+  end_date          DateTime            @db.Date
+  opening_balance   Decimal             @default(0) @db.Decimal(15, 2)
+  closing_balance   Decimal             @default(0) @db.Decimal(15, 2)
+  status            String              @default("draft") @db.VarChar(50)
+  imported_at       DateTime?
+  reconciled_at     DateTime?
+  reconciled_by     String?
+  notes             String?
+  created_at        DateTime            @default(now())
+  updated_at        DateTime
+  deleted_at        DateTime?
+  accounts          accounts            @relation(fields: [account_id], references: [id])
+  companies         companies           @relation(fields: [company_id], references: [id], onDelete: Cascade)
+  bank_transactions bank_transactions[]
+
+  @@unique([company_id, statement_number])
+  @@index([account_id])
+  @@index([company_id])
+  @@index([deleted_at])
+  @@index([end_date])
+  @@index([start_date])
+  @@index([status])
+}
+
+model bank_transactions {
+  id               String          @id
+  statement_id     String
+  transaction_date DateTime        @db.Date
+  value_date       DateTime?       @db.Date
+  description      String          @db.VarChar(500)
+  reference        String?         @db.VarChar(255)
+  amount           Decimal         @db.Decimal(15, 2)
+  balance          Decimal?        @db.Decimal(15, 2)
+  type             String          @db.VarChar(50)
+  category         String?         @db.VarChar(100)
+  is_reconciled    Boolean         @default(false)
+  reconciled_at    DateTime?
+  reconciled_with  String?
+  reconciled_type  String?         @db.VarChar(50)
+  notes            String?
+  created_at       DateTime        @default(now())
+  updated_at       DateTime
+  bank_statements  bank_statements @relation(fields: [statement_id], references: [id], onDelete: Cascade)
+
+  @@index([is_reconciled])
+  @@index([reconciled_with])
+  @@index([statement_id])
+  @@index([transaction_date])
+}
+
+model companies {
+  id                                    String                        @id
+  name                                  String                        @db.VarChar(255)
+  business_name                         String?                       @db.VarChar(255)
+  logo_url                              String?                       @db.VarChar(500)
+  email                                 String                        @unique @db.VarChar(255)
+  phone                                 String?                       @db.VarChar(50)
+  address                               String?
+  city                                  String?                       @db.VarChar(100)
+  country                               String?                       @default("RDC") @db.VarChar(100)
+  postal_code                           String?                       @db.VarChar(20)
+  nif                                   String?                       @unique @db.VarChar(50)
+  rccm                                  String?                       @db.VarChar(50)
+  def                                   String?                       @db.VarChar(50)
+  currency                              String?                       @default("CDF") @db.VarChar(3)
+  invoice_prefix                        String?                       @default("FAC") @db.VarChar(20)
+  invoice_numbering_type                String?                       @default("sequential") @db.VarChar(20)
+  next_invoice_number                   Int?                          @default(1)
+  invoice_template_id                   String?                       @default("template-1-modern") @db.VarChar(50)
+  rdc_normalized_enabled                Boolean?                      @default(false)
+  default_payment_terms                 String?
+  default_due_days                      Int?                          @default(30)
+  maxicash_enabled                      Boolean?                      @default(false)
+  maxicash_merchant_id                  String?                       @db.VarChar(100)
+  maxicash_secret_key                   String?                       @db.VarChar(255)
+  maxicash_sub_merchant_id              String?                       @db.VarChar(100)
+  maxicash_webhook_url                  String?                       @db.VarChar(500)
+  reminders_enabled                     Boolean?                      @default(false)
+  reminder_days_before                  Int?                          @default(3)
+  reminder_days_after                   Int?                          @default(7)
+  reminder_frequency                    String?                       @default("daily") @db.VarChar(20)
+  reminder_methods                      String[]                      @default(["email"])
+  created_at                            DateTime                      @default(now())
+  updated_at                            DateTime
+  deleted_at                            DateTime?
+  is_system_company                     Boolean?                      @default(false)
+  system_type                           String?                       @db.VarChar(50)
+  account_type                          AccountType                   @default(STARTUP)
+  paypal_client_id                      String?                       @db.VarChar(255)
+  paypal_enabled                        Boolean?                      @default(false)
+  paypal_mode                           String?                       @default("sandbox") @db.VarChar(20)
+  paypal_secret_key                     String?                       @db.VarChar(255)
+  paypal_webhook_id                     String?                       @db.VarChar(255)
+  visapay_api_key                       String?                       @db.VarChar(255)
+  visapay_enabled                       Boolean?                      @default(false)
+  visapay_merchant_id                   String?                       @db.VarChar(100)
+  visapay_mode                          String?                       @default("sandbox") @db.VarChar(20)
+  visapay_secret_key                    String?                       @db.VarChar(255)
+  visapay_webhook_url                   String?                       @db.VarChar(500)
+  visapay_encryption_method             String?                       @default("symmetric") @db.VarChar(20)
+  visapay_encryption_key_id             String?                       @db.VarChar(100)
+  visapay_signing_key_id                String?                       @db.VarChar(100)
+  visapay_visa_encryption_key_id        String?                       @db.VarChar(100)
+  visapay_visa_encryption_public_key    String?
+  visapay_client_encryption_key_id      String?                       @db.VarChar(100)
+  visapay_client_encryption_private_key String?
+  visapay_client_signing_key_id         String?                       @db.VarChar(100)
+  visapay_client_signing_private_key    String?
+  visapay_visa_signing_key_id           String?                       @db.VarChar(100)
+  visapay_visa_signing_public_key       String?
+  quotation_prefix                      String?                       @default("DEV") @db.VarChar(10)
+  next_quotation_number                 Int?                          @default(1)
+  credit_note_prefix                    String?                       @default("AV") @db.VarChar(10)
+  next_credit_note_number               Int?                          @default(1)
+  datarissage_completed                 Boolean                       @default(false)
+  datarissage_completed_at              DateTime?
+  timezone                              String?                       @default("Africa/Kinshasa") @db.VarChar(50)
+  business_type                         String?                       @db.VarChar(50)
+  module_facturation_enabled            Boolean                       @default(true)
+  module_comptabilite_enabled           Boolean                       @default(true)
+  module_stock_enabled                  Boolean                       @default(false)
+  module_rh_enabled                     Boolean                       @default(false)
+  stock_management_type                 String?                       @db.VarChar(50)
+  stock_tracking_type                   String?                       @db.VarChar(50)
+  stock_allow_negative                  Boolean?                      @default(false)
+  stock_valuation_method                String?                       @db.VarChar(50)
+  rh_organization_type                  String?                       @db.VarChar(50)
+  rh_payroll_enabled                    Boolean?                      @default(false)
+  rh_payroll_cycle                      String?                       @db.VarChar(50)
+  rh_accounting_integration             Boolean?                      @default(false)
+  ExpenseAttachment                     ExpenseAttachment[]
+  accounts                              accounts[]
+  attendances                           attendances[]
+  audit_logs                            audit_logs[]
+  bank_statements                       bank_statements[]
+  batches                               batches[]
+  company_accountants                   company_accountants[]
+  company_datarissage_settings          company_datarissage_settings?
+  contracts                             contracts[]
+  credit_notes                          credit_notes[]
+  currency_settings                     currency_settings?
+  customers                             customers[]
+  depreciations                         depreciations[]
+  domain_events                         domain_events[]
+  employee_documents                    employee_documents[]
+  employees                             employees[]
+  expense_categories                    expense_categories[]
+  expenses                              expenses[]
+  file_uploads                          file_uploads[]
+  fiscal_periods                        fiscal_periods[]
+  idempotency_keys                      idempotency_keys[]
+  invoices                              invoices[]
+  journal_entries                       journal_entries[]
+  leave_balances                        leave_balances[]
+  leave_policies                        leave_policies[]
+  leave_requests                        leave_requests[]
+  notification_templates                notification_templates[]
+  notifications                         notifications[]
+  onboarding_progress                   onboarding_progress?
+  payments                              payments[]
+  payrolls                              payrolls[]
+  products                              products[]
+  quotations                            quotations[]
+  recurring_invoices                    recurring_invoices[]
+  settings                              settings[]
+  stock_movements                       stock_movements[]
+  subscriptions                         subscriptions?
+  suppliers                             suppliers[]
+  support_tickets                       support_tickets[]
+  usages                                usages[]
+  users                                 users[]
+  warehouses                            warehouses[]
+
+  @@index([deleted_at])
+  @@index([email])
+  @@index([is_system_company])
+  @@index([nif])
+  @@index([system_type])
+}
+
+model company_accountants {
+  id               String     @id
+  company_id       String
+  accountant_id    String
+  status           String     @default("pending") @db.VarChar(50)
+  invited_by       String?
+  invited_at       DateTime   @default(now())
+  accepted_at      DateTime?
+  rejected_at      DateTime?
+  rejection_reason String?
+  revoked_at       DateTime?
+  revoked_by       String?
+  contract_id      String?
+  created_at       DateTime   @default(now())
+  updated_at       DateTime
+  users            users      @relation(fields: [accountant_id], references: [id], onDelete: Cascade)
+  companies        companies  @relation(fields: [company_id], references: [id], onDelete: Cascade)
+  contracts        contracts? @relation(fields: [contract_id], references: [id])
+
+  @@unique([company_id, accountant_id])
+  @@index([accountant_id])
+  @@index([company_id])
+  @@index([status])
+}
+
+model contracts {
+  id                   String                @id
+  company_id           String
+  accountant_id        String
+  type                 String                @default("accountant_service") @db.VarChar(50)
+  title                String                @db.VarChar(255)
+  content              String?
+  template_id          String?               @db.VarChar(50)
+  file_url             String?               @db.VarChar(500)
+  status               String                @default("draft") @db.VarChar(50)
+  company_signed_at    DateTime?
+  company_signed_by    String?
+  accountant_signed_at DateTime?
+  accountant_signed_by String?
+  start_date           DateTime?
+  end_date             DateTime?
+  signed_at            DateTime?
+  created_at           DateTime              @default(now())
+  updated_at           DateTime
+  company_accountants  company_accountants[]
+  users                users                 @relation(fields: [accountant_id], references: [id], onDelete: Cascade)
+  companies            companies             @relation(fields: [company_id], references: [id], onDelete: Cascade)
+
+  @@index([accountant_id])
+  @@index([company_id])
+  @@index([status])
+}
+
+model customers {
+  id                 String               @id
+  company_id         String
+  type               String               @default("particulier") @db.VarChar(50)
+  first_name         String?              @db.VarChar(100)
+  last_name          String?              @db.VarChar(100)
+  business_name      String?              @db.VarChar(255)
+  contact_person     String?              @db.VarChar(255)
+  email              String?              @db.VarChar(255)
+  phone              String?              @db.VarChar(50)
+  mobile             String?              @db.VarChar(50)
+  address            String?
+  city               String?              @db.VarChar(100)
+  country            String?              @default("RDC") @db.VarChar(100)
+  postal_code        String?              @db.VarChar(20)
+  nif                String?              @db.VarChar(50)
+  rccm               String?              @db.VarChar(50)
+  notes              String?
+  tags               String[]             @default([])
+  created_at         DateTime             @default(now())
+  updated_at         DateTime
+  deleted_at         DateTime?
+  companies          companies            @relation(fields: [company_id], references: [id], onDelete: Cascade)
+  invoices           invoices[]
+  quotations         quotations[]
+  recurring_invoices recurring_invoices[]
+
+  @@index([company_id])
+  @@index([deleted_at])
+  @@index([email])
+  @@index([type])
+}
+
+model depreciations {
+  id                                                       String    @id
+  company_id                                               String
+  asset_account_id                                         String
+  depreciation_account_id                                  String
+  depreciation_method                                      String    @db.VarChar(50)
+  depreciation_rate                                        Decimal   @db.Decimal(5, 2)
+  is_active                                                Boolean   @default(true)
+  created_at                                               DateTime  @default(now())
+  updated_at                                               DateTime
+  description                                              String
+  end_date                                                 DateTime? @db.Date
+  purchase_amount                                          Decimal   @db.Decimal(15, 2)
+  purchase_date                                            DateTime  @db.Date
+  start_date                                               DateTime  @db.Date
+  accounts_depreciations_asset_account_idToaccounts        accounts  @relation("depreciations_asset_account_idToaccounts", fields: [asset_account_id], references: [id])
+  companies                                                companies @relation(fields: [company_id], references: [id], onDelete: Cascade)
+  accounts_depreciations_depreciation_account_idToaccounts accounts  @relation("depreciations_depreciation_account_idToaccounts", fields: [depreciation_account_id], references: [id])
+
+  @@index([asset_account_id])
+  @@index([company_id])
+  @@index([depreciation_account_id])
+  @@index([is_active])
+}
+
+model employee_documents {
+  id            String       @id
+  company_id    String
+  employee_id   String
+  document_type String       @db.VarChar(50)
+  name          String       @db.VarChar(255)
+  description   String?
+  file_id       String
+  expiry_date   DateTime?    @db.Date
+  is_expired    Boolean      @default(false)
+  notes         String?
+  created_at    DateTime     @default(now())
+  updated_at    DateTime
+  deleted_at    DateTime?
+  companies     companies    @relation(fields: [company_id], references: [id], onDelete: Cascade)
+  employees     employees    @relation(fields: [employee_id], references: [id], onDelete: Cascade)
+  file_uploads  file_uploads @relation(fields: [file_id], references: [id])
+
+  @@index([company_id])
+  @@index([deleted_at])
+  @@index([document_type])
+  @@index([employee_id])
+  @@index([expiry_date])
+  @@index([is_expired])
+}
+
+model employees {
+  id                     String               @id
+  company_id             String
+  employee_number        String               @db.VarChar(50)
+  first_name             String               @db.VarChar(100)
+  last_name              String               @db.VarChar(100)
+  email                  String?              @db.VarChar(255)
+  phone                  String?              @db.VarChar(50)
+  mobile                 String?              @db.VarChar(50)
+  date_of_birth          DateTime?            @db.Date
+  gender                 String?              @db.VarChar(20)
+  address                String?
+  city                   String?              @db.VarChar(100)
+  country                String?              @default("RDC") @db.VarChar(100)
+  postal_code            String?              @db.VarChar(20)
+  position               String?              @db.VarChar(255)
+  department             String?              @db.VarChar(100)
+  hire_date              DateTime             @db.Date
+  termination_date       DateTime?            @db.Date
+  employment_type        String?              @default("full_time") @db.VarChar(50)
+  status                 String               @default("active") @db.VarChar(50)
+  base_salary            Decimal              @default(0) @db.Decimal(15, 2)
+  currency               String?              @default("CDF") @db.VarChar(3)
+  salary_frequency       String?              @default("monthly") @db.VarChar(20)
+  bank_account           String?              @db.VarChar(100)
+  bank_name              String?              @db.VarChar(255)
+  nif                    String?              @db.VarChar(50)
+  social_security_number String?              @db.VarChar(100)
+  notes                  String?
+  created_at             DateTime             @default(now())
+  updated_at             DateTime
+  deleted_at             DateTime?
+  manager_id             String?
+  attendances            attendances[]
+  employee_documents     employee_documents[]
+  companies              companies            @relation(fields: [company_id], references: [id], onDelete: Cascade)
+  employees              employees?           @relation("employeesToemployees", fields: [manager_id], references: [id])
+  other_employees        employees[]          @relation("employeesToemployees")
+  leave_balances         leave_balances[]
+  leave_requests         leave_requests[]
+  payrolls               payrolls[]
+
+  @@unique([company_id, employee_number])
+  @@index([company_id])
+  @@index([deleted_at])
+  @@index([department])
+  @@index([manager_id])
+  @@index([status])
+}
+
+model expense_categories {
+  id            String     @id
+  company_id    String
+  name          String     @db.VarChar(255)
+  description   String?
+  account_id    String?
+  is_active     Boolean?   @default(true)
+  created_at    DateTime   @default(now())
+  updated_at    DateTime
+  deleted_at    DateTime?
+  display_order Int?       @default(0)
+  accounts      accounts?  @relation(fields: [account_id], references: [id])
+  companies     companies  @relation(fields: [company_id], references: [id], onDelete: Cascade)
+  expenses      expenses[]
+
+  @@index([account_id])
+  @@index([company_id])
+  @@index([deleted_at])
+  @@index([is_active])
+}
+
+model expenses {
+  id                    String              @id
+  company_id            String
+  expense_number        String              @db.VarChar(100)
+  expense_date          DateTime            @default(now()) @db.Date
+  supplier_id           String?
+  category_id           String?
+  account_id            String?
+  tax_amount            Decimal             @default(0) @db.Decimal(15, 2)
+  payment_method        String?             @db.VarChar(50)
+  status                String              @default("draft") @db.VarChar(50)
+  reference             String?             @db.VarChar(255)
+  description           String
+  notes                 String?
+  currency              String?             @default("CDF") @db.VarChar(3)
+  created_by            String?
+  created_at            DateTime            @default(now())
+  updated_at            DateTime
+  deleted_at            DateTime?
+  amount                Decimal             @default(0) @db.Decimal(15, 2)
+  cancelled_at          DateTime?
+  cancelled_by          String?
+  paid_at               DateTime?
+  total_amount          Decimal             @default(0) @db.Decimal(15, 2)
+  validated_at          DateTime?
+  validated_by          String?
+  supplier_name         String?             @db.VarChar(255)
+  payment_date          DateTime?           @db.Date
+  amount_ht             Decimal?            @default(0) @db.Decimal(15, 2)
+  amount_ttc            Decimal?            @default(0) @db.Decimal(15, 2)
+  mobile_money_provider String?             @db.VarChar(50)
+  mobile_money_number   String?             @db.VarChar(50)
+  transaction_reference String?             @db.VarChar(255)
+  bank_name             String?             @db.VarChar(255)
+  check_number          String?             @db.VarChar(100)
+  card_last_four        String?             @db.VarChar(4)
+  reason                String?             @db.VarChar(500)
+  base_currency         String?             @default("CDF") @db.VarChar(3)
+  exchange_rate         Decimal?            @default(1.0) @db.Decimal(18, 8)
+  base_amount_ht        Decimal?            @db.Decimal(15, 2)
+  base_tax_amount       Decimal?            @db.Decimal(15, 2)
+  base_amount_ttc       Decimal?            @db.Decimal(15, 2)
+  attachments           ExpenseAttachment[]
+  accounts              accounts?           @relation(fields: [account_id], references: [id])
+  expense_categories    expense_categories? @relation(fields: [category_id], references: [id])
+  companies             companies           @relation(fields: [company_id], references: [id], onDelete: Cascade)
+  users                 users?              @relation(fields: [created_by], references: [id])
+  suppliers             suppliers?          @relation(fields: [supplier_id], references: [id])
+
+  @@unique([company_id, expense_number])
+  @@index([account_id])
+  @@index([category_id])
+  @@index([company_id])
+  @@index([deleted_at])
+  @@index([expense_date])
+  @@index([status])
+  @@index([supplier_id])
+}
+
+model file_uploads {
+  id                 String               @id
+  company_id         String
+  mime_type          String               @db.VarChar(100)
+  related_type       String?              @db.VarChar(50)
+  related_id         String?              @db.VarChar(255)
+  created_at         DateTime             @default(now())
+  file_name          String               @db.VarChar(255)
+  original_name      String               @db.VarChar(255)
+  path               String               @db.VarChar(500)
+  size               Int
+  updated_at         DateTime
+  employee_documents employee_documents[]
+  companies          companies            @relation(fields: [company_id], references: [id], onDelete: Cascade)
+
+  @@index([company_id])
+  @@index([related_id])
+  @@index([related_type])
+}
+
+model fiscal_periods {
+  id         String    @id
+  company_id String
+  name       String    @db.VarChar(255)
+  start_date DateTime  @db.Date
+  end_date   DateTime  @db.Date
+  closed_at  DateTime?
+  closed_by  String?
+  notes      String?
+  created_at DateTime  @default(now())
+  updated_at DateTime
+  status     String    @default("open") @db.VarChar(50)
+  companies  companies @relation(fields: [company_id], references: [id], onDelete: Cascade)
+
+  @@index([company_id])
+  @@index([end_date])
+  @@index([start_date])
+  @@index([status])
+}
+
+model invoice_lines {
+  id          String    @id
+  invoice_id  String
+  product_id  String?
+  description String
+  quantity    Decimal   @default(1) @db.Decimal(15, 2)
+  unit_price  Decimal   @db.Decimal(15, 2)
+  tax_rate    Decimal   @default(0) @db.Decimal(5, 2)
+  tax_amount  Decimal   @default(0) @db.Decimal(15, 2)
+  subtotal    Decimal   @default(0) @db.Decimal(15, 2)
+  total       Decimal   @default(0) @db.Decimal(15, 2)
+  created_at  DateTime  @default(now())
+  updated_at  DateTime
+  invoices    invoices  @relation(fields: [invoice_id], references: [id], onDelete: Cascade)
+  products    products? @relation(fields: [product_id], references: [id])
+
+  @@index([invoice_id])
+  @@index([product_id])
+}
+
+model invoices {
+  id                   String              @id
+  company_id           String
+  customer_id          String
+  invoice_number       String              @db.VarChar(100)
+  invoice_date         DateTime            @default(now()) @db.Date
+  due_date             DateTime            @db.Date
+  paid_at              DateTime?
+  status               String              @default("draft") @db.VarChar(50)
+  paid_amount          Decimal             @default(0) @db.Decimal(15, 2)
+  currency             String?             @default("CDF") @db.VarChar(3)
+  template_id          String?             @default("template-1-modern") @db.VarChar(50)
+  notes                String?
+  payment_terms        String?
+  sent_at              DateTime?
+  created_by           String?
+  created_at           DateTime            @default(now())
+  updated_at           DateTime
+  deleted_at           DateTime?
+  cancelled_at         DateTime?
+  cancelled_by         String?
+  internal_notes       String?
+  subtotal             Decimal             @default(0) @db.Decimal(15, 2)
+  tax_amount           Decimal             @default(0) @db.Decimal(15, 2)
+  total_amount         Decimal             @default(0) @db.Decimal(15, 2)
+  reference            String?             @db.VarChar(255)
+  po_number            String?             @db.VarChar(255)
+  shipping_address     String?
+  shipping_city        String?             @db.VarChar(100)
+  shipping_country     String?             @db.VarChar(100)
+  transport_fees       Decimal?            @default(0) @db.Decimal(15, 2)
+  platform_fees        Decimal?            @default(0) @db.Decimal(15, 2)
+  footer_text          String?
+  recurring_invoice_id String?
+  reason               String?             @db.VarChar(500)
+  base_currency        String?             @default("CDF") @db.VarChar(3)
+  exchange_rate        Decimal?            @default(1.0) @db.Decimal(18, 8)
+  base_subtotal        Decimal?            @db.Decimal(15, 2)
+  base_tax_amount      Decimal?            @db.Decimal(15, 2)
+  base_total_amount    Decimal?            @db.Decimal(15, 2)
+  credit_notes         credit_notes[]
+  invoice_lines        invoice_lines[]
+  companies            companies           @relation(fields: [company_id], references: [id], onDelete: Cascade)
+  users                users?              @relation(fields: [created_by], references: [id])
+  customers            customers           @relation(fields: [customer_id], references: [id])
+  recurring_invoices   recurring_invoices? @relation(fields: [recurring_invoice_id], references: [id])
+  payments             payments[]
+  quotations           quotations[]
+
+  @@unique([company_id, invoice_number])
+  @@index([recurring_invoice_id])
+  @@index([company_id])
+  @@index([customer_id])
+  @@index([deleted_at])
+  @@index([due_date])
+  @@index([invoice_date])
+  @@index([status])
+}
+
+model journal_entries {
+  id                  String                @id
+  company_id          String
+  entry_number        String                @db.VarChar(100)
+  entry_date          DateTime              @db.Date
+  description         String
+  source_type         String                @default("manual") @db.VarChar(50)
+  source_id           String?               @db.VarChar(255)
+  status              String                @default("draft") @db.VarChar(50)
+  reversed_at         DateTime?
+  reversed_by         String?
+  created_by          String?
+  created_at          DateTime              @default(now())
+  updated_at          DateTime
+  posted_at           DateTime?
+  posted_by           String?
+  reversed_entry_id   String?               @db.VarChar(255)
+  reason              String?               @db.VarChar(500)
+  companies           companies             @relation(fields: [company_id], references: [id], onDelete: Cascade)
+  users               users?                @relation(fields: [created_by], references: [id])
+  reversed_entry      journal_entries?      @relation("ReversalLink", fields: [reversed_entry_id], references: [id])
+  reversal_entries    journal_entries[]     @relation("ReversalLink")
+  journal_entry_lines journal_entry_lines[]
+
+  @@unique([company_id, entry_number])
+  @@index([company_id])
+  @@index([entry_date])
+  @@index([source_id])
+  @@index([source_type])
+  @@index([status])
+  @@index([reversed_entry_id])
+}
+
+model journal_entry_lines {
+  id               String          @id
+  account_id       String
+  description      String
+  debit            Decimal         @default(0) @db.Decimal(15, 2)
+  credit           Decimal         @default(0) @db.Decimal(15, 2)
+  created_at       DateTime        @default(now())
+  updated_at       DateTime
+  journal_entry_id String
+  accounts         accounts        @relation(fields: [account_id], references: [id])
+  journal_entries  journal_entries @relation(fields: [journal_entry_id], references: [id], onDelete: Cascade)
+
+  @@index([account_id])
+  @@index([journal_entry_id])
+}
+
+model leave_balances {
+  id              String    @id
+  company_id      String
+  employee_id     String
+  leave_type      String    @db.VarChar(50)
+  year            Int
+  total_days      Decimal   @default(0) @db.Decimal(5, 2)
+  used_days       Decimal   @default(0) @db.Decimal(5, 2)
+  pending_days    Decimal   @default(0) @db.Decimal(5, 2)
+  remaining_days  Decimal   @default(0) @db.Decimal(5, 2)
+  carried_forward Decimal   @default(0) @db.Decimal(5, 2)
+  created_at      DateTime  @default(now())
+  updated_at      DateTime
+  companies       companies @relation(fields: [company_id], references: [id], onDelete: Cascade)
+  employees       employees @relation(fields: [employee_id], references: [id], onDelete: Cascade)
+
+  @@unique([company_id, employee_id, leave_type, year])
+  @@index([company_id])
+  @@index([employee_id])
+  @@index([leave_type])
+  @@index([year])
+}
+
+model leave_policies {
+  id                String    @id
+  company_id        String
+  name              String    @db.VarChar(255)
+  leave_type        String    @db.VarChar(50)
+  days_per_year     Decimal   @default(0) @db.Decimal(5, 2)
+  days_per_month    Decimal?  @default(0) @db.Decimal(5, 2)
+  max_accumulation  Decimal?  @db.Decimal(5, 2)
+  carry_forward     Boolean   @default(false)
+  requires_approval Boolean   @default(true)
+  min_notice_days   Int?      @default(0)
+  is_active         Boolean   @default(true)
+  description       String?
+  created_at        DateTime  @default(now())
+  updated_at        DateTime
+  companies         companies @relation(fields: [company_id], references: [id], onDelete: Cascade)
+
+  @@unique([company_id, leave_type])
+  @@index([company_id])
+  @@index([is_active])
+  @@index([leave_type])
+}
+
+model leave_requests {
+  id                                      String    @id
+  company_id                              String
+  employee_id                             String
+  leave_type                              String    @db.VarChar(50)
+  start_date                              DateTime  @db.Date
+  end_date                                DateTime  @db.Date
+  days_requested                          Decimal   @default(0) @db.Decimal(5, 2)
+  reason                                  String?
+  status                                  String    @default("pending") @db.VarChar(50)
+  requested_at                            DateTime  @default(now())
+  approved_at                             DateTime?
+  approved_by                             String?
+  rejected_at                             DateTime?
+  rejected_by                             String?
+  rejection_reason                        String?
+  notes                                   String?
+  created_at                              DateTime  @default(now())
+  updated_at                              DateTime
+  users_leave_requests_approved_byTousers users?    @relation("leave_requests_approved_byTousers", fields: [approved_by], references: [id])
+  companies                               companies @relation(fields: [company_id], references: [id], onDelete: Cascade)
+  employees                               employees @relation(fields: [employee_id], references: [id], onDelete: Cascade)
+  users_leave_requests_rejected_byTousers users?    @relation("leave_requests_rejected_byTousers", fields: [rejected_by], references: [id])
+
+  @@index([company_id])
+  @@index([employee_id])
+  @@index([end_date])
+  @@index([leave_type])
+  @@index([start_date])
+  @@index([status])
+}
+
+model notification_templates {
+  id         String    @id
+  company_id String
+  type       String    @db.VarChar(50)
+  name       String    @db.VarChar(255)
+  subject    String?   @db.VarChar(500)
+  body       String
+  is_active  Boolean?  @default(true)
+  created_at DateTime  @default(now())
+  updated_at DateTime
+  companies  companies @relation(fields: [company_id], references: [id], onDelete: Cascade)
+
+  @@index([company_id])
+  @@index([type])
+}
+
+model notifications {
+  id         String    @id
+  company_id String
+  type       String    @db.VarChar(50)
+  created_at DateTime  @default(now())
+  data       Json?     @default("{}")
+  message    String
+  read       Boolean   @default(false)
+  read_at    DateTime?
+  title      String    @db.VarChar(255)
+  updated_at DateTime
+  companies  companies @relation(fields: [company_id], references: [id], onDelete: Cascade)
+
+  @@index([company_id])
+  @@index([created_at])
+  @@index([read])
+}
+
+model onboarding_progress {
+  id                       String    @id
+  company_id               String    @unique
+  profile_completed        Boolean   @default(false)
+  preferences_set          Boolean   @default(false)
+  template_customized      Boolean   @default(false)
+  bank_info_added          Boolean   @default(false)
+  first_customer_created   Boolean   @default(false)
+  first_product_created    Boolean   @default(false)
+  first_invoice_created    Boolean   @default(false)
+  first_payment_recorded   Boolean   @default(false)
+  team_member_invited      Boolean   @default(false)
+  recurring_invoice_set    Boolean   @default(false)
+  expense_category_created Boolean   @default(false)
+  first_expense_created    Boolean   @default(false)
+  reports_explored         Boolean   @default(false)
+  current_phase            Int       @default(1)
+  total_steps              Int       @default(13)
+  completed_steps          Int       @default(0)
+  completed_at             DateTime?
+  dismissed_at             DateTime?
+  last_activity_at         DateTime?
+  created_at               DateTime  @default(now())
+  updated_at               DateTime
+  companies                companies @relation(fields: [company_id], references: [id], onDelete: Cascade)
+
+  @@index([company_id])
+  @@index([completed_at])
+  @@index([current_phase])
+}
+
+model packages {
+  id            String          @id
+  code          String          @unique @db.VarChar(50)
+  name          String          @db.VarChar(255)
+  description   String?
+  currency      String?         @default("USD") @db.VarChar(3)
+  limits        Json?           @default("{}")
+  features      Json?           @default("{}")
+  is_active     Boolean?        @default(true)
+  display_order Int?            @default(0)
+  created_at    DateTime        @default(now())
+  updated_at    DateTime
+  billing_cycle String?         @db.VarChar(20)
+  price         Decimal         @default(0) @db.Decimal(15, 2)
+  subscriptions subscriptions[]
+
+  @@index([code])
+  @@index([is_active])
+}
+
+model payments {
+  id                    String    @id
+  company_id            String
+  invoice_id            String
+  amount                Decimal   @db.Decimal(15, 2)
+  currency              String?   @default("CDF") @db.VarChar(3)
+  payment_date          DateTime  @default(now()) @db.Date
+  payment_method        String    @db.VarChar(50)
+  mobile_money_provider String?   @db.VarChar(50)
+  mobile_money_number   String?   @db.VarChar(50)
+  transaction_reference String?   @db.VarChar(255)
+  bank_name             String?   @db.VarChar(255)
+  check_number          String?   @db.VarChar(100)
+  card_last_four        String?   @db.VarChar(4)
+  reference             String?   @db.VarChar(255)
+  notes                 String?
+  status                String    @default("confirmed") @db.VarChar(50)
+  created_by            String?
+  created_at            DateTime  @default(now())
+  updated_at            DateTime
+  deleted_at            DateTime?
+  reason                String?   @db.VarChar(500)
+  base_currency         String?   @default("CDF") @db.VarChar(3)
+  exchange_rate         Decimal?  @default(1.0) @db.Decimal(18, 8)
+  base_amount           Decimal?  @db.Decimal(15, 2)
+  companies             companies @relation(fields: [company_id], references: [id], onDelete: Cascade)
+  users                 users?    @relation(fields: [created_by], references: [id])
+  invoices              invoices  @relation(fields: [invoice_id], references: [id])
+
+  @@index([company_id])
+  @@index([deleted_at])
+  @@index([invoice_id])
+  @@index([payment_date])
+  @@index([payment_method])
+  @@index([status])
+}
+
+model payroll_items {
+  id           String   @id
+  payroll_id   String
+  type         String   @db.VarChar(50)
+  description  String   @db.VarChar(255)
+  amount       Decimal  @db.Decimal(15, 2)
+  is_deduction Boolean  @default(false)
+  created_at   DateTime @default(now())
+  updated_at   DateTime
+  payrolls     payrolls @relation(fields: [payroll_id], references: [id], onDelete: Cascade)
+
+  @@index([payroll_id])
+  @@index([type])
+}
+
+model payrolls {
+  id                String          @id
+  company_id        String
+  employee_id       String
+  period_start      DateTime        @db.Date
+  period_end        DateTime        @db.Date
+  pay_date          DateTime        @db.Date
+  status            String          @default("draft") @db.VarChar(50)
+  gross_salary      Decimal         @default(0) @db.Decimal(15, 2)
+  total_deductions  Decimal         @default(0) @db.Decimal(15, 2)
+  net_salary        Decimal         @default(0) @db.Decimal(15, 2)
+  currency          String?         @default("CDF") @db.VarChar(3)
+  payment_method    String?         @db.VarChar(50)
+  payment_reference String?         @db.VarChar(255)
+  paid_at           DateTime?
+  paid_by           String?
+  notes             String?
+  created_at        DateTime        @default(now())
+  updated_at        DateTime
+  payroll_items     payroll_items[]
+  companies         companies       @relation(fields: [company_id], references: [id], onDelete: Cascade)
+  employees         employees       @relation(fields: [employee_id], references: [id], onDelete: Cascade)
+
+  @@index([company_id])
+  @@index([employee_id])
+  @@index([pay_date])
+  @@index([period_end])
+  @@index([period_start])
+  @@index([status])
+}
+
+model platform_branding {
+  id               String   @id
+  logo_url         String?  @db.VarChar(500)
+  favicon_url      String?  @db.VarChar(500)
+  email_logo_url   String?  @db.VarChar(500)
+  pdf_logo_url     String?  @db.VarChar(500)
+  primary_color    String?  @db.VarChar(7)
+  secondary_color  String?  @db.VarChar(7)
+  accent_color     String?  @db.VarChar(7)
+  background_color String?  @db.VarChar(7)
+  primary_font     String?  @db.VarChar(100)
+  secondary_font   String?  @db.VarChar(100)
+  theme            String?  @default("light") @db.VarChar(20)
+  updated_by       String?
+  created_at       DateTime @default(now())
+  updated_at       DateTime
+}
+
+model platform_settings {
+  id                        String   @id
+  paypal_enabled            Boolean? @default(false)
+  paypal_client_id          String?  @db.VarChar(255)
+  paypal_secret_key         String?  @db.VarChar(255)
+  paypal_mode               String?  @default("sandbox") @db.VarChar(20)
+  paypal_webhook_id         String?  @db.VarChar(255)
+  updated_by                String?
+  created_at                DateTime @default(now())
+  updated_at                DateTime
+  smtp_host                 String?  @db.VarChar(255)
+  smtp_port                 Int?     @default(587)
+  smtp_user                 String?  @db.VarChar(255)
+  smtp_pass                 String?  @db.VarChar(255)
+  smtp_from                 String?  @db.VarChar(255)
+  smtp_invoice_from         String?  @db.VarChar(255)
+  smtp_notif_from           String?  @db.VarChar(255)
+  smtp_secure               Boolean? @default(true)
+  visapay_enabled           Boolean? @default(false)
+  visapay_merchant_id       String?  @db.VarChar(255)
+  visapay_api_key           String?  @db.VarChar(255)
+  visapay_secret_key        String?  @db.VarChar(255)
+  visapay_mode              String?  @default("sandbox") @db.VarChar(20)
+  visapay_encryption_key_id String?  @db.VarChar(100)
+  visapay_signing_key_id    String?  @db.VarChar(100)
+}
+
+model products {
+  id                      String                    @id
+  company_id              String
+  name                    String                    @db.VarChar(255)
+  description             String?
+  sku                     String?                   @unique @db.VarChar(100)
+  type                    String                    @default("product") @db.VarChar(50)
+  currency                String?                   @default("CDF") @db.VarChar(3)
+  tax_rate                Decimal                   @default(0) @db.Decimal(5, 2)
+  category                String?                   @db.VarChar(100)
+  is_active               Boolean?                  @default(true)
+  created_at              DateTime                  @default(now())
+  updated_at              DateTime
+  deleted_at              DateTime?
+  cost                    Decimal?                  @default(0) @db.Decimal(15, 2)
+  max_stock               Decimal?                  @db.Decimal(15, 2)
+  min_stock               Decimal?                  @default(0) @db.Decimal(15, 2)
+  notes                   String?
+  price                   Decimal                   @default(0) @db.Decimal(15, 2)
+  stock                   Decimal?                  @default(0) @db.Decimal(15, 2)
+  unit                    String?                   @default("unité") @db.VarChar(50)
+  track_stock             Boolean?                  @default(false)
+  batches                 batches[]
+  invoice_lines           invoice_lines[]
+  companies               companies                 @relation(fields: [company_id], references: [id], onDelete: Cascade)
+  quotation_lines         quotation_lines[]
+  recurring_invoice_lines recurring_invoice_lines[]
+  stock_movement_items    stock_movement_items[]
+
+  @@index([category])
+  @@index([company_id])
+  @@index([deleted_at])
+  @@index([is_active])
+  @@index([sku])
+  @@index([type])
+}
+
+/// Entrepôts (Warehouses) - Support multi-entrepôts
+model warehouses {
+  id                   String                 @id
+  company_id           String
+  name                 String                 @db.VarChar(255)
+  code                 String?                @db.VarChar(50)
+  address              String?
+  city                 String?                @db.VarChar(100)
+  country              String?                @db.VarChar(100)
+  is_active            Boolean                @default(true)
+  is_default           Boolean                @default(false)
+  notes                String?
+  created_at           DateTime               @default(now())
+  updated_at           DateTime               @updatedAt
+  deleted_at           DateTime?
+  stock_movement_items stock_movement_items[]
+  companies            companies              @relation(fields: [company_id], references: [id], onDelete: Cascade)
+
+  @@index([company_id])
+  @@index([deleted_at])
+  @@index([is_active])
+}
+
+/// Table des mouvements de stock (immuable, source de vérité)
+/// Le stock courant est calculé à partir de ces mouvements
+/// DOC-03 : Un mouvement validé ne se supprime jamais, ne se modifie jamais
+model stock_movements {
+  id                String                 @id
+  company_id        String
+  movement_type     String                 @db.VarChar(20)
+  reference         String?                @db.VarChar(50)
+  reference_id      String?
+  reason            String?
+  created_by        String?
+  created_at        DateTime               @default(now())
+  reversed_from_id  String?                @unique(map: "stock_movements_reversed_by_id_key")
+  reversed_at       DateTime?
+  status            String                 @default("DRAFT") @db.VarChar(20)
+  validated_by      String?
+  validated_at      DateTime?
+  items             stock_movement_items[]
+  companies         companies              @relation(fields: [company_id], references: [id], onDelete: Cascade)
+  users             users?                 @relation("StockMovementCreated", fields: [created_by], references: [id])
+  reverses          stock_movements?       @relation("StockMovementReversal", fields: [reversed_from_id], references: [id], map: "stock_movements_reversed_by_id_fkey")
+  reversed_from     stock_movements?       @relation("StockMovementReversal")
+  validated_by_user users?                 @relation("StockMovementValidated", fields: [validated_by], references: [id])
+
+  @@index([company_id])
+  @@index([movement_type])
+  @@index([status])
+  @@index([reference, reference_id])
+  @@index([created_at])
+  @@index([validated_at])
+  @@index([reversed_at])
+}
+
+/// Lignes de mouvement de stock (stock_movement_items)
+/// DOC-03 : Le sens dépend du type, jamais du signe (quantity toujours positive)
+model stock_movement_items {
+  id                String          @id
+  stock_movement_id String
+  product_id        String
+  warehouse_id      String?
+  warehouse_to_id   String?
+  quantity          Decimal         @db.Decimal(15, 2)
+  batch_id          String?
+  serial_number     String?
+  created_at        DateTime        @default(now())
+  batches           batches?        @relation(fields: [batch_id], references: [id])
+  products          products        @relation(fields: [product_id], references: [id], onDelete: Cascade)
+  stock_movements   stock_movements @relation(fields: [stock_movement_id], references: [id], onDelete: Cascade)
+  warehouses        warehouses?     @relation(fields: [warehouse_id], references: [id])
+
+  @@index([stock_movement_id])
+  @@index([product_id])
+  @@index([warehouse_id])
+  @@index([batch_id])
+  @@index([serial_number])
+}
+
+/// Lots (Batches) - Optionnel selon configuration
+/// Pour gestion FIFO, dates d'expiration, traçabilité
+model batches {
+  id                   String                 @id
+  company_id           String
+  product_id           String
+  batch_number         String                 @db.VarChar(100)
+  quantity             Decimal                @db.Decimal(15, 2)
+  expiry_date          DateTime?              @db.Date
+  production_date      DateTime?              @db.Date
+  supplier_batch       String?                @db.VarChar(255)
+  notes                String?
+  created_at           DateTime               @default(now())
+  updated_at           DateTime               @updatedAt
+  companies            companies              @relation(fields: [company_id], references: [id], onDelete: Cascade)
+  products             products               @relation(fields: [product_id], references: [id], onDelete: Cascade)
+  stock_movement_items stock_movement_items[]
+
+  @@unique([company_id, product_id, batch_number])
+  @@index([company_id])
+  @@index([product_id])
+  @@index([expiry_date])
+}
+
+model quotation_lines {
+  id           String     @id
+  quotation_id String
+  product_id   String?
+  description  String
+  quantity     Decimal    @default(1) @db.Decimal(15, 2)
+  unit_price   Decimal    @db.Decimal(15, 2)
+  tax_rate     Decimal    @default(0) @db.Decimal(5, 2)
+  tax_amount   Decimal    @default(0) @db.Decimal(15, 2)
+  subtotal     Decimal    @default(0) @db.Decimal(15, 2)
+  total        Decimal    @default(0) @db.Decimal(15, 2)
+  created_at   DateTime   @default(now())
+  updated_at   DateTime
+  products     products?  @relation(fields: [product_id], references: [id])
+  quotations   quotations @relation(fields: [quotation_id], references: [id], onDelete: Cascade)
+
+  @@index([product_id])
+  @@index([quotation_id])
+}
+
+model quotations {
+  id               String            @id
+  company_id       String
+  customer_id      String
+  quotation_number String            @db.VarChar(100)
+  quotation_date   DateTime          @default(now()) @db.Date
+  expiration_date  DateTime?         @db.Date
+  status           String            @default("draft") @db.VarChar(50)
+  currency         String?           @default("CDF") @db.VarChar(3)
+  template_id      String?           @default("template-1-modern") @db.VarChar(50)
+  notes            String?
+  payment_terms    String?
+  footer_text      String?
+  subtotal         Decimal           @default(0) @db.Decimal(15, 2)
+  tax_amount       Decimal           @default(0) @db.Decimal(15, 2)
+  total_amount     Decimal           @default(0) @db.Decimal(15, 2)
+  reference        String?           @db.VarChar(255)
+  po_number        String?           @db.VarChar(255)
+  shipping_address String?
+  shipping_city    String?           @db.VarChar(100)
+  shipping_country String?           @db.VarChar(100)
+  transport_fees   Decimal?          @default(0) @db.Decimal(15, 2)
+  platform_fees    Decimal?          @default(0) @db.Decimal(15, 2)
+  sent_at          DateTime?
+  accepted_at      DateTime?
+  rejected_at      DateTime?
+  expired_at       DateTime?
+  invoice_id       String?
+  created_by       String?
+  created_at       DateTime          @default(now())
+  updated_at       DateTime
+  deleted_at       DateTime?
+  quotation_lines  quotation_lines[]
+  companies        companies         @relation(fields: [company_id], references: [id], onDelete: Cascade)
+  users            users?            @relation(fields: [created_by], references: [id])
+  customers        customers         @relation(fields: [customer_id], references: [id])
+  invoices         invoices?         @relation(fields: [invoice_id], references: [id])
+
+  @@unique([company_id, quotation_number])
+  @@index([company_id])
+  @@index([customer_id])
+  @@index([deleted_at])
+  @@index([expiration_date])
+  @@index([invoice_id])
+  @@index([quotation_date])
+  @@index([status])
+}
+
+model recurring_invoices {
+  id                      String                    @id
+  company_id              String
+  customer_id             String
+  name                    String                    @db.VarChar(255)
+  description             String?
+  frequency               String                    @db.VarChar(50)
+  start_date              DateTime                  @db.Date
+  end_date                DateTime?                 @db.Date
+  next_run_date           DateTime?                 @db.Date
+  currency                String?                   @default("CDF") @db.VarChar(3)
+  notes                   String?
+  payment_terms           String?
+  is_active               Boolean                   @default(true)
+  created_at              DateTime                  @default(now())
+  updated_at              DateTime
+  deleted_at              DateTime?
+  created_by              String?
+  subtotal                Decimal                   @default(0) @db.Decimal(15, 2)
+  tax_amount              Decimal                   @default(0) @db.Decimal(15, 2)
+  template_id             String?                   @default("template-1-modern") @db.VarChar(50)
+  total_amount            Decimal                   @default(0) @db.Decimal(15, 2)
+  last_invoice_id         String?
+  last_run_date           DateTime?                 @db.Date
+  total_generated         Int                       @default(0)
+  invoices                invoices[]
+  recurring_invoice_lines recurring_invoice_lines[]
+  companies               companies                 @relation(fields: [company_id], references: [id], onDelete: Cascade)
+  users                   users?                    @relation(fields: [created_by], references: [id])
+  customers               customers                 @relation(fields: [customer_id], references: [id])
+
+  @@index([company_id])
+  @@index([customer_id])
+  @@index([deleted_at])
+  @@index([is_active])
+  @@index([next_run_date])
+}
+
+model settings {
+  id         String    @id
+  company_id String
+  key        String    @db.VarChar(100)
+  value      String
+  created_at DateTime  @default(now())
+  updated_at DateTime
+  companies  companies @relation(fields: [company_id], references: [id], onDelete: Cascade)
+
+  @@unique([company_id, key])
+  @@index([company_id])
+}
+
+model subscriptions {
+  id                String    @id
+  company_id        String    @unique
+  package_id        String
+  status            String    @default("active") @db.VarChar(50)
+  billing_cycle     String    @db.VarChar(20)
+  start_date        DateTime  @db.Date
+  end_date          DateTime? @db.Date
+  trial_ends_at     DateTime?
+  cancelled_at      DateTime?
+  cancelled_by      String?
+  payment_method    String?   @db.VarChar(50)
+  last_payment_date DateTime?
+  next_payment_date DateTime?
+  created_at        DateTime  @default(now())
+  updated_at        DateTime
+  companies         companies @relation(fields: [company_id], references: [id], onDelete: Cascade)
+  packages          packages  @relation(fields: [package_id], references: [id])
+
+  @@index([company_id])
+  @@index([end_date])
+  @@index([package_id])
+  @@index([status])
+}
+
+model suppliers {
+  id          String     @id
+  company_id  String
+  name        String     @db.VarChar(255)
+  email       String?    @db.VarChar(255)
+  phone       String?    @db.VarChar(50)
+  address     String?
+  city        String?    @db.VarChar(100)
+  country     String?    @default("RDC") @db.VarChar(100)
+  postal_code String?    @db.VarChar(20)
+  nif         String?    @db.VarChar(50)
+  rccm        String?    @db.VarChar(50)
+  notes       String?
+  created_at  DateTime   @default(now())
+  updated_at  DateTime
+  deleted_at  DateTime?
+  is_active   Boolean?   @default(true)
+  account_id  String?
+  expenses    expenses[]
+  accounts    accounts?  @relation(fields: [account_id], references: [id])
+  companies   companies  @relation(fields: [company_id], references: [id], onDelete: Cascade)
+
+  @@index([account_id])
+  @@index([company_id])
+  @@index([deleted_at])
+  @@index([is_active])
+}
+
+model support_tickets {
+  id          String    @id
+  company_id  String
+  user_id     String?
+  subject     String    @db.VarChar(255)
+  category    String    @db.VarChar(50)
+  priority    String    @default("medium") @db.VarChar(50)
+  status      String    @default("open") @db.VarChar(50)
+  response    String?
+  created_at  DateTime  @default(now())
+  updated_at  DateTime
+  attachments String[]  @default([])
+  closed_at   DateTime?
+  closed_by   String?
+  description String
+  resolved_at DateTime?
+  resolved_by String?
+  companies   companies @relation(fields: [company_id], references: [id], onDelete: Cascade)
+  users       users?    @relation(fields: [user_id], references: [id])
+
+  @@index([category])
+  @@index([company_id])
+  @@index([created_at])
+  @@index([priority])
+  @@index([status])
+  @@index([user_id])
+}
+
+model usages {
+  id          String    @id
+  company_id  String
+  period      String    @db.VarChar(20)
+  metric      String    @db.VarChar(100)
+  created_at  DateTime  @default(now())
+  updated_at  DateTime
+  period_date DateTime  @db.Date
+  value       Decimal   @default(0) @db.Decimal(15, 2)
+  companies   companies @relation(fields: [company_id], references: [id], onDelete: Cascade)
+
+  @@unique([company_id, metric, period, period_date])
+  @@index([company_id])
+  @@index([metric])
+  @@index([period_date])
+  @@index([period])
+}
+
+model user_accountant_profiles {
+  id                      String   @id
+  user_id                 String   @unique
+  company_name            String?  @db.VarChar(255)
+  registration_number     String?  @db.VarChar(100)
+  specialization          String[] @default([])
+  experience_years        Int?
+  country                 String?  @db.VarChar(100)
+  province                String?  @db.VarChar(100)
+  city                    String?  @db.VarChar(100)
+  address                 String?
+  professional_email      String?  @db.VarChar(255)
+  professional_phone      String?  @db.VarChar(50)
+  website                 String?  @db.VarChar(500)
+  is_available            Boolean  @default(true)
+  max_companies           Int?
+  total_companies_managed Int      @default(0)
+  active_companies_count  Int      @default(0)
+  rating                  Decimal? @default(0) @db.Decimal(3, 2)
+  total_reviews           Int      @default(0)
+  created_at              DateTime @default(now())
+  updated_at              DateTime
+  users                   users    @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([city])
+  @@index([country])
+  @@index([is_available])
+  @@index([province])
+}
+
+model users {
+  id                                               String                    @id
+  company_id                                       String?
+  email                                            String                    @unique @db.VarChar(255)
+  password_hash                                    String                    @db.VarChar(255)
+  first_name                                       String?                   @db.VarChar(100)
+  last_name                                        String?                   @db.VarChar(100)
+  phone                                            String?                   @db.VarChar(50)
+  email_verified                                   Boolean?                  @default(false)
+  email_verification_token                         String?                   @db.VarChar(255)
+  email_verification_expires_at                    DateTime?
+  two_factor_enabled                               Boolean?                  @default(false)
+  two_factor_secret                                String?                   @db.VarChar(255)
+  two_factor_backup_codes                          String[]
+  password_reset_token                             String?                   @db.VarChar(255)
+  password_reset_expires_at                        DateTime?
+  role                                             String?                   @default("manager") @db.VarChar(50)
+  permissions                                      Json?                     @default("{}")
+  preferences                                      Json?                     @default("{}")
+  language                                         String?                   @default("fr") @db.VarChar(10)
+  timezone                                         String?                   @default("Africa/Kinshasa") @db.VarChar(50)
+  last_login_at                                    DateTime?
+  last_login_ip                                    String?                   @db.VarChar(45)
+  failed_login_attempts                            Int?                      @default(0)
+  locked_until                                     DateTime?
+  created_at                                       DateTime                  @default(now())
+  updated_at                                       DateTime
+  deleted_at                                       DateTime?
+  is_accountant                                    Boolean                   @default(false)
+  is_conta_user                                    Boolean                   @default(false)
+  is_super_admin                                   Boolean                   @default(false)
+  conta_role                                       String?                   @db.VarChar(50)
+  conta_permissions                                Json?                     @default("{}")
+  ExpenseAttachment                                ExpenseAttachment[]
+  company_accountants                              company_accountants[]
+  contracts                                        contracts[]
+  credit_notes                                     credit_notes[]
+  expenses                                         expenses[]
+  invoices                                         invoices[]
+  journal_entries                                  journal_entries[]
+  leave_requests_leave_requests_approved_byTousers leave_requests[]          @relation("leave_requests_approved_byTousers")
+  leave_requests_leave_requests_rejected_byTousers leave_requests[]          @relation("leave_requests_rejected_byTousers")
+  payments                                         payments[]
+  quotations                                       quotations[]
+  recurring_invoices                               recurring_invoices[]
+  stock_movements_created                          stock_movements[]         @relation("StockMovementCreated")
+  stock_movements_validated                        stock_movements[]         @relation("StockMovementValidated")
+  support_tickets                                  support_tickets[]
+  user_accountant_profiles                         user_accountant_profiles?
+  companies                                        companies?                @relation(fields: [company_id], references: [id], onDelete: Cascade)
+
+  @@index([company_id])
+  @@index([deleted_at])
+  @@index([email])
+  @@index([is_accountant])
+}
+
+model credit_notes {
+  id                 String    @id
+  company_id         String
+  invoice_id         String
+  credit_note_number String    @db.VarChar(100)
+  credit_note_date   DateTime  @default(now()) @db.Date
+  amount             Decimal   @db.Decimal(15, 2)
+  tax_amount         Decimal   @default(0) @db.Decimal(15, 2)
+  total_amount       Decimal   @db.Decimal(15, 2)
+  status             String    @default("draft") @db.VarChar(50)
+  reason             String?   @db.VarChar(500)
+  reference          String?   @db.VarChar(255)
+  currency           String?   @default("CDF") @db.VarChar(3)
+  template_id        String?   @default("template-1-modern") @db.VarChar(50)
+  notes              String?
+  footer_text        String?
+  applied_amount     Decimal   @default(0) @db.Decimal(15, 2)
+  applied_at         DateTime?
+  created_by         String?
+  created_at         DateTime  @default(now())
+  updated_at         DateTime
+  deleted_at         DateTime?
+  return_stock       Boolean   @default(false)
+  base_currency      String?   @default("CDF") @db.VarChar(3)
+  exchange_rate      Decimal?  @default(1.0) @db.Decimal(18, 8)
+  base_amount        Decimal?  @db.Decimal(15, 2)
+  base_tax_amount    Decimal?  @db.Decimal(15, 2)
+  base_total_amount  Decimal?  @db.Decimal(15, 2)
+  companies          companies @relation(fields: [company_id], references: [id], onDelete: Cascade)
+  users              users?    @relation(fields: [created_by], references: [id])
+  invoices           invoices  @relation(fields: [invoice_id], references: [id])
+
+  @@unique([company_id, credit_note_number])
+  @@index([company_id])
+  @@index([credit_note_date])
+  @@index([deleted_at])
+  @@index([invoice_id])
+  @@index([status])
+}
+
+model recurring_invoice_lines {
+  id                   String             @id
+  recurring_invoice_id String
+  product_id           String?
+  description          String
+  quantity             Decimal            @default(1) @db.Decimal(15, 2)
+  unit_price           Decimal            @db.Decimal(15, 2)
+  tax_rate             Decimal            @default(0) @db.Decimal(5, 2)
+  tax_amount           Decimal            @default(0) @db.Decimal(15, 2)
+  subtotal             Decimal            @default(0) @db.Decimal(15, 2)
+  total                Decimal            @default(0) @db.Decimal(15, 2)
+  created_at           DateTime           @default(now())
+  updated_at           DateTime
+  products             products?          @relation(fields: [product_id], references: [id])
+  recurring_invoices   recurring_invoices @relation(fields: [recurring_invoice_id], references: [id], onDelete: Cascade)
+
+  @@index([product_id])
+  @@index([recurring_invoice_id])
+}
+
+model company_datarissage_settings {
+  id                            String    @id
+  company_id                    String    @unique
+  currency_locked               Boolean   @default(false)
+  business_type_locked          Boolean   @default(false)
+  stock_management_type_locked  Boolean   @default(false)
+  stock_valuation_method_locked Boolean   @default(false)
+  rh_payroll_enabled_locked     Boolean   @default(false)
+  locked_at                     DateTime?
+  locked_by                     String?
+  created_at                    DateTime  @default(now())
+  updated_at                    DateTime
+  companies                     companies @relation(fields: [company_id], references: [id], onDelete: Cascade)
+
+  @@index([company_id])
+}
+
+model employee_contracts {
+  id                 String    @id
+  company_id         String
+  employee_id        String
+  contract_type      String    @db.VarChar(50)
+  start_date         DateTime  @db.Date
+  end_date           DateTime? @db.Date
+  base_salary        Decimal   @db.Decimal(15, 2)
+  currency           String    @default("CDF") @db.VarChar(3)
+  work_type          String    @default("full_time") @db.VarChar(50)
+  hours_per_week     Decimal?  @db.Decimal(5, 2)
+  status             String    @default("active") @db.VarChar(50)
+  terminated_at      DateTime?
+  terminated_by      String?
+  termination_reason String?
+  notes              String?
+  created_at         DateTime  @default(now())
+  updated_at         DateTime
+  deleted_at         DateTime?
+
+  @@unique([employee_id, start_date])
+  @@index([company_id])
+  @@index([employee_id])
+  @@index([status])
+  @@index([start_date])
+  @@index([end_date])
+  @@index([deleted_at])
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model idempotency_keys {
+  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  company_id    String    @db.VarChar(255)
+  key           String    @db.VarChar(255)
+  endpoint      String    @db.VarChar(255)
+  request_hash  String
+  response_code Int
+  response_body Json?
+  created_at    DateTime  @default(now()) @db.Timestamp(6)
+  expires_at    DateTime  @db.Timestamp(6)
+  companies     companies @relation(fields: [company_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_idempotency_company")
+
+  @@unique([company_id, key], map: "idx_idempotency_company_key")
+  @@index([created_at], map: "idx_idempotency_created_at")
+  @@index([expires_at], map: "idx_idempotency_expires_at")
+}
+
+enum AccountType {
+  ENTREPRENEUR
+  STARTUP
+  ONG_FIRM
+  EXPERT_COMPTABLE
+}
+
+view account_balances_view {
+  accountId String  @id @map("account_id")
+  companyId String  @map("company_id")
+  balance   Decimal @db.Decimal(15, 2)
+}

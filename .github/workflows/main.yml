@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: conta_db
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Root Dependencies
+        run: npm install
+
+      - name: Backend - Install and Build
+        run: |
+          cd backend
+          npm install
+          npx prisma generate
+          npm run build
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/conta_db
+
+      - name: Frontend - Install and Build
+        run: |
+          cd frontend
+          npm install
+          npm run build
+
+      - name: E2E - Install and Smoke Test
+        run: |
+          cd tests/e2e
+          npm install
+          # Skip running tests if we don't have a live environment in CI yet
+          # npx playwright install --with-deps chromium
+          # npm run test:smoke

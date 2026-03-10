@@ -1,0 +1,56 @@
+# Cron Job Configuration for Exchange Rate Updates
+
+# ============================================================================
+# DAILY EXCHANGE RATE UPDATE
+# ============================================================================
+# Updates USD/CDF rate from BCC (Banque Centrale du Congo)
+# Updates EUR-based rates from ECB (European Central Bank)
+# Runs every day at 9:00 AM local time
+# ============================================================================
+
+# Format: minute hour day month weekday command
+# 0 9 * * * = Every day at 9:00 AM
+
+# Production (using compiled JavaScript)
+0 9 * * * cd /home/conta/conta.cd-dev/backend && node dist/scripts/updateExchangeRates.js >> /var/log/conta/exchange-rates.log 2>&1
+
+# Development (using ts-node)
+# 0 9 * * * cd /home/conta/conta.cd-dev/backend && npm run ts-node src/scripts/updateExchangeRates.ts >> /var/log/conta/exchange-rates.log 2>&1
+
+# ============================================================================
+# INSTALLATION INSTRUCTIONS
+# ============================================================================
+# 1. Edit crontab:
+#    crontab -e
+#
+# 2. Add one of the lines above (production or development)
+#
+# 3. Save and exit
+#
+# 4. Verify cron job is installed:
+#    crontab -l
+#
+# 5. Check logs:
+#    tail -f /var/log/conta/exchange-rates.log
+# ============================================================================
+
+# ============================================================================
+# ALTERNATIVE: PM2 CRON
+# ============================================================================
+# If using PM2, add to ecosystem.config.js:
+# {
+#   "name": "exchange-rate-updater",
+#   "script": "./dist/scripts/updateExchangeRates.js",
+#   "cron_restart": "0 9 * * *",
+#   "autorestart": false,
+#   "watch": false
+# }
+# ============================================================================
+
+# ============================================================================
+# MANUAL EXECUTION
+# ============================================================================
+# To run manually:
+# cd /home/conta/conta.cd-dev/backend
+# npm run ts-node src/scripts/updateExchangeRates.ts
+# ============================================================================

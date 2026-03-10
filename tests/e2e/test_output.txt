@@ -1,0 +1,41 @@
+
+Running 1 test using 1 worker
+
+  ✘  1 [chromium] › specs/smoke-auth.spec.ts:4:9 › Smoke Test: Authentication › Login page should load and show critical elements (11.7s)
+
+
+  1) [chromium] › specs/smoke-auth.spec.ts:4:9 › Smoke Test: Authentication › Login page should load and show critical elements 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: locator('input[type="email"]')
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 10000ms[22m
+    [2m  - waiting for locator('input[type="email"]')[22m
+
+
+       9 |
+      10 |         // Check for email and password inputs
+    > 11 |         await expect(page.locator('input[type="email"]')).toBeVisible();
+         |                                                           ^
+      12 |         await expect(page.locator('input[type="password"]')).toBeVisible();
+      13 |
+      14 |         // Check for submit button
+        at /home/conta/conta.cd-prod/tests/e2e/specs/smoke-auth.spec.ts:11:59
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/smoke-auth-Smoke-Test-Auth-a4dbd--and-show-critical-elements-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results/smoke-auth-Smoke-Test-Auth-a4dbd--and-show-critical-elements-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium] › specs/smoke-auth.spec.ts:4:9 › Smoke Test: Authentication › Login page should load and show critical elements 
+
+[36m  Serving HTML report at http://localhost:36691. Press Ctrl+C to quit.[39m

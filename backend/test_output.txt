@@ -1,0 +1,136 @@
+
+> conta-backend@1.0.0 test
+> jest src/__tests__/integration/invoice.integration.test.ts --runInBand --forceExit
+
+[32minfo[39m: Email transporter initialized {"host":"localhost","port":587,"secure":false,"service":"conta-backend","timestamp":"2026-01-07 13:39:21"}
+[32minfo[39m: ✅ Queue service initialized with Redis {"service":"conta-backend","timestamp":"2026-01-07 13:39:21"}
+  console.log
+    TEST DATABASE_URL: postgresql://conta_user:aOpLcu14TmmBfxmkxF1n@localhost:5432/conta_db
+
+      at Object.<anonymous> (src/__tests__/integration/invoice.integration.test.ts:22:13)
+
+  console.warn
+    It is highly recommended to use a minimum Redis version of 6.2.0
+                 Current: 6.0.16
+
+      at RedisConnection.init (node_modules/bullmq/src/classes/redis-connection.ts:270:19)
+
+  console.warn
+    It is highly recommended to use a minimum Redis version of 6.2.0
+                 Current: 6.0.16
+
+      at RedisConnection.init (node_modules/bullmq/src/classes/redis-connection.ts:270:19)
+
+  console.warn
+    It is highly recommended to use a minimum Redis version of 6.2.0
+                 Current: 6.0.16
+
+      at RedisConnection.init (node_modules/bullmq/src/classes/redis-connection.ts:270:19)
+
+[33mwarn[39m: No subscription found for company a22cd84f-c230-4748-b812-0baa9551b389, returning null limit {"service":"conta-backend","timestamp":"2026-01-07 13:39:21"}
+[32minfo[39m: Audit log created {"action":"CREATE","auditLogId":"312d5063-aca5-4745-9440-2dd5beebef7d","entityType":"invoice","module":"facturation","service":"conta-backend","timestamp":"2026-01-07 13:39:21"}
+[32minfo[39m: Getting invoice {"companyId":"a22cd84f-c230-4748-b812-0baa9551b389","invoiceId":"326d387f-3658-4e3a-ba53-a08a9c321133","isUUID":true,"service":"conta-backend","timestamp":"2026-01-07 13:39:21"}
+[32minfo[39m: Invoice created: 326d387f-3658-4e3a-ba53-a08a9c321133 {"companyId":"a22cd84f-c230-4748-b812-0baa9551b389","customerId":"954af758-17a1-47f7-9258-b565f7b73382","invoiceId":"326d387f-3658-4e3a-ba53-a08a9c321133","invoiceNumber":"TEST-000001","service":"conta-backend","timestamp":"2026-01-07 13:39:21"}
+[32minfo[39m: ✅ Redis connected successfully {"service":"conta-backend","timestamp":"2026-01-07 13:39:21"}
+[32minfo[39m: ✅ Redis ready to accept commands {"service":"conta-backend","timestamp":"2026-01-07 13:39:21"}
+[33mwarn[39m: No subscription found for company a22cd84f-c230-4748-b812-0baa9551b389, using default (free) plan {"service":"conta-backend","timestamp":"2026-01-07 13:39:21"}
+[33mwarn[39m: No subscription found for company a22cd84f-c230-4748-b812-0baa9551b389, returning null limit {"service":"conta-backend","timestamp":"2026-01-07 13:39:22"}
+[33mwarn[39m: No subscription found for company a22cd84f-c230-4748-b812-0baa9551b389, returning null limit {"service":"conta-backend","timestamp":"2026-01-07 13:39:22"}
+[32minfo[39m: Audit log created {"action":"CREATE","auditLogId":"8f8f3406-9abd-45d2-af84-28aee523607e","entityType":"invoice","module":"facturation","service":"conta-backend","timestamp":"2026-01-07 13:39:22"}
+[32minfo[39m: Getting invoice {"companyId":"a22cd84f-c230-4748-b812-0baa9551b389","invoiceId":"a5839067-c70f-491b-9636-f5810af0c39d","isUUID":true,"service":"conta-backend","timestamp":"2026-01-07 13:39:22"}
+[32minfo[39m: Invoice created: a5839067-c70f-491b-9636-f5810af0c39d {"companyId":"a22cd84f-c230-4748-b812-0baa9551b389","customerId":"954af758-17a1-47f7-9258-b565f7b73382","invoiceId":"a5839067-c70f-491b-9636-f5810af0c39d","invoiceNumber":"TEST-000002","service":"conta-backend","timestamp":"2026-01-07 13:39:22"}
+[32minfo[39m: Getting invoice {"companyId":"a22cd84f-c230-4748-b812-0baa9551b389","invoiceId":"a5839067-c70f-491b-9636-f5810af0c39d","isUUID":true,"service":"conta-backend","timestamp":"2026-01-07 13:39:22"}
+[32minfo[39m: Status transition validated {"newStatus":"cancelled","oldStatus":"draft","service":"conta-backend","timestamp":"2026-01-07 13:39:22"}
+[32minfo[39m: Invoice status changed {"companyId":"a22cd84f-c230-4748-b812-0baa9551b389","invoiceId":"a5839067-c70f-491b-9636-f5810af0c39d","newStatus":"cancelled","oldStatus":"draft","service":"conta-backend","timestamp":"2026-01-07 13:39:22","userId":"9337e885-1ea4-42f4-b5b2-5805af96ef3c"}
+[32minfo[39m: Invoice status updated: a5839067-c70f-491b-9636-f5810af0c39d {"companyId":"a22cd84f-c230-4748-b812-0baa9551b389","invoiceId":"a5839067-c70f-491b-9636-f5810af0c39d","newStatus":"cancelled","oldStatus":"draft","service":"conta-backend","timestamp":"2026-01-07 13:39:22"}
+[32minfo[39m: Audit log created {"action":"CANCEL_INVOICE","auditLogId":"cee0c032-9a3e-4608-85dd-535c9bb977e3","entityType":"invoice","module":"facturation","service":"conta-backend","timestamp":"2026-01-07 13:39:22"}
+[32minfo[39m: Getting invoice {"companyId":"a22cd84f-c230-4748-b812-0baa9551b389","invoiceId":"a5839067-c70f-491b-9636-f5810af0c39d","isUUID":true,"service":"conta-backend","timestamp":"2026-01-07 13:39:22"}
+[33mwarn[39m: No subscription found for company a22cd84f-c230-4748-b812-0baa9551b389, returning null limit {"service":"conta-backend","timestamp":"2026-01-07 13:39:22"}
+[32minfo[39m: Audit log created {"action":"CREATE","auditLogId":"cd377bd0-ec4a-417e-9419-a527cb3fc80f","entityType":"invoice","module":"facturation","service":"conta-backend","timestamp":"2026-01-07 13:39:22"}
+[32minfo[39m: Getting invoice {"companyId":"a22cd84f-c230-4748-b812-0baa9551b389","invoiceId":"836d8749-23c6-4a4f-994c-abec9b48fb5a","isUUID":true,"service":"conta-backend","timestamp":"2026-01-07 13:39:22"}
+[32minfo[39m: Invoice created: 836d8749-23c6-4a4f-994c-abec9b48fb5a {"companyId":"a22cd84f-c230-4748-b812-0baa9551b389","customerId":"954af758-17a1-47f7-9258-b565f7b73382","invoiceId":"836d8749-23c6-4a4f-994c-abec9b48fb5a","invoiceNumber":"TEST-000003","service":"conta-backend","timestamp":"2026-01-07 13:39:22"}
+[32minfo[39m: Getting invoice {"companyId":"a22cd84f-c230-4748-b812-0baa9551b389","invoiceId":"836d8749-23c6-4a4f-994c-abec9b48fb5a","isUUID":true,"service":"conta-backend","timestamp":"2026-01-07 13:39:22"}
+[32minfo[39m: Status transition validated {"newStatus":"cancelled","oldStatus":"draft","service":"conta-backend","timestamp":"2026-01-07 13:39:22"}
+[32minfo[39m: Invoice status changed {"companyId":"a22cd84f-c230-4748-b812-0baa9551b389","invoiceId":"836d8749-23c6-4a4f-994c-abec9b48fb5a","newStatus":"cancelled","oldStatus":"draft","service":"conta-backend","timestamp":"2026-01-07 13:39:22","userId":"9337e885-1ea4-42f4-b5b2-5805af96ef3c"}
+[32minfo[39m: Invoice status updated: 836d8749-23c6-4a4f-994c-abec9b48fb5a {"companyId":"a22cd84f-c230-4748-b812-0baa9551b389","invoiceId":"836d8749-23c6-4a4f-994c-abec9b48fb5a","newStatus":"cancelled","oldStatus":"draft","service":"conta-backend","timestamp":"2026-01-07 13:39:22"}
+[33mwarn[39m: No subscription found for company a22cd84f-c230-4748-b812-0baa9551b389, returning null limit {"service":"conta-backend","timestamp":"2026-01-07 13:39:22"}
+[32minfo[39m: Audit log created {"action":"CREATE","auditLogId":"a3d2e95c-0aa9-4b3a-b903-95d815fab4bb","entityType":"invoice","module":"facturation","service":"conta-backend","timestamp":"2026-01-07 13:39:22"}
+[32minfo[39m: Getting invoice {"companyId":"a22cd84f-c230-4748-b812-0baa9551b389","invoiceId":"5fca1768-8f82-492f-8a1b-4148f19e1b80","isUUID":true,"service":"conta-backend","timestamp":"2026-01-07 13:39:22"}
+[32minfo[39m: Invoice created: 5fca1768-8f82-492f-8a1b-4148f19e1b80 {"companyId":"a22cd84f-c230-4748-b812-0baa9551b389","customerId":"954af758-17a1-47f7-9258-b565f7b73382","invoiceId":"5fca1768-8f82-492f-8a1b-4148f19e1b80","invoiceNumber":"TEST-000004","service":"conta-backend","timestamp":"2026-01-07 13:39:22"}
+[32minfo[39m: Getting invoice {"companyId":"a22cd84f-c230-4748-b812-0baa9551b389","invoiceId":"5fca1768-8f82-492f-8a1b-4148f19e1b80","isUUID":true,"service":"conta-backend","timestamp":"2026-01-07 13:39:22"}
+[32minfo[39m: Audit log created {"action":"DELETE","auditLogId":"6801c973-4205-43cd-8936-ac9427afb977","entityType":"invoice","module":"facturation","service":"conta-backend","timestamp":"2026-01-07 13:39:22"}
+[32minfo[39m: Invoice deleted: 5fca1768-8f82-492f-8a1b-4148f19e1b80 {"companyId":"a22cd84f-c230-4748-b812-0baa9551b389","invoiceId":"5fca1768-8f82-492f-8a1b-4148f19e1b80","service":"conta-backend","timestamp":"2026-01-07 13:39:22"}
+  console.log
+    prisma:error 
+    Invalid `prisma.quotation_lines.deleteMany()` invocation in
+    /home/conta/conta.cd/backend/src/__tests__/helpers/test-db.ts:154:34
+    
+      151 });
+      152 
+      153 // Supprimer les devis et leurs lignes
+    → 154 await prisma.quotation_lines.deleteMany(
+    Error occurred during query execution:
+    ConnectorError(ConnectorError { user_facing_error: None, kind: QueryError(PostgresError { code: "42501", message: "permission denied for table quotation_lines", severity: "ERROR", detail: None, column: None, hint: None }), transient: false })
+
+      at Object.mc (node_modules/.prisma/client/runtime/library.js:21:432)
+
+  console.error
+    Error cleaning up test data: 
+    Invalid `prisma.quotation_lines.deleteMany()` invocation in
+    /home/conta/conta.cd/backend/src/__tests__/helpers/test-db.ts:154:34
+    
+      151 });
+      152 
+      153 // Supprimer les devis et leurs lignes
+    → 154 await prisma.quotation_lines.deleteMany(
+    Error occurred during query execution:
+    ConnectorError(ConnectorError { user_facing_error: None, kind: QueryError(PostgresError { code: "42501", message: "permission denied for table quotation_lines", severity: "ERROR", detail: None, column: None, hint: None }), transient: false })
+
+      202 |     });
+      203 |   } catch (error: any) {
+    > 204 |     console.error('Error cleaning up test data:', error.message);
+          |             ^
+      205 |     // Continue même en cas d'erreur pour ne pas bloquer les tests
+      206 |   }
+      207 | }
+
+      at cleanupTestData (src/__tests__/helpers/test-db.ts:204:13)
+      at Object.<anonymous> (src/__tests__/integration/invoice.integration.test.ts:45:5)
+
+FAIL src/__tests__/integration/invoice.integration.test.ts (10.119 s)
+  InvoiceService - Tests d'intégration
+    create
+      ✓ devrait créer une facture avec des lignes dans une période ouverte (355 ms)
+      ✕ devrait échouer à créer une facture dans une période close (73 ms)
+    updateStatus avec Justification (DOC-08)
+      ✓ devrait changer le statut avec justification pour annulation (71 ms)
+      ✓ devrait échouer si la justification manque pour une annulation (56 ms)
+    delete
+      ✓ devrait supprimer une facture en brouillon et logger l'action (78 ms)
+
+  ● InvoiceService - Tests d'intégration › create › devrait échouer à créer une facture dans une période close
+
+    expect(received).rejects.toThrow(expected)
+
+    Expected pattern: /Période comptable close/
+    Received message: "L'exercice \"Closed 2020\" est clos. Aucune modification n'est autorisée."
+
+          152 |     const periodValidation = await fiscalPeriodService.validatePeriod(companyId, invoiceDate);
+          153 |     if (!periodValidation.isValid) {
+        > 154 |       throw new CustomError(periodValidation.message || 'Période comptable verrouillée ou close', 400, 'INVALID_PERIOD');
+              |             ^
+          155 |     }
+          156 |
+          157 |     // Générer le numéro de facture
+
+      at InvoiceService.create (src/services/invoice.service.ts:154:13)
+      at Object.<anonymous> (src/__tests__/integration/invoice.integration.test.ts:93:7)
+      at Object.toThrow (node_modules/expect/build/index.js:218:22)
+      at Object.<anonymous> (src/__tests__/integration/invoice.integration.test.ts:95:17)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 4 passed, 5 total
+Snapshots:   0 total
+Time:        10.475 s
+Ran all test suites matching /src\/__tests__\/integration\/invoice.integration.test.ts/i.
+Force exiting Jest: Have you considered using `--detectOpenHandles` to detect async operations that kept running after all tests finished?

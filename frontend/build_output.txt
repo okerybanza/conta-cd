@@ -1,0 +1,426 @@
+
+> conta-frontend@1.0.0 build
+> tsc && vite build
+
+src/components/UpgradeBanner.tsx(10,33): error TS6133: 'feature' is declared but its value is never read.
+src/components/UpgradeCard.tsx(10,47): error TS6133: 'feature' is declared but its value is never read.
+src/components/accountant/CompanySelector.tsx(2,52): error TS6133: 'Award' is declared but its value is never read.
+src/components/accountant/CompanySelector.tsx(61,29): error TS2339: Property 'data' does not exist on type 'any[]'.
+src/components/accountant/CompanySelector.tsx(66,59): error TS2339: Property 'getOwnCabinet' does not exist on type '{ search(filters?: SearchAccountantFilters): Promise<{ accountants: Accountant[]; total: number; page: number; limit: number; totalPages: number; }>; ... 12 more ...; createCabinet(data: any): Promise<...>; }'.
+src/components/creditNotes/CreditNoteFormSlideIn.tsx(30,24): error TS6133: 'showError' is declared but its value is never read.
+src/components/customers/CustomerDetailSlideIn.tsx(7,31): error TS6133: 'Building2' is declared but its value is never read.
+src/components/customers/CustomerDetailSlideIn.tsx(7,42): error TS6133: 'User' is declared but its value is never read.
+src/components/customers/CustomerDetailSlideIn.tsx(74,9): error TS6133: 'formatDate' is declared but its value is never read.
+src/components/customers/CustomerForm.tsx(87,60): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/components/customers/CustomerForm.tsx(217,155): error TS2322: Type '{ label: string; as: "textarea"; register: UseFormRegisterReturn<"address">; error: any; className: string; rows: number; }' is not assignable to type 'IntrinsicAttributes & FormInputProps'.
+  Property 'rows' does not exist on type 'IntrinsicAttributes & FormInputProps'.
+src/components/dashboard/AccountantDashboard.tsx(8,30): error TS6133: 'CheckCircle2' is declared but its value is never read.
+src/components/dashboard/AccountantDashboard.tsx(8,69): error TS6133: 'Lock' is declared but its value is never read.
+src/components/dashboard/DefaultDashboard.tsx(88,39): error TS2551: Property 'paidInvoices' does not exist on type 'DashboardStats'. Did you mean 'unpaidInvoices'?
+src/components/dashboard/EmployeeDashboard.tsx(8,36): error TS6133: 'Clock' is declared but its value is never read.
+src/components/dashboard/ExpertComptableDashboard.tsx(8,50): error TS6133: 'Calendar' is declared but its value is never read.
+src/components/dashboard/ExpertComptableDashboard.tsx(14,9): error TS6133: 'user' is declared but its value is never read.
+src/components/dashboard/OwnerDashboard.tsx(9,3): error TS6133: 'TrendingUp' is declared but its value is never read.
+src/components/dashboard/OwnerDashboard.tsx(10,3): error TS6133: 'DollarSign' is declared but its value is never read.
+src/components/dashboard/OwnerDashboard.tsx(11,3): error TS6133: 'FileText' is declared but its value is never read.
+src/components/dashboard/OwnerDashboard.tsx(12,3): error TS6133: 'Users' is declared but its value is never read.
+src/components/dashboard/OwnerDashboard.tsx(13,3): error TS6133: 'AlertCircle' is declared but its value is never read.
+src/components/dashboard/RHDashboard.tsx(8,39): error TS6133: 'Calendar' is declared but its value is never read.
+src/components/dashboard/RHDashboard.tsx(8,62): error TS6133: 'CheckCircle2' is declared but its value is never read.
+src/components/invoices/InvoiceForm.tsx(5,26): error TS6133: 'CreateInvoiceData' is declared but its value is never read.
+src/components/invoices/InvoiceForm.tsx(320,74): error TS7053: Element implicitly has an 'any' type because expression of type 'number' can't be used to index type 'FieldError | Merge<FieldError, FieldErrorsImpl<any>>'.
+  No index signature with a parameter of type 'number' was found on type 'FieldError | Merge<FieldError, FieldErrorsImpl<any>>'.
+src/components/landing/FeatureSection.tsx(1,10): error TS2305: Module '"lucide-react"' has no exported member 'ReactNode'.
+src/components/layout/Header.tsx(8,9): error TS6133: 'location' is declared but its value is never read.
+src/components/layout/Sidebar.tsx(24,3): error TS6133: 'PieChart' is declared but its value is never read.
+src/components/layout/Sidebar.tsx(72,11): error TS6133: 'role' is declared but its value is never read.
+src/components/layout/Sidebar.tsx(72,35): error TS6133: 'isUserAdmin' is declared but its value is never read.
+src/components/layout/Sidebar.tsx(251,35): error TS2339: Property 'stock' does not exist on type 'PackageFeature'.
+src/components/layout/Sidebar.tsx(252,32): error TS2339: Property 'hr' does not exist on type 'PackageFeature'.
+src/components/layout/Sidebar.tsx(480,25): error TS6133: 'e' is declared but its value is never read.
+src/components/payments/PaymentDetailSlideIn.tsx(5,20): error TS6133: 'DollarSign' is declared but its value is never read.
+src/components/payments/PaymentFormSlideIn.tsx(25,24): error TS6133: 'showError' is declared but its value is never read.
+src/components/ui/ActionView.tsx(104,32): error TS6133: 'justification' is declared but its value is never read.
+src/components/ui/Modal.tsx(1,10): error TS6133: 'Fragment' is declared but its value is never read.
+src/components/ui/StatusBadge.tsx(6,53): error TS6133: 'Info' is declared but its value is never read.
+src/components/ui/StatusBadge.tsx(43,5): error TS2322: Type 'ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>' is not assignable to type 'ComponentType<{ size?: number | undefined; className?: string | undefined; }>'.
+  Type 'ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>' is not assignable to type 'FunctionComponent<{ size?: number | undefined; className?: string | undefined; }>'.
+    Types of property 'propTypes' are incompatible.
+      Type 'WeakValidationMap<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>> | undefined' is not assignable to type 'WeakValidationMap<{ size?: number | undefined; className?: string | undefined; }> | undefined'.
+        Type 'WeakValidationMap<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>' is not assignable to type 'WeakValidationMap<{ size?: number | undefined; className?: string | undefined; }>'.
+          Types of property 'size' are incompatible.
+            Type 'Validator<string | number | null | undefined> | undefined' is not assignable to type 'Validator<number | null | undefined> | undefined'.
+              Type 'Validator<string | number | null | undefined>' is not assignable to type 'Validator<number | null | undefined>'.
+                Type 'string | number | null | undefined' is not assignable to type 'number | null | undefined'.
+                  Type 'string' is not assignable to type 'number'.
+src/components/ui/StatusBadge.tsx(51,5): error TS2322: Type 'ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>' is not assignable to type 'ComponentType<{ size?: number | undefined; className?: string | undefined; }>'.
+  Type 'ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>' is not assignable to type 'FunctionComponent<{ size?: number | undefined; className?: string | undefined; }>'.
+    Types of property 'propTypes' are incompatible.
+      Type 'WeakValidationMap<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>> | undefined' is not assignable to type 'WeakValidationMap<{ size?: number | undefined; className?: string | undefined; }> | undefined'.
+        Type 'WeakValidationMap<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>' is not assignable to type 'WeakValidationMap<{ size?: number | undefined; className?: string | undefined; }>'.
+          Types of property 'size' are incompatible.
+            Type 'Validator<string | number | null | undefined> | undefined' is not assignable to type 'Validator<number | null | undefined> | undefined'.
+              Type 'Validator<string | number | null | undefined>' is not assignable to type 'Validator<number | null | undefined>'.
+                Type 'string | number | null | undefined' is not assignable to type 'number | null | undefined'.
+                  Type 'string' is not assignable to type 'number'.
+src/components/ui/StatusBadge.tsx(59,5): error TS2322: Type 'ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>' is not assignable to type 'ComponentType<{ size?: number | undefined; className?: string | undefined; }>'.
+  Type 'ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>' is not assignable to type 'FunctionComponent<{ size?: number | undefined; className?: string | undefined; }>'.
+    Types of property 'propTypes' are incompatible.
+      Type 'WeakValidationMap<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>> | undefined' is not assignable to type 'WeakValidationMap<{ size?: number | undefined; className?: string | undefined; }> | undefined'.
+        Type 'WeakValidationMap<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>' is not assignable to type 'WeakValidationMap<{ size?: number | undefined; className?: string | undefined; }>'.
+          Types of property 'size' are incompatible.
+            Type 'Validator<string | number | null | undefined> | undefined' is not assignable to type 'Validator<number | null | undefined> | undefined'.
+              Type 'Validator<string | number | null | undefined>' is not assignable to type 'Validator<number | null | undefined>'.
+                Type 'string | number | null | undefined' is not assignable to type 'number | null | undefined'.
+                  Type 'string' is not assignable to type 'number'.
+src/components/ui/StatusBadge.tsx(67,5): error TS2322: Type 'ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>' is not assignable to type 'ComponentType<{ size?: number | undefined; className?: string | undefined; }>'.
+  Type 'ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>' is not assignable to type 'FunctionComponent<{ size?: number | undefined; className?: string | undefined; }>'.
+    Types of property 'propTypes' are incompatible.
+      Type 'WeakValidationMap<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>> | undefined' is not assignable to type 'WeakValidationMap<{ size?: number | undefined; className?: string | undefined; }> | undefined'.
+        Type 'WeakValidationMap<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>' is not assignable to type 'WeakValidationMap<{ size?: number | undefined; className?: string | undefined; }>'.
+          Types of property 'size' are incompatible.
+            Type 'Validator<string | number | null | undefined> | undefined' is not assignable to type 'Validator<number | null | undefined> | undefined'.
+              Type 'Validator<string | number | null | undefined>' is not assignable to type 'Validator<number | null | undefined>'.
+                Type 'string | number | null | undefined' is not assignable to type 'number | null | undefined'.
+                  Type 'string' is not assignable to type 'number'.
+src/components/ui/StatusBadge.tsx(75,5): error TS2322: Type 'ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>' is not assignable to type 'ComponentType<{ size?: number | undefined; className?: string | undefined; }>'.
+  Type 'ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>' is not assignable to type 'FunctionComponent<{ size?: number | undefined; className?: string | undefined; }>'.
+    Types of property 'propTypes' are incompatible.
+      Type 'WeakValidationMap<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>> | undefined' is not assignable to type 'WeakValidationMap<{ size?: number | undefined; className?: string | undefined; }> | undefined'.
+        Type 'WeakValidationMap<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>' is not assignable to type 'WeakValidationMap<{ size?: number | undefined; className?: string | undefined; }>'.
+          Types of property 'size' are incompatible.
+            Type 'Validator<string | number | null | undefined> | undefined' is not assignable to type 'Validator<number | null | undefined> | undefined'.
+              Type 'Validator<string | number | null | undefined>' is not assignable to type 'Validator<number | null | undefined>'.
+                Type 'string | number | null | undefined' is not assignable to type 'number | null | undefined'.
+                  Type 'string' is not assignable to type 'number'.
+src/components/ui/StatusBadge.tsx(83,5): error TS2322: Type 'ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>' is not assignable to type 'ComponentType<{ size?: number | undefined; className?: string | undefined; }>'.
+  Type 'ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>' is not assignable to type 'FunctionComponent<{ size?: number | undefined; className?: string | undefined; }>'.
+    Types of property 'propTypes' are incompatible.
+      Type 'WeakValidationMap<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>> | undefined' is not assignable to type 'WeakValidationMap<{ size?: number | undefined; className?: string | undefined; }> | undefined'.
+        Type 'WeakValidationMap<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>' is not assignable to type 'WeakValidationMap<{ size?: number | undefined; className?: string | undefined; }>'.
+          Types of property 'size' are incompatible.
+            Type 'Validator<string | number | null | undefined> | undefined' is not assignable to type 'Validator<number | null | undefined> | undefined'.
+              Type 'Validator<string | number | null | undefined>' is not assignable to type 'Validator<number | null | undefined>'.
+                Type 'string | number | null | undefined' is not assignable to type 'number | null | undefined'.
+                  Type 'string' is not assignable to type 'number'.
+src/components/ui/StatusBadge.tsx(91,5): error TS2322: Type 'ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>' is not assignable to type 'ComponentType<{ size?: number | undefined; className?: string | undefined; }>'.
+  Type 'ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>' is not assignable to type 'FunctionComponent<{ size?: number | undefined; className?: string | undefined; }>'.
+    Types of property 'propTypes' are incompatible.
+      Type 'WeakValidationMap<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>> | undefined' is not assignable to type 'WeakValidationMap<{ size?: number | undefined; className?: string | undefined; }> | undefined'.
+        Type 'WeakValidationMap<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>' is not assignable to type 'WeakValidationMap<{ size?: number | undefined; className?: string | undefined; }>'.
+          Types of property 'size' are incompatible.
+            Type 'Validator<string | number | null | undefined> | undefined' is not assignable to type 'Validator<number | null | undefined> | undefined'.
+              Type 'Validator<string | number | null | undefined>' is not assignable to type 'Validator<number | null | undefined>'.
+                Type 'string | number | null | undefined' is not assignable to type 'number | null | undefined'.
+                  Type 'string' is not assignable to type 'number'.
+src/components/ui/StatusBadge.tsx(99,5): error TS2322: Type 'ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>' is not assignable to type 'ComponentType<{ size?: number | undefined; className?: string | undefined; }>'.
+  Type 'ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>' is not assignable to type 'FunctionComponent<{ size?: number | undefined; className?: string | undefined; }>'.
+    Types of property 'propTypes' are incompatible.
+      Type 'WeakValidationMap<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>> | undefined' is not assignable to type 'WeakValidationMap<{ size?: number | undefined; className?: string | undefined; }> | undefined'.
+        Type 'WeakValidationMap<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>' is not assignable to type 'WeakValidationMap<{ size?: number | undefined; className?: string | undefined; }>'.
+          Types of property 'size' are incompatible.
+            Type 'Validator<string | number | null | undefined> | undefined' is not assignable to type 'Validator<number | null | undefined> | undefined'.
+              Type 'Validator<string | number | null | undefined>' is not assignable to type 'Validator<number | null | undefined>'.
+                Type 'string | number | null | undefined' is not assignable to type 'number | null | undefined'.
+                  Type 'string' is not assignable to type 'number'.
+src/components/ui/StatusBadge.tsx(107,5): error TS2322: Type 'ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>' is not assignable to type 'ComponentType<{ size?: number | undefined; className?: string | undefined; }>'.
+  Type 'ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>' is not assignable to type 'FunctionComponent<{ size?: number | undefined; className?: string | undefined; }>'.
+    Types of property 'propTypes' are incompatible.
+      Type 'WeakValidationMap<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>> | undefined' is not assignable to type 'WeakValidationMap<{ size?: number | undefined; className?: string | undefined; }> | undefined'.
+        Type 'WeakValidationMap<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>' is not assignable to type 'WeakValidationMap<{ size?: number | undefined; className?: string | undefined; }>'.
+          Types of property 'size' are incompatible.
+            Type 'Validator<string | number | null | undefined> | undefined' is not assignable to type 'Validator<number | null | undefined> | undefined'.
+              Type 'Validator<string | number | null | undefined>' is not assignable to type 'Validator<number | null | undefined>'.
+                Type 'string | number | null | undefined' is not assignable to type 'number | null | undefined'.
+                  Type 'string' is not assignable to type 'number'.
+src/components/ui/StatusBadge.tsx(115,5): error TS2322: Type 'ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>' is not assignable to type 'ComponentType<{ size?: number | undefined; className?: string | undefined; }>'.
+  Type 'ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>' is not assignable to type 'FunctionComponent<{ size?: number | undefined; className?: string | undefined; }>'.
+    Types of property 'propTypes' are incompatible.
+      Type 'WeakValidationMap<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>> | undefined' is not assignable to type 'WeakValidationMap<{ size?: number | undefined; className?: string | undefined; }> | undefined'.
+        Type 'WeakValidationMap<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>' is not assignable to type 'WeakValidationMap<{ size?: number | undefined; className?: string | undefined; }>'.
+          Types of property 'size' are incompatible.
+            Type 'Validator<string | number | null | undefined> | undefined' is not assignable to type 'Validator<number | null | undefined> | undefined'.
+              Type 'Validator<string | number | null | undefined>' is not assignable to type 'Validator<number | null | undefined>'.
+                Type 'string | number | null | undefined' is not assignable to type 'number | null | undefined'.
+                  Type 'string' is not assignable to type 'number'.
+src/components/ui/StatusBadge.tsx(123,5): error TS2322: Type 'ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>' is not assignable to type 'ComponentType<{ size?: number | undefined; className?: string | undefined; }>'.
+  Type 'ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>' is not assignable to type 'FunctionComponent<{ size?: number | undefined; className?: string | undefined; }>'.
+    Types of property 'propTypes' are incompatible.
+      Type 'WeakValidationMap<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>> | undefined' is not assignable to type 'WeakValidationMap<{ size?: number | undefined; className?: string | undefined; }> | undefined'.
+        Type 'WeakValidationMap<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>' is not assignable to type 'WeakValidationMap<{ size?: number | undefined; className?: string | undefined; }>'.
+          Types of property 'size' are incompatible.
+            Type 'Validator<string | number | null | undefined> | undefined' is not assignable to type 'Validator<number | null | undefined> | undefined'.
+              Type 'Validator<string | number | null | undefined>' is not assignable to type 'Validator<number | null | undefined>'.
+                Type 'string | number | null | undefined' is not assignable to type 'number | null | undefined'.
+                  Type 'string' is not assignable to type 'number'.
+src/components/ui/StatusBadge.tsx(131,5): error TS2322: Type 'ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>' is not assignable to type 'ComponentType<{ size?: number | undefined; className?: string | undefined; }>'.
+  Type 'ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>' is not assignable to type 'FunctionComponent<{ size?: number | undefined; className?: string | undefined; }>'.
+    Types of property 'propTypes' are incompatible.
+      Type 'WeakValidationMap<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>> | undefined' is not assignable to type 'WeakValidationMap<{ size?: number | undefined; className?: string | undefined; }> | undefined'.
+        Type 'WeakValidationMap<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>' is not assignable to type 'WeakValidationMap<{ size?: number | undefined; className?: string | undefined; }>'.
+          Types of property 'size' are incompatible.
+            Type 'Validator<string | number | null | undefined> | undefined' is not assignable to type 'Validator<number | null | undefined> | undefined'.
+              Type 'Validator<string | number | null | undefined>' is not assignable to type 'Validator<number | null | undefined>'.
+                Type 'string | number | null | undefined' is not assignable to type 'number | null | undefined'.
+                  Type 'string' is not assignable to type 'number'.
+src/components/ui/StatusBadge.tsx(139,3): error TS6133: 'entityType' is declared but its value is never read.
+src/components/users/PermissionEditor.tsx(27,36): error TS2345: Argument of type 'string' is not assignable to parameter of type 'SetStateAction<"admin" | "accountant" | "rh" | "manager" | "employee">'.
+src/config/api.config.ts(11,9): error TS6133: 'currentPort' is declared but its value is never read.
+src/main.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/pages/accountant/AccountantCompaniesPage.tsx(9,3): error TS6133: 'DollarSign' is declared but its value is never read.
+src/pages/accountant/AccountantCompaniesPage.tsx(10,3): error TS6133: 'Users' is declared but its value is never read.
+src/pages/accountant/AccountantCompaniesPage.tsx(13,3): error TS6133: 'ArrowRight' is declared but its value is never read.
+src/pages/accountant/AccountantCompaniesPage.tsx(19,1): error TS6133: 'formatCurrency' is declared but its value is never read.
+src/pages/accountant/AccountantCompaniesPage.tsx(41,9): error TS6133: 'user' is declared but its value is never read.
+src/pages/accountant/AccountantCompaniesPage.tsx(46,10): error TS6133: 'selectedCompany' is declared but its value is never read.
+src/pages/accountant/AccountantCompaniesPage.tsx(57,29): error TS2339: Property 'data' does not exist on type 'any[]'.
+src/pages/accountant/AccountantDashboardPage.tsx(7,3): error TS6133: 'Users' is declared but its value is never read.
+src/pages/accountant/AccountantDashboardPage.tsx(9,3): error TS6133: 'TrendingUp' is declared but its value is never read.
+src/pages/accountant/AccountantDashboardPage.tsx(10,3): error TS6133: 'TrendingDown' is declared but its value is never read.
+src/pages/accountant/AccountantDashboardPage.tsx(17,3): error TS6133: 'Briefcase' is declared but its value is never read.
+src/pages/accountant/AccountantDashboardPage.tsx(49,17): error TS6133: 'company' is declared but its value is never read.
+src/pages/accountant/AccountantDashboardPage.tsx(69,50): error TS2339: Property 'data' does not exist on type 'any[]'.
+src/pages/accountant/AccountantDashboardPage.tsx(73,43): error TS2339: Property 'data' does not exist on type 'CompanyAccountant[]'.
+src/pages/accountant/AccountantDashboardPage.tsx(88,43): error TS2339: Property 'data' does not exist on type 'CompanyAccountant[]'.
+src/pages/accountant/AccountantDashboardPage.tsx(123,37): error TS2339: Property 'data' does not exist on type 'AccountantProfile'.
+src/pages/accountant/AccountantDashboardPage.tsx(128,13): error TS6133: 'response' is declared but its value is never read.
+src/pages/accountant/AccountantProfilePage.tsx(2,38): error TS6133: 'CheckCircle2' is declared but its value is never read.
+src/pages/accountant/AccountantProfilePage.tsx(2,77): error TS6133: 'Phone' is declared but its value is never read.
+src/pages/accountant/AccountantProfilePage.tsx(2,84): error TS6133: 'Globe' is declared but its value is never read.
+src/pages/accountant/AccountantProfilePage.tsx(23,5): error TS2353: Object literal may only specify known properties, and 'professionalEmail' does not exist in type 'CreateAccountantProfileData | (() => CreateAccountantProfileData)'.
+src/pages/accountant/AccountantProfilePage.tsx(42,20): error TS2339: Property 'data' does not exist on type 'AccountantProfile'.
+src/pages/accountant/AccountantProfilePage.tsx(43,29): error TS2339: Property 'data' does not exist on type 'AccountantProfile'.
+src/pages/accountant/AccountantProfilePage.tsx(45,33): error TS2339: Property 'data' does not exist on type 'AccountantProfile'.
+src/pages/accountant/AccountantProfilePage.tsx(46,40): error TS2339: Property 'data' does not exist on type 'AccountantProfile'.
+src/pages/accountant/AccountantProfilePage.tsx(47,36): error TS2339: Property 'data' does not exist on type 'AccountantProfile'.
+src/pages/accountant/AccountantProfilePage.tsx(48,37): error TS2339: Property 'data' does not exist on type 'AccountantProfile'.
+src/pages/accountant/AccountantProfilePage.tsx(49,29): error TS2339: Property 'data' does not exist on type 'AccountantProfile'.
+src/pages/accountant/AccountantProfilePage.tsx(50,30): error TS2339: Property 'data' does not exist on type 'AccountantProfile'.
+src/pages/accountant/AccountantProfilePage.tsx(51,26): error TS2339: Property 'data' does not exist on type 'AccountantProfile'.
+src/pages/accountant/AccountantProfilePage.tsx(52,29): error TS2339: Property 'data' does not exist on type 'AccountantProfile'.
+src/pages/accountant/AccountantProfilePage.tsx(53,11): error TS2353: Object literal may only specify known properties, and 'professionalEmail' does not exist in type 'SetStateAction<CreateAccountantProfileData>'.
+src/pages/accountant/AccountantProfilePage.tsx(53,39): error TS2339: Property 'data' does not exist on type 'AccountantProfile'.
+src/pages/accountant/AccountantProfilePage.tsx(54,39): error TS2339: Property 'data' does not exist on type 'AccountantProfile'.
+src/pages/accountant/AccountantProfilePage.tsx(55,29): error TS2339: Property 'data' does not exist on type 'AccountantProfile'.
+src/pages/accountant/AccountantProfilePage.tsx(56,33): error TS2339: Property 'data' does not exist on type 'AccountantProfile'.
+src/pages/accountant/AccountantProfilePage.tsx(57,34): error TS2339: Property 'data' does not exist on type 'AccountantProfile'.
+src/pages/accountant/AccountantProfilePage.tsx(298,35): error TS2339: Property 'professionalEmail' does not exist on type 'CreateAccountantProfileData'.
+src/pages/accountant/AccountantProfilePage.tsx(299,63): error TS2353: Object literal may only specify known properties, and 'professionalEmail' does not exist in type 'SetStateAction<CreateAccountantProfileData>'.
+src/pages/accountant/AccountantProfilePage.tsx(310,35): error TS2339: Property 'professionalPhone' does not exist on type 'CreateAccountantProfileData'.
+src/pages/accountant/AccountantProfilePage.tsx(311,63): error TS2353: Object literal may only specify known properties, and 'professionalPhone' does not exist in type 'SetStateAction<CreateAccountantProfileData>'.
+src/pages/accountant/AccountantProfilePage.tsx(340,37): error TS2339: Property 'isAvailable' does not exist on type 'CreateAccountantProfileData'.
+src/pages/accountant/AccountantProfilePage.tsx(341,63): error TS2353: Object literal may only specify known properties, and 'isAvailable' does not exist in type 'SetStateAction<CreateAccountantProfileData>'.
+src/pages/accountant/AccountantProfilePage.tsx(348,25): error TS2339: Property 'isAvailable' does not exist on type 'CreateAccountantProfileData'.
+src/pages/accountant/AccountantProfilePage.tsx(355,37): error TS2339: Property 'maxCompanies' does not exist on type 'CreateAccountantProfileData'.
+src/pages/accountant/AccountantProfilePage.tsx(359,25): error TS2353: Object literal may only specify known properties, and 'maxCompanies' does not exist in type 'SetStateAction<CreateAccountantProfileData>'.
+src/pages/accountant/AccountantProfilePage.tsx(383,30): error TS2339: Property 'activeCompaniesCount' does not exist on type 'AccountantProfile'.
+src/pages/accountant/AccountantProfilePage.tsx(383,63): error TS2339: Property 'maxCompanies' does not exist on type 'AccountantProfile'.
+src/pages/accountant/AccountantProfilePage.tsx(396,32): error TS2339: Property 'totalReviews' does not exist on type 'AccountantProfile'.
+src/pages/accountant/AccountantProfilePage.tsx(403,30): error TS2551: Property 'totalCompaniesManaged' does not exist on type 'AccountantProfile'. Did you mean 'totalCompanies'?
+src/pages/accountant/AccountantPublicProfilePage.tsx(22,3): error TS6133: 'FileText' is declared but its value is never read.
+src/pages/accountant/AccountantPublicProfilePage.tsx(77,7): error TS2322: Type '"default"' is not assignable to type '"warning" | "info" | "danger" | undefined'.
+src/pages/accountant/AccountantPublicProfilePage.tsx(421,34): error TS2339: Property 'dialogProps' does not exist on type '{ isOpen: boolean; options: ConfirmOptions; confirm: (opts: ConfirmOptions) => Promise<{ confirmed: boolean; justification?: string | undefined; }>; handleConfirm: (justification?: string | undefined) => void; handleCancel: () => void; }'.
+src/pages/accountant/AccountantRequestsPage.tsx(2,27): error TS6133: 'Calendar' is declared but its value is never read.
+src/pages/accountant/AccountantRequestsPage.tsx(2,92): error TS6133: 'Eye' is declared but its value is never read.
+src/pages/accountant/AccountantRequestsPage.tsx(4,1): error TS6133: 'contractService' is declared but its value is never read.
+src/pages/accountant/AccountantRequestsPage.tsx(30,31): error TS2339: Property 'data' does not exist on type 'CompanyAccountant[]'.
+src/pages/accountant/AccountantRequestsPage.tsx(42,7): error TS2322: Type '"default"' is not assignable to type '"warning" | "info" | "danger" | undefined'.
+src/pages/accountant/AccountantRequestsPage.tsx(81,31): error TS2551: Property 'rejectInvitation' does not exist on type '{ search(filters?: SearchAccountantFilters): Promise<{ accountants: Accountant[]; total: number; page: number; limit: number; totalPages: number; }>; ... 12 more ...; createCabinet(data: any): Promise<...>; }'. Did you mean 'getInvitations'?
+src/pages/accountant/AccountantRequestsPage.tsx(151,49): error TS2367: This comparison appears to be unintentional because the types '"pending" | "rejected" | "accepted"' and '"active"' have no overlap.
+src/pages/accountant/AccountantRequestsPage.tsx(193,42): error TS2339: Property 'logoUrl' does not exist on type '{ id: string; name: string; }'.
+src/pages/accountant/AccountantRequestsPage.tsx(195,49): error TS2339: Property 'logoUrl' does not exist on type '{ id: string; name: string; }'.
+src/pages/accountant/AccountantRequestsPage.tsx(206,74): error TS2339: Property 'businessName' does not exist on type '{ id: string; name: string; }'.
+src/pages/accountant/AccountantRequestsPage.tsx(208,44): error TS2339: Property 'city' does not exist on type '{ id: string; name: string; }'.
+src/pages/accountant/AccountantRequestsPage.tsx(208,72): error TS2339: Property 'country' does not exist on type '{ id: string; name: string; }'.
+src/pages/accountant/AccountantRequestsPage.tsx(210,47): error TS2339: Property 'city' does not exist on type '{ id: string; name: string; }'.
+src/pages/accountant/AccountantRequestsPage.tsx(210,74): error TS2339: Property 'country' does not exist on type '{ id: string; name: string; }'.
+src/pages/accountant/AccountantRequestsPage.tsx(221,48): error TS2339: Property 'invitedAt' does not exist on type 'CompanyAccountant'.
+src/pages/accountant/AccountantRequestsPage.tsx(224,33): error TS2339: Property 'acceptedAt' does not exist on type 'CompanyAccountant'.
+src/pages/accountant/AccountantRequestsPage.tsx(228,50): error TS2339: Property 'acceptedAt' does not exist on type 'CompanyAccountant'.
+src/pages/accountant/AccountantRequestsPage.tsx(232,33): error TS2339: Property 'rejectedAt' does not exist on type 'CompanyAccountant'.
+src/pages/accountant/AccountantRequestsPage.tsx(236,50): error TS2339: Property 'rejectedAt' does not exist on type 'CompanyAccountant'.
+src/pages/accountant/AccountantRequestsPage.tsx(240,33): error TS2339: Property 'contract' does not exist on type 'CompanyAccountant'.
+src/pages/accountant/AccountantRequestsPage.tsx(245,39): error TS2339: Property 'contract' does not exist on type 'CompanyAccountant'.
+src/pages/accountant/AccountantRequestsPage.tsx(344,34): error TS2339: Property 'dialogProps' does not exist on type '{ isOpen: boolean; options: ConfirmOptions; confirm: (opts: ConfirmOptions) => Promise<{ confirmed: boolean; justification?: string | undefined; }>; handleConfirm: (justification?: string | undefined) => void; handleCancel: () => void; }'.
+src/pages/accounts/AccountDetailPage.tsx(3,49): error TS6133: 'FileText' is declared but its value is never read.
+src/pages/accounts/AccountDetailPage.tsx(3,59): error TS6133: 'Calculator' is declared but its value is never read.
+src/pages/accounts/AccountDetailPage.tsx(8,9): error TS6133: 'navigate' is declared but its value is never read.
+src/pages/accounts/AccountFormPage.tsx(9,3): error TS6133: 'Calculator' is declared but its value is never read.
+src/pages/admin/AdminBrandingPage.tsx(9,10): error TS6133: 'branding' is declared but its value is never read.
+src/pages/agedBalance/AgedBalancePage.tsx(11,3): error TS6133: 'Users' is declared but its value is never read.
+src/pages/audit/AuditLogsPage.tsx(2,36): error TS6133: 'Shield' is declared but its value is never read.
+src/pages/audit/AuditLogsPage.tsx(2,55): error TS6133: 'Info' is declared but its value is never read.
+src/pages/audit/AuditLogsPage.tsx(2,61): error TS6133: 'AlertTriangle' is declared but its value is never read.
+src/pages/auth/ForgotPasswordPage.tsx(6,38): error TS6133: 'CheckCircle2' is declared but its value is never read.
+src/pages/auth/ForgotPasswordPage.tsx(114,16): error TS2552: Cannot find name 'CheckCircle'. Did you mean 'CheckCircle2'?
+src/pages/auth/ResetPasswordPage.tsx(6,10): error TS6133: 'Mail' is declared but its value is never read.
+src/pages/auth/ResetPasswordPage.tsx(6,44): error TS6133: 'CheckCircle2' is declared but its value is never read.
+src/pages/auth/ResetPasswordPage.tsx(130,16): error TS2552: Cannot find name 'CheckCircle'. Did you mean 'CheckCircle2'?
+src/pages/auth/ResetPasswordPage.tsx(184,16): error TS2304: Cannot find name 'AlertTriangle'.
+src/pages/balanceValidation/BalanceValidationPage.tsx(10,3): error TS6133: 'Download' is declared but its value is never read.
+src/pages/balanceValidation/BalanceValidationPage.tsx(14,3): error TS6133: 'BalanceValidationResult' is declared but its value is never read.
+src/pages/bankReconciliation/BankReconciliationPage.tsx(9,3): error TS6133: 'Download' is declared but its value is never read.
+src/pages/bankReconciliation/BankReconciliationPage.tsx(11,3): error TS6133: 'Calendar' is declared but its value is never read.
+src/pages/bankReconciliation/BankReconciliationPage.tsx(12,3): error TS6133: 'Building2' is declared but its value is never read.
+src/pages/bankReconciliation/BankReconciliationPage.tsx(13,3): error TS6133: 'Search' is declared but its value is never read.
+src/pages/bankReconciliation/BankReconciliationPage.tsx(14,3): error TS6133: 'Filter' is declared but its value is never read.
+src/pages/bankReconciliation/BankReconciliationPage.tsx(18,3): error TS6133: 'BankTransaction' is declared but its value is never read.
+src/pages/contracts/ContractEditorPage.tsx(4,3): error TS6133: 'FileText' is declared but its value is never read.
+src/pages/contracts/ContractEditorPage.tsx(9,3): error TS6133: 'CheckCircle2' is declared but its value is never read.
+src/pages/contracts/ContractEditorPage.tsx(13,3): error TS6133: 'Download' is declared but its value is never read.
+src/pages/contracts/ContractEditorPage.tsx(16,1): error TS6133: 'accountantService' is declared but its value is never read.
+src/pages/contracts/ContractEditorPage.tsx(28,10): error TS6133: 'contract' is declared but its value is never read.
+src/pages/contracts/ContractEditorPage.tsx(354,34): error TS2339: Property 'dialogProps' does not exist on type '{ isOpen: boolean; options: ConfirmOptions; confirm: (opts: ConfirmOptions) => Promise<{ confirmed: boolean; justification?: string | undefined; }>; handleConfirm: (justification?: string | undefined) => void; handleCancel: () => void; }'.
+src/pages/creditNotes/CreditNoteDetailPage.tsx(13,3): error TS6133: 'Clock' is declared but its value is never read.
+src/pages/creditNotes/CreditNoteDetailPage.tsx(22,9): error TS6133: 'navigate' is declared but its value is never read.
+src/pages/creditNotes/CreditNoteDetailPage.tsx(282,8): error TS2739: Type '{}' is missing the following properties from type 'ConfirmDialogProps': isOpen, onClose, onConfirm, title, message
+src/pages/creditNotes/CreditNoteFormPage.tsx(22,24): error TS6133: 'showError' is declared but its value is never read.
+src/pages/creditNotes/CreditNotesListPage.tsx(13,3): error TS6133: 'Clock' is declared but its value is never read.
+src/pages/creditNotes/CreditNotesListPage.tsx(16,3): error TS6133: 'ArrowRight' is declared but its value is never read.
+src/pages/creditNotes/CreditNotesListPage.tsx(126,15): error TS2322: Type 'ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>' is not assignable to type 'ReactNode'.
+src/pages/creditNotes/CreditNotesListPage.tsx(134,15): error TS2322: Type 'ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>' is not assignable to type 'ReactNode'.
+src/pages/creditNotes/CreditNotesListPage.tsx(142,15): error TS2322: Type 'ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>' is not assignable to type 'ReactNode'.
+src/pages/creditNotes/CreditNotesListPage.tsx(342,8): error TS2739: Type '{}' is missing the following properties from type 'ConfirmDialogProps': isOpen, onClose, onConfirm, title, message
+src/pages/customers/CustomersListPage.tsx(2,10): error TS6133: 'Link' is declared but its value is never read.
+src/pages/depreciations/DepreciationsPage.tsx(9,3): error TS6133: 'Calendar' is declared but its value is never read.
+src/pages/depreciations/DepreciationsPage.tsx(13,3): error TS6133: 'FileText' is declared but its value is never read.
+src/pages/depreciations/DepreciationsPage.tsx(31,9): error TS6133: 'navigate' is declared but its value is never read.
+src/pages/expenses/ExpenseApprovalPage.tsx(12,3): error TS6133: 'DollarSign' is declared but its value is never read.
+src/pages/expenses/ExpenseApprovalPage.tsx(22,9): error TS6133: 'navigate' is declared but its value is never read.
+src/pages/expenses/ExpenseDetailPage.tsx(4,3): error TS6133: 'ArrowLeft' is declared but its value is never read.
+src/pages/expenses/ExpenseDetailPage.tsx(9,3): error TS6133: 'Building2' is declared but its value is never read.
+src/pages/expenses/ExpenseDetailPage.tsx(10,3): error TS6133: 'Calendar' is declared but its value is never read.
+src/pages/expenses/ExpenseDetailPage.tsx(11,3): error TS6133: 'DollarSign' is declared but its value is never read.
+src/pages/expenses/ExpenseDetailPage.tsx(12,3): error TS6133: 'CreditCard' is declared but its value is never read.
+src/pages/expenses/ExpenseDetailPage.tsx(14,3): error TS6133: 'AlertCircle' is declared but its value is never read.
+src/pages/expenses/ExpenseDetailPage.tsx(17,3): error TS6133: 'Clock' is declared but its value is never read.
+src/pages/expenses/ExpenseDetailPage.tsx(35,10): error TS6133: 'loadingAttachments' is declared but its value is never read.
+src/pages/expenses/ExpenseFormPage.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/pages/expenses/ExpensesListPage.tsx(23,1): error TS6133: 'FeatureLockOverlay' is declared but its value is never read.
+src/pages/financialStatements/FinancialStatementsPage.tsx(8,3): error TS6133: 'Download' is declared but its value is never read.
+src/pages/financialStatements/FinancialStatementsPage.tsx(18,1): error TS6192: All imports in import declaration are unused.
+src/pages/fiscalExport/FiscalExportPage.tsx(7,3): error TS6133: 'Calendar' is declared but its value is never read.
+src/pages/fiscalExport/FiscalExportPage.tsx(10,3): error TS6133: 'RefreshCw' is declared but its value is never read.
+src/pages/fiscalExport/FiscalExportPage.tsx(13,1): error TS6133: 'formatDate' is declared but its value is never read.
+src/pages/fiscalPeriods/FiscalPeriodsPage.tsx(3,3): error TS6133: 'Calendar' is declared but its value is never read.
+src/pages/fiscalPeriods/FiscalPeriodsPage.tsx(9,3): error TS6133: 'Edit' is declared but its value is never read.
+src/pages/fiscalPeriods/FiscalPeriodsPage.tsx(35,10): error TS6133: 'editingPeriod' is declared but its value is never read.
+src/pages/fiscalPeriods/FiscalPeriodsPage.tsx(35,25): error TS6133: 'setEditingPeriod' is declared but its value is never read.
+src/pages/fiscalPeriods/FiscalPeriodsPage.tsx(163,50): error TS2554: Expected 1 arguments, but got 2.
+src/pages/hr/EmployeeDetailPage.tsx(9,3): error TS6133: 'User' is declared but its value is never read.
+src/pages/hr/EmployeeDetailPage.tsx(10,3): error TS6133: 'FileText' is declared but its value is never read.
+src/pages/hr/EmployeeDetailPage.tsx(18,3): error TS6133: 'PieChart' is declared but its value is never read.
+src/pages/hr/EmployeeDetailPage.tsx(30,9): error TS6133: 'navigate' is declared but its value is never read.
+src/pages/hr/EmployeeDetailPage.tsx(40,10): error TS6133: 'attendanceStats' is declared but its value is never read.
+src/pages/hr/EmployeeFormPage.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/pages/hr/EmployeesListPage.tsx(3,82): error TS6133: 'MapPin' is declared but its value is never read.
+src/pages/hr/EmployeesListPage.tsx(10,9): error TS6133: 'navigate' is declared but its value is never read.
+src/pages/hr/PayrollFormPage.tsx(3,61): error TS6133: 'Calendar' is declared but its value is never read.
+src/pages/invoices/InvoiceDetailPage.tsx(3,16): error TS6133: 'MessageSquare' is declared but its value is never read.
+src/pages/invoices/InvoiceDetailPage.tsx(3,37): error TS6133: 'CheckCircle' is declared but its value is never read.
+src/pages/invoices/InvoiceDetailPage.tsx(3,92): error TS6133: 'FileText' is declared but its value is never read.
+src/pages/invoices/InvoiceDetailPage.tsx(204,14): error TS2304: Cannot find name 'AlertCircle'.
+src/pages/invoices/InvoiceDetailPage.tsx(409,65): error TS2322: Type '"sms"' is not assignable to type '"email" | "whatsapp"'.
+src/pages/invoices/InvoiceDetailPage.tsx(564,29): error TS2339: Property 'remainingBalance' does not exist on type 'Invoice'.
+src/pages/invoices/InvoiceDetailPage.tsx(720,49): error TS2339: Property 'phone' does not exist on type '{ id: string; type: string; firstName?: string | undefined; lastName?: string | undefined; businessName?: string | undefined; email?: string | undefined; }'.
+src/pages/invoices/InvoiceDetailPage.tsx(720,78): error TS2339: Property 'mobile' does not exist on type '{ id: string; type: string; firstName?: string | undefined; lastName?: string | undefined; businessName?: string | undefined; email?: string | undefined; }'.
+src/pages/invoices/InvoiceDetailPage.tsx(726,40): error TS2339: Property 'phone' does not exist on type '{ id: string; type: string; firstName?: string | undefined; lastName?: string | undefined; businessName?: string | undefined; email?: string | undefined; }'.
+src/pages/invoices/InvoiceDetailPage.tsx(726,68): error TS2339: Property 'mobile' does not exist on type '{ id: string; type: string; firstName?: string | undefined; lastName?: string | undefined; businessName?: string | undefined; email?: string | undefined; }'.
+src/pages/invoices/InvoiceDetailPage.tsx(728,42): error TS2339: Property 'phone' does not exist on type '{ id: string; type: string; firstName?: string | undefined; lastName?: string | undefined; businessName?: string | undefined; email?: string | undefined; }'.
+src/pages/invoices/InvoiceDetailPage.tsx(728,68): error TS2339: Property 'mobile' does not exist on type '{ id: string; type: string; firstName?: string | undefined; lastName?: string | undefined; businessName?: string | undefined; email?: string | undefined; }'.
+src/pages/invoices/InvoicePreviewPage.tsx(3,32): error TS6133: 'Mail' is declared but its value is never read.
+src/pages/invoices/InvoicePreviewPage.tsx(3,38): error TS6133: 'FileText' is declared but its value is never read.
+src/pages/invoices/InvoicePreviewPage.tsx(3,48): error TS6133: 'Eye' is declared but its value is never read.
+src/pages/invoices/InvoicesListPage.tsx(2,10): error TS6133: 'Link' is declared but its value is never read.
+src/pages/invoices/InvoicesListPage.tsx(99,37): error TS6133: 'fromEmptyState' is declared but its value is never read.
+src/pages/invoices/InvoicesListPage.tsx(510,78): error TS2552: Cannot find name 'formatDate'. Did you mean 'FormData'?
+src/pages/journalEntries/JournalEntriesListPage.tsx(12,3): error TS6133: 'XCircle' is declared but its value is never read.
+src/pages/journalEntries/JournalEntriesListPage.tsx(13,3): error TS6133: 'Filter' is declared but its value is never read.
+src/pages/journalEntries/JournalEntriesListPage.tsx(55,10): error TS6133: 'showFilters' is declared but its value is never read.
+src/pages/journalEntries/JournalEntriesListPage.tsx(55,23): error TS6133: 'setShowFilters' is declared but its value is never read.
+src/pages/journalEntries/JournalEntriesListPage.tsx(117,33): error TS2339: Property 'delete' does not exist on type 'JournalEntryService'.
+src/pages/journalEntries/JournalEntriesListPage.tsx(140,45): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/pages/journalEntries/JournalEntriesListPage.tsx(487,50): error TS2552: Cannot find name 'handlePost'. Did you mean 'handleSort'?
+src/pages/journalEntries/JournalEntryDetailPage.tsx(7,3): error TS6133: 'FileText' is declared but its value is never read.
+src/pages/journalEntries/JournalEntryDetailPage.tsx(11,3): error TS6133: 'XCircle' is declared but its value is never read.
+src/pages/journalEntries/JournalEntryDetailPage.tsx(70,33): error TS2339: Property 'delete' does not exist on type 'JournalEntryService'.
+src/pages/journalEntries/JournalEntryDetailPage.tsx(93,46): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/pages/journalEntries/JournalEntryDetailPage.tsx(191,32): error TS2304: Cannot find name 'handlePost'.
+src/pages/journalEntries/JournalEntryFormPage.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/pages/onboarding/AccountantSelectPlanPage.tsx(16,1): error TS6133: 'useAuthStore' is declared but its value is never read.
+src/pages/payments/PaymentDetailPage.tsx(11,3): error TS6133: 'AlertCircle' is declared but its value is never read.
+src/pages/payments/PaymentsListPage.tsx(12,9): error TS6133: 'navigate' is declared but its value is never read.
+src/pages/payments/PaymentsListPage.tsx(459,10): error TS2304: Cannot find name 'PaymentDetailSlideIn'.
+src/pages/products/ProductsListPage.tsx(2,10): error TS6133: 'Link' is declared but its value is never read.
+src/pages/products/ProductsListPage.tsx(30,10): error TS6133: 'stockAlerts' is declared but its value is never read.
+src/pages/quotations/QuotationFormPage.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/pages/reconciliation/ReconciliationPage.tsx(9,3): error TS6133: 'Download' is declared but its value is never read.
+src/pages/recurringInvoices/RecurringInvoiceFormPage.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/pages/recurringInvoices/RecurringInvoicesListPage.tsx(6,3): error TS6133: 'Play' is declared but its value is never read.
+src/pages/recurringInvoices/RecurringInvoicesListPage.tsx(7,3): error TS6133: 'Pause' is declared but its value is never read.
+src/pages/recurringInvoices/RecurringInvoicesListPage.tsx(8,3): error TS6133: 'Edit' is declared but its value is never read.
+src/pages/recurringInvoices/RecurringInvoicesListPage.tsx(9,3): error TS6133: 'Trash2' is declared but its value is never read.
+src/pages/recurringInvoices/RecurringInvoicesListPage.tsx(31,10): error TS6133: 'filterActive' is declared but its value is never read.
+src/pages/recurringInvoices/RecurringInvoicesListPage.tsx(31,24): error TS6133: 'setFilterActive' is declared but its value is never read.
+src/pages/settings/AccountantsSearchPage.tsx(2,87): error TS6133: 'CheckCircle2' is declared but its value is never read.
+src/pages/settings/AccountantsSearchPage.tsx(41,30): error TS2339: Property 'pagination' does not exist on type '{ accountants: Accountant[]; total: number; page: number; limit: number; totalPages: number; }'.
+src/pages/settings/AccountantsSearchPage.tsx(64,7): error TS2322: Type '"default"' is not assignable to type '"warning" | "info" | "danger" | undefined'.
+src/pages/settings/AccountantsSearchPage.tsx(85,20): error TS2339: Property 'firstName' does not exist on type 'Accountant'.
+src/pages/settings/AccountantsSearchPage.tsx(85,44): error TS2339: Property 'lastName' does not exist on type 'Accountant'.
+src/pages/settings/AccountantsSearchPage.tsx(86,28): error TS2339: Property 'firstName' does not exist on type 'Accountant'.
+src/pages/settings/AccountantsSearchPage.tsx(86,58): error TS2339: Property 'lastName' does not exist on type 'Accountant'.
+src/pages/settings/AccountantsSearchPage.tsx(88,12): error TS18048: 'accountant.email' is possibly 'undefined'.
+src/pages/settings/AccountantsSearchPage.tsx(184,33): error TS2339: Property 'profile' does not exist on type 'Accountant'.
+src/pages/settings/AccountantsSearchPage.tsx(186,31): error TS2339: Property 'profile' does not exist on type 'Accountant'.
+src/pages/settings/AccountantsSearchPage.tsx(190,29): error TS2339: Property 'profile' does not exist on type 'Accountant'.
+src/pages/settings/AccountantsSearchPage.tsx(193,71): error TS2339: Property 'profile' does not exist on type 'Accountant'.
+src/pages/settings/AccountantsSearchPage.tsx(200,29): error TS2339: Property 'profile' does not exist on type 'Accountant'.
+src/pages/settings/AccountantsSearchPage.tsx(200,57): error TS2339: Property 'profile' does not exist on type 'Accountant'.
+src/pages/settings/AccountantsSearchPage.tsx(204,35): error TS2339: Property 'profile' does not exist on type 'Accountant'.
+src/pages/settings/AccountantsSearchPage.tsx(205,35): error TS2339: Property 'profile' does not exist on type 'Accountant'.
+src/pages/settings/AccountantsSearchPage.tsx(205,71): error TS2339: Property 'profile' does not exist on type 'Accountant'.
+src/pages/settings/AccountantsSearchPage.tsx(206,35): error TS2339: Property 'profile' does not exist on type 'Accountant'.
+src/pages/settings/AccountantsSearchPage.tsx(206,70): error TS2339: Property 'profile' does not exist on type 'Accountant'.
+src/pages/settings/AccountantsSearchPage.tsx(216,29): error TS2339: Property 'profile' does not exist on type 'Accountant'.
+src/pages/settings/AccountantsSearchPage.tsx(219,39): error TS2339: Property 'profile' does not exist on type 'Accountant'.
+src/pages/settings/AccountantsSearchPage.tsx(222,29): error TS2339: Property 'profile' does not exist on type 'Accountant'.
+src/pages/settings/AccountantsSearchPage.tsx(226,40): error TS2339: Property 'profile' does not exist on type 'Accountant'.
+src/pages/settings/AccountantsSearchPage.tsx(237,37): error TS2339: Property 'activeCompaniesCount' does not exist on type 'Accountant'.
+src/pages/settings/AccountantsSearchPage.tsx(237,81): error TS2339: Property 'activeCompaniesCount' does not exist on type 'Accountant'.
+src/pages/settings/AccountantsSearchPage.tsx(242,27): error TS2339: Property 'profile' does not exist on type 'Accountant'.
+src/pages/settings/AccountantsSearchPage.tsx(242,65): error TS2339: Property 'profile' does not exist on type 'Accountant'.
+src/pages/settings/AccountantsSearchPage.tsx(245,33): error TS2339: Property 'profile' does not exist on type 'Accountant'.
+src/pages/settings/AccountantsSearchPage.tsx(245,73): error TS7006: Parameter 'spec' implicitly has an 'any' type.
+src/pages/settings/AccountantsSearchPage.tsx(245,79): error TS7006: Parameter 'idx' implicitly has an 'any' type.
+src/pages/settings/AccountantsSearchPage.tsx(260,34): error TS2552: Cannot find name 'navigate'. Did you mean 'navigator'?
+src/pages/settings/AccountantsSearchPage.tsx(263,20): error TS2304: Cannot find name 'FileText'.
+src/pages/settings/AccountantsSearchPage.tsx(268,73): error TS2339: Property 'profile' does not exist on type 'Accountant'.
+src/pages/settings/AccountantsSearchPage.tsx(283,30): error TS2339: Property 'profile' does not exist on type 'Accountant'.
+src/pages/settings/AccountantsSearchPage.tsx(317,34): error TS2339: Property 'dialogProps' does not exist on type '{ isOpen: boolean; options: ConfirmOptions; confirm: (opts: ConfirmOptions) => Promise<{ confirmed: boolean; justification?: string | undefined; }>; handleConfirm: (justification?: string | undefined) => void; handleCancel: () => void; }'.
+src/pages/settings/CompanySettingsPage.tsx(157,13): error TS6133: 'result' is declared but its value is never read.
+src/pages/settings/SettingsPage.tsx(2,21): error TS6133: 'User' is declared but its value is never read.
+src/pages/settings/SettingsPage.tsx(18,9): error TS6133: 'isAdmin' is declared but its value is never read.
+src/pages/settings/UsersPage.tsx(5,1): error TS6133: 'QuotaErrorModal' is declared but its value is never read.
+src/pages/stock/StockMovementsListPage.tsx(70,7): error TS2353: Object literal may only specify known properties, and 'reference' does not exist in type 'SetStateAction<StockMovementFilters>'.
+src/pages/stock/StockMovementsListPage.tsx(78,7): error TS2322: Type 'string | undefined' is not assignable to type '"IN" | "OUT" | "ADJUSTMENT" | "TRANSFER" | undefined'.
+  Type 'string' is not assignable to type '"IN" | "OUT" | "ADJUSTMENT" | "TRANSFER" | undefined'.
+src/pages/stock/StockMovementsListPage.tsx(79,7): error TS2322: Type 'string | undefined' is not assignable to type '"DRAFT" | "VALIDATED" | undefined'.
+  Type 'string' is not assignable to type '"DRAFT" | "VALIDATED" | undefined'.
+src/pages/suppliers/SupplierDetailPage.tsx(4,3): error TS6133: 'ArrowLeft' is declared but its value is never read.
+src/pages/suppliers/SupplierDetailPage.tsx(6,3): error TS6133: 'Building2' is declared but its value is never read.
+src/pages/suppliers/SupplierDetailPage.tsx(7,3): error TS6133: 'Calendar' is declared but its value is never read.
+src/pages/suppliers/SupplierDetailPage.tsx(8,3): error TS6133: 'DollarSign' is declared but its value is never read.
+src/pages/suppliers/SupplierDetailPage.tsx(10,3): error TS6133: 'AlertCircle' is declared but its value is never read.
+src/pages/suppliers/SupplierFormPage.tsx(1,1): error TS6133: 'React' is declared but its value is never read.
+src/pages/suppliers/SuppliersListPage.tsx(2,10): error TS6133: 'Link' is declared but its value is never read.
+src/pages/tva/VATPage.tsx(6,3): error TS6133: 'Download' is declared but its value is never read.
+src/pages/warehouses/WarehouseListPage.tsx(2,10): error TS6133: 'Link' is declared but its value is never read.
+src/pages/warehouses/WarehouseListPage.tsx(222,25): error TS2322: Type '{ items: ({ label: string; icon: ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>; onClick: () => void; } | { ...; })[]; }' is not assignable to type 'IntrinsicAttributes & ActionsMenuProps'.
+  Property 'items' does not exist on type 'IntrinsicAttributes & ActionsMenuProps'.
+src/pages/warehouses/WarehouseListPage.tsx(250,8): error TS2739: Type '{}' is missing the following properties from type 'ConfirmDialogProps': isOpen, onClose, onConfirm, title, message
+src/services/journalEntryValidation.service.ts(1,19): error TS6133: 'AccountType' is declared but its value is never read.
+src/services/syscohadaChartOfAccounts.service.ts(594,35): error TS6133: 'companyId' is declared but its value is never read.
+src/utils/featureToggle.ts(1,1): error TS6133: 'packageService' is declared but its value is never read.

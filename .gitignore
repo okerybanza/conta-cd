@@ -1,0 +1,60 @@
+node_modules/
+dist/
+.env
+.env.local
+uploads/
+logs/
+visa-keys/
+backups/
+*.js.map
+Nova-Bootstrap.zip
+Pricing design.png
+invoices/
+migrate_to_kazurih.sh
+create_crudix_data.py
+src/
+# Fichiers sensibles
+backend/.env.backup
+backend/.env.dev
+backend/.env.test
+backend/full_test_output.txt
+backend/test_output.txt
+backend/check-token-expiry.js
+backend/generate-whatsapp-token*.js
+backend/test-whatsapp.ts
+backend/check_prisma.ts
+
+# Fichiers de build et debug frontend
+frontend/build_full_log.txt
+frontend/build_output.txt
+frontend/tsc_errors.txt
+
+# Images et fichiers design dans public/
+frontend/public/*.jpeg
+frontend/public/*.jpg
+frontend/public/*.png
+frontend/public/*.webp
+frontend/public/*.docx
+frontend/public/images/
+frontend/public/invoice-templates/
+frontend/public/invoices-raaka_lyra_en-us.webp
+frontend/public/sales-invoice-template-1x.png
+
+# Résultats de tests
+tests/e2e/playwright-report/
+tests/e2e/test-results/
+tests/e2e/test-output.log
+tests/e2e/test_output.txt
+tests/e2e/package-lock.json
+
+# Fichiers divers
+*.txt
+deploy.sh
+rollback.sh
+validate.sh
+backend/.env.backup
+backend/.env.dev
+backend/.env.test
+backend/.env.backup
+backend/.env.dev
+backend/.env.test

@@ -1,0 +1,1501 @@
+
+> conta-backend@1.0.0 test
+> jest --runInBand --forceExit
+
+PASS src/__tests__/services/quotation.service.test.ts (10.131 s)
+PASS src/__tests__/services/recurringInvoice.service.test.ts
+PASS src/__tests__/services/creditNote.service.test.ts
+FAIL src/__tests__/integration/recurringInvoice.integration.test.ts
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/conta/conta.cd/backend/node_modules/uuid/dist-node/index.js:1
+    ({"Object.<anonymous>":function(module,exports,require,__dirname,__filename,jest){export { default as MAX } from './max.js';
+                                                                                      ^^^^^^
+
+    SyntaxError: Unexpected token 'export'
+
+       5 | import invoiceService from './invoice.service';
+       6 | import { InvoiceLineData } from './invoice.service';
+    >  7 | import { v4 as uuidv4 } from 'uuid';
+         | ^
+       8 |
+       9 | export interface RecurringInvoiceLineData {
+      10 |   productId?: string;
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.<anonymous> (src/services/recurringInvoice.service.ts:7:1)
+      at Object.<anonymous> (src/__tests__/integration/recurringInvoice.integration.test.ts:11:1)
+
+FAIL src/__tests__/integration/creditNote.integration.test.ts
+  ● Console
+
+    console.log
+      [32minfo[39m: Email transporter initialized {"host":"localhost","port":587,"secure":false,"service":"conta-backend","timestamp":"2026-01-07 13:47:49"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: ✅ Queue service initialized with Redis {"service":"conta-backend","timestamp":"2026-01-07 13:47:49"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.warn
+      It is highly recommended to use a minimum Redis version of 6.2.0
+                   Current: 6.0.16
+
+      at RedisConnection.init (node_modules/bullmq/src/classes/redis-connection.ts:270:19)
+
+    console.warn
+      It is highly recommended to use a minimum Redis version of 6.2.0
+                   Current: 6.0.16
+
+      at RedisConnection.init (node_modules/bullmq/src/classes/redis-connection.ts:270:19)
+
+    console.warn
+      It is highly recommended to use a minimum Redis version of 6.2.0
+                   Current: 6.0.16
+
+      at RedisConnection.init (node_modules/bullmq/src/classes/redis-connection.ts:270:19)
+
+    console.log
+      [33mwarn[39m: No subscription found for company c17fb6a7-0460-4a56-89e2-993e9dcd257a, returning null limit {"service":"conta-backend","timestamp":"2026-01-07 13:47:49"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      prisma:error 
+      Invalid `prisma.quotation_lines.deleteMany()` invocation in
+      /home/conta/conta.cd/backend/src/__tests__/helpers/test-db.ts:154:34
+      
+        151 });
+        152 
+        153 // Supprimer les devis et leurs lignes
+      → 154 await prisma.quotation_lines.deleteMany(
+      Error occurred during query execution:
+      ConnectorError(ConnectorError { user_facing_error: None, kind: QueryError(PostgresError { code: "42501", message: "permission denied for table quotation_lines", severity: "ERROR", detail: None, column: None, hint: None }), transient: false })
+
+      at Object.mc (node_modules/.prisma/client/runtime/library.js:21:432)
+
+    console.error
+      Error cleaning up test data: 
+      Invalid `prisma.quotation_lines.deleteMany()` invocation in
+      /home/conta/conta.cd/backend/src/__tests__/helpers/test-db.ts:154:34
+      
+        151 });
+        152 
+        153 // Supprimer les devis et leurs lignes
+      → 154 await prisma.quotation_lines.deleteMany(
+      Error occurred during query execution:
+      ConnectorError(ConnectorError { user_facing_error: None, kind: QueryError(PostgresError { code: "42501", message: "permission denied for table quotation_lines", severity: "ERROR", detail: None, column: None, hint: None }), transient: false })
+
+      202 |     });
+      203 |   } catch (error: any) {
+    > 204 |     console.error('Error cleaning up test data:', error.message);
+          |             ^
+      205 |     // Continue même en cas d'erreur pour ne pas bloquer les tests
+      206 |   }
+      207 | }
+
+      at cleanupTestData (src/__tests__/helpers/test-db.ts:204:13)
+      at Object.<anonymous> (src/__tests__/integration/creditNote.integration.test.ts:47:5)
+
+  ● CreditNoteService - Tests d'intégration › create › devrait créer un avoir avec un montant partiel
+
+    Aucun exercice comptable trouvé pour la date 2026-01-07
+
+      152 |     const periodValidation = await fiscalPeriodService.validatePeriod(companyId, invoiceDate);
+      153 |     if (!periodValidation.isValid) {
+    > 154 |       throw new CustomError(periodValidation.message || 'Période comptable verrouillée ou close', 400, 'INVALID_PERIOD');
+          |             ^
+      155 |     }
+      156 |
+      157 |     // Générer le numéro de facture
+
+      at InvoiceService.create (src/services/invoice.service.ts:154:13)
+      at Object.<anonymous> (src/__tests__/integration/creditNote.integration.test.ts:30:19)
+
+  ● CreditNoteService - Tests d'intégration › create › devrait créer un avoir avec le montant total
+
+    Aucun exercice comptable trouvé pour la date 2026-01-07
+
+      152 |     const periodValidation = await fiscalPeriodService.validatePeriod(companyId, invoiceDate);
+      153 |     if (!periodValidation.isValid) {
+    > 154 |       throw new CustomError(periodValidation.message || 'Période comptable verrouillée ou close', 400, 'INVALID_PERIOD');
+          |             ^
+      155 |     }
+      156 |
+      157 |     // Générer le numéro de facture
+
+      at InvoiceService.create (src/services/invoice.service.ts:154:13)
+      at Object.<anonymous> (src/__tests__/integration/creditNote.integration.test.ts:30:19)
+
+  ● CreditNoteService - Tests d'intégration › create › devrait échouer avec une facture inexistante
+
+    Aucun exercice comptable trouvé pour la date 2026-01-07
+
+      152 |     const periodValidation = await fiscalPeriodService.validatePeriod(companyId, invoiceDate);
+      153 |     if (!periodValidation.isValid) {
+    > 154 |       throw new CustomError(periodValidation.message || 'Période comptable verrouillée ou close', 400, 'INVALID_PERIOD');
+          |             ^
+      155 |     }
+      156 |
+      157 |     // Générer le numéro de facture
+
+      at InvoiceService.create (src/services/invoice.service.ts:154:13)
+      at Object.<anonymous> (src/__tests__/integration/creditNote.integration.test.ts:30:19)
+
+  ● CreditNoteService - Tests d'intégration › create › devrait échouer avec un montant supérieur au total de la facture
+
+    Aucun exercice comptable trouvé pour la date 2026-01-07
+
+      152 |     const periodValidation = await fiscalPeriodService.validatePeriod(companyId, invoiceDate);
+      153 |     if (!periodValidation.isValid) {
+    > 154 |       throw new CustomError(periodValidation.message || 'Période comptable verrouillée ou close', 400, 'INVALID_PERIOD');
+          |             ^
+      155 |     }
+      156 |
+      157 |     // Générer le numéro de facture
+
+      at InvoiceService.create (src/services/invoice.service.ts:154:13)
+      at Object.<anonymous> (src/__tests__/integration/creditNote.integration.test.ts:30:19)
+
+  ● CreditNoteService - Tests d'intégration › list › devrait lister les avoirs avec pagination
+
+    Aucun exercice comptable trouvé pour la date 2026-01-07
+
+      152 |     const periodValidation = await fiscalPeriodService.validatePeriod(companyId, invoiceDate);
+      153 |     if (!periodValidation.isValid) {
+    > 154 |       throw new CustomError(periodValidation.message || 'Période comptable verrouillée ou close', 400, 'INVALID_PERIOD');
+          |             ^
+      155 |     }
+      156 |
+      157 |     // Générer le numéro de facture
+
+      at InvoiceService.create (src/services/invoice.service.ts:154:13)
+      at Object.<anonymous> (src/__tests__/integration/creditNote.integration.test.ts:30:19)
+
+  ● CreditNoteService - Tests d'intégration › list › devrait filtrer par statut
+
+    Aucun exercice comptable trouvé pour la date 2026-01-07
+
+      152 |     const periodValidation = await fiscalPeriodService.validatePeriod(companyId, invoiceDate);
+      153 |     if (!periodValidation.isValid) {
+    > 154 |       throw new CustomError(periodValidation.message || 'Période comptable verrouillée ou close', 400, 'INVALID_PERIOD');
+          |             ^
+      155 |     }
+      156 |
+      157 |     // Générer le numéro de facture
+
+      at InvoiceService.create (src/services/invoice.service.ts:154:13)
+      at Object.<anonymous> (src/__tests__/integration/creditNote.integration.test.ts:30:19)
+
+  ● CreditNoteService - Tests d'intégration › getById › devrait récupérer un avoir par son ID
+
+    Aucun exercice comptable trouvé pour la date 2026-01-07
+
+      152 |     const periodValidation = await fiscalPeriodService.validatePeriod(companyId, invoiceDate);
+      153 |     if (!periodValidation.isValid) {
+    > 154 |       throw new CustomError(periodValidation.message || 'Période comptable verrouillée ou close', 400, 'INVALID_PERIOD');
+          |             ^
+      155 |     }
+      156 |
+      157 |     // Générer le numéro de facture
+
+      at InvoiceService.create (src/services/invoice.service.ts:154:13)
+      at Object.<anonymous> (src/__tests__/integration/creditNote.integration.test.ts:30:19)
+
+  ● CreditNoteService - Tests d'intégration › getById › devrait échouer avec un ID inexistant
+
+    Aucun exercice comptable trouvé pour la date 2026-01-07
+
+      152 |     const periodValidation = await fiscalPeriodService.validatePeriod(companyId, invoiceDate);
+      153 |     if (!periodValidation.isValid) {
+    > 154 |       throw new CustomError(periodValidation.message || 'Période comptable verrouillée ou close', 400, 'INVALID_PERIOD');
+          |             ^
+      155 |     }
+      156 |
+      157 |     // Générer le numéro de facture
+
+      at InvoiceService.create (src/services/invoice.service.ts:154:13)
+      at Object.<anonymous> (src/__tests__/integration/creditNote.integration.test.ts:30:19)
+
+  ● CreditNoteService - Tests d'intégration › update › devrait mettre à jour un avoir
+
+    Aucun exercice comptable trouvé pour la date 2026-01-07
+
+      152 |     const periodValidation = await fiscalPeriodService.validatePeriod(companyId, invoiceDate);
+      153 |     if (!periodValidation.isValid) {
+    > 154 |       throw new CustomError(periodValidation.message || 'Période comptable verrouillée ou close', 400, 'INVALID_PERIOD');
+          |             ^
+      155 |     }
+      156 |
+      157 |     // Générer le numéro de facture
+
+      at InvoiceService.create (src/services/invoice.service.ts:154:13)
+      at Object.<anonymous> (src/__tests__/integration/creditNote.integration.test.ts:30:19)
+
+  ● CreditNoteService - Tests d'intégration › delete › devrait supprimer un avoir (soft delete)
+
+    Aucun exercice comptable trouvé pour la date 2026-01-07
+
+      152 |     const periodValidation = await fiscalPeriodService.validatePeriod(companyId, invoiceDate);
+      153 |     if (!periodValidation.isValid) {
+    > 154 |       throw new CustomError(periodValidation.message || 'Période comptable verrouillée ou close', 400, 'INVALID_PERIOD');
+          |             ^
+      155 |     }
+      156 |
+      157 |     // Générer le numéro de facture
+
+      at InvoiceService.create (src/services/invoice.service.ts:154:13)
+      at Object.<anonymous> (src/__tests__/integration/creditNote.integration.test.ts:30:19)
+
+  ● CreditNoteService - Tests d'intégration › applyCreditNote › devrait appliquer un avoir à une facture
+
+    Aucun exercice comptable trouvé pour la date 2026-01-07
+
+      152 |     const periodValidation = await fiscalPeriodService.validatePeriod(companyId, invoiceDate);
+      153 |     if (!periodValidation.isValid) {
+    > 154 |       throw new CustomError(periodValidation.message || 'Période comptable verrouillée ou close', 400, 'INVALID_PERIOD');
+          |             ^
+      155 |     }
+      156 |
+      157 |     // Générer le numéro de facture
+
+      at InvoiceService.create (src/services/invoice.service.ts:154:13)
+      at Object.<anonymous> (src/__tests__/integration/creditNote.integration.test.ts:30:19)
+
+PASS src/__tests__/e2e/01-superadmin-plans.test.ts
+  ● Console
+
+    console.log
+      [32minfo[39m: ✅ Database connected successfully {"service":"conta-backend","timestamp":"2026-01-07 13:47:52"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      prisma:error 
+      Invalid `prisma.packages.deleteMany()` invocation in
+      /home/conta/conta.cd/backend/src/__tests__/e2e/e2e-helpers.ts:147:25
+      
+        144 }
+        145 
+        146 // Supprimer les plans créés
+      → 147 await prisma.packages.deleteMany(
+      Foreign key constraint violated: `subscriptions_package_id_fkey (index)`
+
+      at Object.mc (node_modules/.prisma/client/runtime/library.js:21:432)
+
+PASS src/__tests__/e2e/03-upgrade-plan.test.ts
+  ● Console
+
+    console.log
+      [32minfo[39m: ✅ Database connected successfully {"service":"conta-backend","timestamp":"2026-01-07 13:47:54"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Subscription upgraded: 3456a749-4253-4e96-a182-b48fd8569995 {"companyId":"259f226c-b429-4076-ba6d-c4b8577e3846","newPackageId":"a256e416-975e-45fe-80b6-6467d150c1fb","oldPackageId":"e0751d49-76ec-4848-ba7f-e51c356baf07","service":"conta-backend","timestamp":"2026-01-07 13:47:54","userId":"4955a7fc-756e-45a0-9356-e98bd9faf796"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Email transporter initialized {"host":"localhost","port":587,"secure":false,"service":"conta-backend","timestamp":"2026-01-07 13:47:54"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Email sent successfully {"messageId":"<fc1400ba-c3ea-2790-fe95-1dd194b83ae4@conta.cd>","service":"conta-backend","subject":"Abonnement Mis à Jour - Test Company 1767790074310","timestamp":"2026-01-07 13:47:54","to":"test-user-1767790074319@example.com"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Subscription upgrade email sent {"email":"test-user-1767790074319@example.com","service":"conta-backend","timestamp":"2026-01-07 13:47:54","userId":"4955a7fc-756e-45a0-9356-e98bd9faf796"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Subscription upgraded: 3456a749-4253-4e96-a182-b48fd8569995 {"companyId":"259f226c-b429-4076-ba6d-c4b8577e3846","newPackageId":"2dc4a869-eff0-41e7-9f58-8694957a423c","oldPackageId":"a256e416-975e-45fe-80b6-6467d150c1fb","service":"conta-backend","timestamp":"2026-01-07 13:47:54","userId":"4955a7fc-756e-45a0-9356-e98bd9faf796"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Email sent successfully {"messageId":"<daf0ebef-d72f-ce2b-eda0-8c9f18ac16a2@conta.cd>","service":"conta-backend","subject":"Abonnement Mis à Jour - Test Company 1767790074310","timestamp":"2026-01-07 13:47:54","to":"test-user-1767790074319@example.com"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Subscription upgrade email sent {"email":"test-user-1767790074319@example.com","service":"conta-backend","timestamp":"2026-01-07 13:47:54","userId":"4955a7fc-756e-45a0-9356-e98bd9faf796"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Subscription upgraded: 3456a749-4253-4e96-a182-b48fd8569995 {"companyId":"259f226c-b429-4076-ba6d-c4b8577e3846","newPackageId":"a256e416-975e-45fe-80b6-6467d150c1fb","oldPackageId":"2dc4a869-eff0-41e7-9f58-8694957a423c","service":"conta-backend","timestamp":"2026-01-07 13:47:54","userId":"4955a7fc-756e-45a0-9356-e98bd9faf796"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Email sent successfully {"messageId":"<f3539187-4dd8-6cdd-46f9-1e293e3e2595@conta.cd>","service":"conta-backend","subject":"Abonnement Mis à Jour - Test Company 1767790074310","timestamp":"2026-01-07 13:47:55","to":"test-user-1767790074319@example.com"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Subscription upgrade email sent {"email":"test-user-1767790074319@example.com","service":"conta-backend","timestamp":"2026-01-07 13:47:55","userId":"4955a7fc-756e-45a0-9356-e98bd9faf796"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      prisma:error 
+      Invalid `prisma.quotation_lines.deleteMany()` invocation in
+      /home/conta/conta.cd/backend/src/__tests__/helpers/test-db.ts:154:34
+      
+        151 });
+        152 
+        153 // Supprimer les devis et leurs lignes
+      → 154 await prisma.quotation_lines.deleteMany(
+      Error occurred during query execution:
+      ConnectorError(ConnectorError { user_facing_error: None, kind: QueryError(PostgresError { code: "42501", message: "permission denied for table quotation_lines", severity: "ERROR", detail: None, column: None, hint: None }), transient: false })
+
+      at Object.mc (node_modules/.prisma/client/runtime/library.js:21:432)
+
+    console.error
+      Error cleaning up test data: 
+      Invalid `prisma.quotation_lines.deleteMany()` invocation in
+      /home/conta/conta.cd/backend/src/__tests__/helpers/test-db.ts:154:34
+      
+        151 });
+        152 
+        153 // Supprimer les devis et leurs lignes
+      → 154 await prisma.quotation_lines.deleteMany(
+      Error occurred during query execution:
+      ConnectorError(ConnectorError { user_facing_error: None, kind: QueryError(PostgresError { code: "42501", message: "permission denied for table quotation_lines", severity: "ERROR", detail: None, column: None, hint: None }), transient: false })
+
+      202 |     });
+      203 |   } catch (error: any) {
+    > 204 |     console.error('Error cleaning up test data:', error.message);
+          |             ^
+      205 |     // Continue même en cas d'erreur pour ne pas bloquer les tests
+      206 |   }
+      207 | }
+
+      at cleanupTestData (src/__tests__/helpers/test-db.ts:204:13)
+      at Object.<anonymous> (src/__tests__/e2e/03-upgrade-plan.test.ts:60:5)
+
+PASS src/__tests__/services/stock-movement.service.test.ts
+  ● Console
+
+    console.log
+      [32minfo[39m: Stock movement created (DRAFT) {"companyId":"comp-1","itemsCount":1,"movementId":"7b47b49a-7c1b-455e-9e19-648d0a624db3","movementType":"IN","service":"conta-backend","timestamp":"2026-01-07 13:47:56"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Stock movement validated {"companyId":"comp-1","movementId":"mv-1","movementType":"IN","service":"conta-backend","timestamp":"2026-01-07 13:47:56"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Stock movement reversed {"companyId":"comp-1","originalMovementId":"mv-1","reversalMovementId":"a962ef5c-3d39-4b7d-955b-1cea003de4dc","service":"conta-backend","timestamp":"2026-01-07 13:47:56"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+FAIL src/__tests__/integration/quotation.integration.test.ts
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/conta/conta.cd/backend/node_modules/uuid/dist-node/index.js:1
+    ({"Object.<anonymous>":function(module,exports,require,__dirname,__filename,jest){export { default as MAX } from './max.js';
+                                                                                      ^^^^^^
+
+    SyntaxError: Unexpected token 'export'
+
+       6 | import invoiceService from './invoice.service';
+       7 | import { InvoiceLineData } from './invoice.service';
+    >  8 | import { v4 as uuidv4 } from 'uuid';
+         | ^
+       9 |
+      10 | export interface QuotationLineData {
+      11 |   productId?: string;
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.<anonymous> (src/services/quotation.service.ts:8:1)
+      at Object.<anonymous> (src/__tests__/integration/quotation.integration.test.ts:11:1)
+
+PASS src/__tests__/services/stock.service.test.ts
+FAIL src/__tests__/e2e/02-user-registration-free.test.ts
+  ● Console
+
+    console.log
+      [32minfo[39m: Email transporter initialized {"host":"localhost","port":587,"secure":false,"service":"conta-backend","timestamp":"2026-01-07 13:48:01"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: ✅ Queue service initialized with Redis {"service":"conta-backend","timestamp":"2026-01-07 13:48:01"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.warn
+      It is highly recommended to use a minimum Redis version of 6.2.0
+                   Current: 6.0.16
+
+      at RedisConnection.init (node_modules/bullmq/src/classes/redis-connection.ts:270:19)
+
+    console.warn
+      It is highly recommended to use a minimum Redis version of 6.2.0
+                   Current: 6.0.16
+
+      at RedisConnection.init (node_modules/bullmq/src/classes/redis-connection.ts:270:19)
+
+    console.warn
+      It is highly recommended to use a minimum Redis version of 6.2.0
+                   Current: 6.0.16
+
+      at RedisConnection.init (node_modules/bullmq/src/classes/redis-connection.ts:270:19)
+
+    console.log
+      [32minfo[39m: ✅ Database connected successfully {"service":"conta-backend","timestamp":"2026-01-07 13:48:02"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Customer created: 6788a0e4-1b88-4fdc-94c4-bd63ec2e1c7c {"company_id":"dfee929a-1fb2-4570-aaae-5e25242e0bc3","customerId":"6788a0e4-1b88-4fdc-94c4-bd63ec2e1c7c","service":"conta-backend","timestamp":"2026-01-07 13:48:02","type":"particulier"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Customer created: d597d0ac-3817-4e95-b808-782b178af8ab {"company_id":"dfee929a-1fb2-4570-aaae-5e25242e0bc3","customerId":"d597d0ac-3817-4e95-b808-782b178af8ab","service":"conta-backend","timestamp":"2026-01-07 13:48:02","type":"particulier"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Customer created: 61302330-264d-47dd-a320-fecd680ffdb5 {"company_id":"dfee929a-1fb2-4570-aaae-5e25242e0bc3","customerId":"61302330-264d-47dd-a320-fecd680ffdb5","service":"conta-backend","timestamp":"2026-01-07 13:48:02","type":"particulier"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Customer created: 55eff533-9e11-436f-8d46-ff7916801ea6 {"company_id":"dfee929a-1fb2-4570-aaae-5e25242e0bc3","customerId":"55eff533-9e11-436f-8d46-ff7916801ea6","service":"conta-backend","timestamp":"2026-01-07 13:48:02","type":"particulier"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Customer created: fb33046b-9dfe-40bd-8140-c0e40718022e {"company_id":"dfee929a-1fb2-4570-aaae-5e25242e0bc3","customerId":"fb33046b-9dfe-40bd-8140-c0e40718022e","service":"conta-backend","timestamp":"2026-01-07 13:48:02","type":"particulier"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Customer created: 56891c62-df81-43e2-ace3-27330f2a3c77 {"company_id":"dfee929a-1fb2-4570-aaae-5e25242e0bc3","customerId":"56891c62-df81-43e2-ace3-27330f2a3c77","service":"conta-backend","timestamp":"2026-01-07 13:48:02","type":"particulier"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Customer created: b7ef95b2-bbe8-4417-b576-b2cbd23e37ad {"company_id":"dfee929a-1fb2-4570-aaae-5e25242e0bc3","customerId":"b7ef95b2-bbe8-4417-b576-b2cbd23e37ad","service":"conta-backend","timestamp":"2026-01-07 13:48:02","type":"particulier"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Customer created: ef2a6367-5eba-4cd6-b2fc-6e8ea179a007 {"company_id":"dfee929a-1fb2-4570-aaae-5e25242e0bc3","customerId":"ef2a6367-5eba-4cd6-b2fc-6e8ea179a007","service":"conta-backend","timestamp":"2026-01-07 13:48:02","type":"particulier"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Customer created: 89129965-3915-4cc1-abcf-0f336cb69ee4 {"company_id":"dfee929a-1fb2-4570-aaae-5e25242e0bc3","customerId":"89129965-3915-4cc1-abcf-0f336cb69ee4","service":"conta-backend","timestamp":"2026-01-07 13:48:02","type":"particulier"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Customer created: f2d8bd22-e4de-4f78-9afd-c3f7ac956ee0 {"company_id":"dfee929a-1fb2-4570-aaae-5e25242e0bc3","customerId":"f2d8bd22-e4de-4f78-9afd-c3f7ac956ee0","service":"conta-backend","timestamp":"2026-01-07 13:48:02","type":"particulier"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      prisma:error 
+      Invalid `prisma.invoices.findMany()` invocation in
+      /home/conta/conta.cd/backend/src/services/invoice.service.ts:647:23
+      
+        644 }
+        645 
+        646 const [invoices, total] = await Promise.all([
+      → 647   prisma.invoices.findMany({
+                where: {
+                  companyId: "dfee929a-1fb2-4570-aaae-5e25242e0bc3",
+                  ~~~~~~~~~
+                  deletedAt: null,
+              ?   AND?: invoicesWhereInput | invoicesWhereInput[],
+              ?   OR?: invoicesWhereInput[],
+              ?   NOT?: invoicesWhereInput | invoicesWhereInput[],
+              ?   id?: StringFilter | String,
+              ?   company_id?: StringFilter | String,
+              ?   customer_id?: StringFilter | String,
+              ?   invoice_number?: StringFilter | String,
+              ?   invoice_date?: DateTimeFilter | DateTime,
+              ?   due_date?: DateTimeFilter | DateTime,
+              ?   paid_at?: DateTimeNullableFilter | DateTime | Null,
+              ?   status?: StringFilter | String,
+              ?   paid_amount?: DecimalFilter | Decimal,
+              ?   currency?: StringNullableFilter | String | Null,
+              ?   template_id?: StringNullableFilter | String | Null,
+              ?   notes?: StringNullableFilter | String | Null,
+              ?   payment_terms?: StringNullableFilter | String | Null,
+              ?   sent_at?: DateTimeNullableFilter | DateTime | Null,
+              ?   created_by?: StringNullableFilter | String | Null,
+              ?   created_at?: DateTimeFilter | DateTime,
+              ?   updated_at?: DateTimeFilter | DateTime,
+              ?   deleted_at?: DateTimeNullableFilter | DateTime | Null,
+              ?   cancelled_at?: DateTimeNullableFilter | DateTime | Null,
+              ?   cancelled_by?: StringNullableFilter | String | Null,
+              ?   internal_notes?: StringNullableFilter | String | Null,
+              ?   subtotal?: DecimalFilter | Decimal,
+              ?   tax_amount?: DecimalFilter | Decimal,
+              ?   total_amount?: DecimalFilter | Decimal,
+              ?   reference?: StringNullableFilter | String | Null,
+              ?   po_number?: StringNullableFilter | String | Null,
+              ?   shipping_address?: StringNullableFilter | String | Null,
+              ?   shipping_city?: StringNullableFilter | String | Null,
+              ?   shipping_country?: StringNullableFilter | String | Null,
+              ?   transport_fees?: DecimalNullableFilter | Decimal | Null,
+              ?   platform_fees?: DecimalNullableFilter | Decimal | Null,
+              ?   footer_text?: StringNullableFilter | String | Null,
+              ?   recurring_invoice_id?: StringNullableFilter | String | Null,
+              ?   credit_notes?: Credit_notesListRelationFilter,
+              ?   invoice_lines?: Invoice_linesListRelationFilter,
+              ?   companies?: CompaniesRelationFilter | companiesWhereInput,
+              ?   users?: UsersNullableRelationFilter | usersWhereInput | Null,
+              ?   customers?: CustomersRelationFilter | customersWhereInput,
+              ?   payments?: PaymentsListRelationFilter,
+              ?   quotations?: QuotationsListRelationFilter,
+              ?   recurring_invoices?: Recurring_invoicesNullableRelationFilter | recurring_invoicesWhereInput | Null
+                },
+                include: {
+                  customers: {
+                    select: {
+                      id: true,
+                      type: true,
+                      first_name: true,
+                      last_name: true,
+                      business_name: true,
+                      email: true
+                    }
+                  }
+                },
+                skip: 0,
+                take: 100,
+                orderBy: {
+                  created_at: "desc"
+                }
+              })
+      
+      Unknown argument `companyId`. Did you mean `company_id`? Available options are marked with ?.
+
+      at Object.mc (node_modules/.prisma/client/runtime/library.js:21:432)
+          at async Promise.all (index 0)
+
+    console.log
+      prisma:error 
+      Invalid `prisma.invoices.count()` invocation in
+      /home/conta/conta.cd/backend/src/services/invoice.service.ts:665:23
+      
+        662   take: limit,
+        663   orderBy: { created_at: 'desc' }, // Trier par date de création (plus récentes en premier)
+        664 }),
+      → 665 prisma.invoices.count({
+              select: {
+                _count: {
+                  select: {
+                    _all: true
+                  }
+                }
+              },
+              where: {
+                companyId: "dfee929a-1fb2-4570-aaae-5e25242e0bc3",
+                ~~~~~~~~~
+                deletedAt: null,
+            ?   AND?: invoicesWhereInput | invoicesWhereInput[],
+            ?   OR?: invoicesWhereInput[],
+            ?   NOT?: invoicesWhereInput | invoicesWhereInput[],
+            ?   id?: StringFilter | String,
+            ?   company_id?: StringFilter | String,
+            ?   customer_id?: StringFilter | String,
+            ?   invoice_number?: StringFilter | String,
+            ?   invoice_date?: DateTimeFilter | DateTime,
+            ?   due_date?: DateTimeFilter | DateTime,
+            ?   paid_at?: DateTimeNullableFilter | DateTime | Null,
+            ?   status?: StringFilter | String,
+            ?   paid_amount?: DecimalFilter | Decimal,
+            ?   currency?: StringNullableFilter | String | Null,
+            ?   template_id?: StringNullableFilter | String | Null,
+            ?   notes?: StringNullableFilter | String | Null,
+            ?   payment_terms?: StringNullableFilter | String | Null,
+            ?   sent_at?: DateTimeNullableFilter | DateTime | Null,
+            ?   created_by?: StringNullableFilter | String | Null,
+            ?   created_at?: DateTimeFilter | DateTime,
+            ?   updated_at?: DateTimeFilter | DateTime,
+            ?   deleted_at?: DateTimeNullableFilter | DateTime | Null,
+            ?   cancelled_at?: DateTimeNullableFilter | DateTime | Null,
+            ?   cancelled_by?: StringNullableFilter | String | Null,
+            ?   internal_notes?: StringNullableFilter | String | Null,
+            ?   subtotal?: DecimalFilter | Decimal,
+            ?   tax_amount?: DecimalFilter | Decimal,
+            ?   total_amount?: DecimalFilter | Decimal,
+            ?   reference?: StringNullableFilter | String | Null,
+            ?   po_number?: StringNullableFilter | String | Null,
+            ?   shipping_address?: StringNullableFilter | String | Null,
+            ?   shipping_city?: StringNullableFilter | String | Null,
+            ?   shipping_country?: StringNullableFilter | String | Null,
+            ?   transport_fees?: DecimalNullableFilter | Decimal | Null,
+            ?   platform_fees?: DecimalNullableFilter | Decimal | Null,
+            ?   footer_text?: StringNullableFilter | String | Null,
+            ?   recurring_invoice_id?: StringNullableFilter | String | Null,
+            ?   credit_notes?: Credit_notesListRelationFilter,
+            ?   invoice_lines?: Invoice_linesListRelationFilter,
+            ?   companies?: CompaniesRelationFilter | companiesWhereInput,
+            ?   users?: UsersNullableRelationFilter | usersWhereInput | Null,
+            ?   customers?: CustomersRelationFilter | customersWhereInput,
+            ?   payments?: PaymentsListRelationFilter,
+            ?   quotations?: QuotationsListRelationFilter,
+            ?   recurring_invoices?: Recurring_invoicesNullableRelationFilter | recurring_invoicesWhereInput | Null
+              }
+            })
+      
+      Unknown argument `companyId`. Did you mean `company_id`? Available options are marked with ?.
+
+      at Object.mc (node_modules/.prisma/client/runtime/library.js:21:432)
+          at async Promise.all (index 1)
+
+    console.log
+      prisma:error 
+      Invalid `prisma.quotation_lines.deleteMany()` invocation in
+      /home/conta/conta.cd/backend/src/__tests__/helpers/test-db.ts:154:34
+      
+        151 });
+        152 
+        153 // Supprimer les devis et leurs lignes
+      → 154 await prisma.quotation_lines.deleteMany(
+      Error occurred during query execution:
+      ConnectorError(ConnectorError { user_facing_error: None, kind: QueryError(PostgresError { code: "42501", message: "permission denied for table quotation_lines", severity: "ERROR", detail: None, column: None, hint: None }), transient: false })
+
+      at Object.mc (node_modules/.prisma/client/runtime/library.js:21:432)
+
+    console.error
+      Error cleaning up test data: 
+      Invalid `prisma.quotation_lines.deleteMany()` invocation in
+      /home/conta/conta.cd/backend/src/__tests__/helpers/test-db.ts:154:34
+      
+        151 });
+        152 
+        153 // Supprimer les devis et leurs lignes
+      → 154 await prisma.quotation_lines.deleteMany(
+      Error occurred during query execution:
+      ConnectorError(ConnectorError { user_facing_error: None, kind: QueryError(PostgresError { code: "42501", message: "permission denied for table quotation_lines", severity: "ERROR", detail: None, column: None, hint: None }), transient: false })
+
+      202 |     });
+      203 |   } catch (error: any) {
+    > 204 |     console.error('Error cleaning up test data:', error.message);
+          |             ^
+      205 |     // Continue même en cas d'erreur pour ne pas bloquer les tests
+      206 |   }
+      207 | }
+
+      at cleanupTestData (src/__tests__/helpers/test-db.ts:204:13)
+      at Object.<anonymous> (src/__tests__/e2e/02-user-registration-free.test.ts:56:5)
+
+  ● E2E Scénario 2: Inscription & Plan Gratuit › 2.3 - Vérification des Limites du Plan Gratuit › devrait créer des factures jusqu'à la limite
+
+    Limit reached for customers. Current: 10/10. Please upgrade your plan.
+
+      68 |       const currentUsage = await usageService.get(companyId, metric);
+      69 |
+    > 70 |       throw new CustomError(
+         |             ^
+      71 |         `Limit reached for ${metric}. Current: ${currentUsage}/${limit}. Please upgrade your plan.`,
+      72 |         403,
+      73 |         'QUOTA_EXCEEDED',
+
+      at QuotaService.checkLimit (src/services/quota.service.ts:70:13)
+      at CustomerService.create (src/services/customer.service.ts:43:5)
+      at Object.<anonymous> (src/__tests__/e2e/02-user-registration-free.test.ts:135:24)
+
+  ● E2E Scénario 2: Inscription & Plan Gratuit › 2.4 - Tableau de Bord › devrait afficher les statistiques de l'entreprise
+
+    PrismaClientValidationError: 
+    Invalid `prisma.invoices.findMany()` invocation in
+    /home/conta/conta.cd/backend/src/services/invoice.service.ts:647:23
+
+      644 }
+      645 
+      646 const [invoices, total] = await Promise.all([
+    → 647   prisma.invoices.findMany({
+              where: {
+                companyId: "dfee929a-1fb2-4570-aaae-5e25242e0bc3",
+                ~~~~~~~~~
+                deletedAt: null,
+            ?   AND?: invoicesWhereInput | invoicesWhereInput[],
+            ?   OR?: invoicesWhereInput[],
+            ?   NOT?: invoicesWhereInput | invoicesWhereInput[],
+            ?   id?: StringFilter | String,
+            ?   company_id?: StringFilter | String,
+            ?   customer_id?: StringFilter | String,
+            ?   invoice_number?: StringFilter | String,
+            ?   invoice_date?: DateTimeFilter | DateTime,
+            ?   due_date?: DateTimeFilter | DateTime,
+            ?   paid_at?: DateTimeNullableFilter | DateTime | Null,
+            ?   status?: StringFilter | String,
+            ?   paid_amount?: DecimalFilter | Decimal,
+            ?   currency?: StringNullableFilter | String | Null,
+            ?   template_id?: StringNullableFilter | String | Null,
+            ?   notes?: StringNullableFilter | String | Null,
+            ?   payment_terms?: StringNullableFilter | String | Null,
+            ?   sent_at?: DateTimeNullableFilter | DateTime | Null,
+            ?   created_by?: StringNullableFilter | String | Null,
+            ?   created_at?: DateTimeFilter | DateTime,
+            ?   updated_at?: DateTimeFilter | DateTime,
+            ?   deleted_at?: DateTimeNullableFilter | DateTime | Null,
+            ?   cancelled_at?: DateTimeNullableFilter | DateTime | Null,
+            ?   cancelled_by?: StringNullableFilter | String | Null,
+            ?   internal_notes?: StringNullableFilter | String | Null,
+            ?   subtotal?: DecimalFilter | Decimal,
+            ?   tax_amount?: DecimalFilter | Decimal,
+            ?   total_amount?: DecimalFilter | Decimal,
+            ?   reference?: StringNullableFilter | String | Null,
+            ?   po_number?: StringNullableFilter | String | Null,
+            ?   shipping_address?: StringNullableFilter | String | Null,
+            ?   shipping_city?: StringNullableFilter | String | Null,
+            ?   shipping_country?: StringNullableFilter | String | Null,
+            ?   transport_fees?: DecimalNullableFilter | Decimal | Null,
+            ?   platform_fees?: DecimalNullableFilter | Decimal | Null,
+            ?   footer_text?: StringNullableFilter | String | Null,
+            ?   recurring_invoice_id?: StringNullableFilter | String | Null,
+            ?   credit_notes?: Credit_notesListRelationFilter,
+            ?   invoice_lines?: Invoice_linesListRelationFilter,
+            ?   companies?: CompaniesRelationFilter | companiesWhereInput,
+            ?   users?: UsersNullableRelationFilter | usersWhereInput | Null,
+            ?   customers?: CustomersRelationFilter | customersWhereInput,
+            ?   payments?: PaymentsListRelationFilter,
+            ?   quotations?: QuotationsListRelationFilter,
+            ?   recurring_invoices?: Recurring_invoicesNullableRelationFilter | recurring_invoicesWhereInput | Null
+              },
+              include: {
+                customers: {
+                  select: {
+                    id: true,
+                    type: true,
+                    first_name: true,
+                    last_name: true,
+                    business_name: true,
+                    email: true
+                  }
+                }
+              },
+              skip: 0,
+              take: 100,
+              orderBy: {
+                created_at: "desc"
+              }
+            })
+
+    Unknown argument `companyId`. Did you mean `company_id`? Available options are marked with ?.
+
+      26 | prisma.$use(async (params: any, next: any) => {
+      27 |   const before = Date.now();
+    > 28 |   const result = await next(params);
+         |                  ^
+      29 |   const after = Date.now();
+      30 |   
+      31 |   logger.debug(`Query ${params.model}.${params.action} took ${after - before}ms`);
+
+      at wn (node_modules/.prisma/client/runtime/library.js:29:1363)
+      at $n.handleRequestError (node_modules/.prisma/client/runtime/library.js:121:6958)
+      at $n.handleAndLogRequestError (node_modules/.prisma/client/runtime/library.js:121:6623)
+      at $n.request (node_modules/.prisma/client/runtime/library.js:121:6307)
+      at l (node_modules/.prisma/client/runtime/library.js:130:9633)
+      at src/config/database.ts:28:18
+          at async Promise.all (index 0)
+      at InvoiceService.list (src/services/invoice.service.ts:646:31)
+      at Object.<anonymous> (src/__tests__/e2e/02-user-registration-free.test.ts:169:24)
+
+FAIL src/__tests__/e2e/04-customers-complete.test.ts
+  ● Console
+
+    console.log
+      [32minfo[39m: Email transporter initialized {"host":"localhost","port":587,"secure":false,"service":"conta-backend","timestamp":"2026-01-07 13:48:04"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: ✅ Queue service initialized with Redis {"service":"conta-backend","timestamp":"2026-01-07 13:48:04"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.warn
+      It is highly recommended to use a minimum Redis version of 6.2.0
+                   Current: 6.0.16
+
+      at RedisConnection.init (node_modules/bullmq/src/classes/redis-connection.ts:270:19)
+
+    console.warn
+      It is highly recommended to use a minimum Redis version of 6.2.0
+                   Current: 6.0.16
+
+      at RedisConnection.init (node_modules/bullmq/src/classes/redis-connection.ts:270:19)
+
+    console.warn
+      It is highly recommended to use a minimum Redis version of 6.2.0
+                   Current: 6.0.16
+
+      at RedisConnection.init (node_modules/bullmq/src/classes/redis-connection.ts:270:19)
+
+    console.log
+      [32minfo[39m: ✅ Database connected successfully {"service":"conta-backend","timestamp":"2026-01-07 13:48:04"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [33mwarn[39m: No subscription found for company 886179f2-13ad-48ac-a703-0cceb7161e58, returning null limit {"service":"conta-backend","timestamp":"2026-01-07 13:48:04"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Customer created: 70cb9253-97bd-4a3d-9481-d7fc218b80ef {"company_id":"886179f2-13ad-48ac-a703-0cceb7161e58","customerId":"70cb9253-97bd-4a3d-9481-d7fc218b80ef","service":"conta-backend","timestamp":"2026-01-07 13:48:04","type":"particulier"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [33mwarn[39m: No subscription found for company 886179f2-13ad-48ac-a703-0cceb7161e58, returning null limit {"service":"conta-backend","timestamp":"2026-01-07 13:48:04"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Customer created: 8d105cab-15d5-46fe-ac27-acc2bbc6d41a {"company_id":"886179f2-13ad-48ac-a703-0cceb7161e58","customerId":"8d105cab-15d5-46fe-ac27-acc2bbc6d41a","service":"conta-backend","timestamp":"2026-01-07 13:48:04","type":"entreprise"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Customer updated: 78f4461c-1711-46ff-b2d1-9ba9a019df6c {"company_id":"886179f2-13ad-48ac-a703-0cceb7161e58","customerId":"78f4461c-1711-46ff-b2d1-9ba9a019df6c","service":"conta-backend","timestamp":"2026-01-07 13:48:04"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [33mwarn[39m: No subscription found for company 886179f2-13ad-48ac-a703-0cceb7161e58, returning null limit {"service":"conta-backend","timestamp":"2026-01-07 13:48:04"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Customer deleted: fcfc3c7a-7de6-4a7f-98d4-c08016f50ffb {"company_id":"886179f2-13ad-48ac-a703-0cceb7161e58","customerId":"fcfc3c7a-7de6-4a7f-98d4-c08016f50ffb","service":"conta-backend","timestamp":"2026-01-07 13:48:04"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [33mwarn[39m: No subscription found for company 886179f2-13ad-48ac-a703-0cceb7161e58, returning null limit {"service":"conta-backend","timestamp":"2026-01-07 13:48:04"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      prisma:error 
+      Invalid `prisma.quotation_lines.deleteMany()` invocation in
+      /home/conta/conta.cd/backend/src/__tests__/helpers/test-db.ts:154:34
+      
+        151 });
+        152 
+        153 // Supprimer les devis et leurs lignes
+      → 154 await prisma.quotation_lines.deleteMany(
+      Error occurred during query execution:
+      ConnectorError(ConnectorError { user_facing_error: None, kind: QueryError(PostgresError { code: "42501", message: "permission denied for table quotation_lines", severity: "ERROR", detail: None, column: None, hint: None }), transient: false })
+
+      at Object.mc (node_modules/.prisma/client/runtime/library.js:21:432)
+
+    console.error
+      Error cleaning up test data: 
+      Invalid `prisma.quotation_lines.deleteMany()` invocation in
+      /home/conta/conta.cd/backend/src/__tests__/helpers/test-db.ts:154:34
+      
+        151 });
+        152 
+        153 // Supprimer les devis et leurs lignes
+      → 154 await prisma.quotation_lines.deleteMany(
+      Error occurred during query execution:
+      ConnectorError(ConnectorError { user_facing_error: None, kind: QueryError(PostgresError { code: "42501", message: "permission denied for table quotation_lines", severity: "ERROR", detail: None, column: None, hint: None }), transient: false })
+
+      202 |     });
+      203 |   } catch (error: any) {
+    > 204 |     console.error('Error cleaning up test data:', error.message);
+          |             ^
+      205 |     // Continue même en cas d'erreur pour ne pas bloquer les tests
+      206 |   }
+      207 | }
+
+      at cleanupTestData (src/__tests__/helpers/test-db.ts:204:13)
+      at Object.<anonymous> (src/__tests__/e2e/04-customers-complete.test.ts:31:5)
+
+  ● E2E Scénario 4: Gestion Complète des Clients › 4.4 - Statistiques Client › devrait afficher les statistiques d'un client
+
+    Aucun exercice comptable trouvé pour la date 2026-01-07
+
+      152 |     const periodValidation = await fiscalPeriodService.validatePeriod(companyId, invoiceDate);
+      153 |     if (!periodValidation.isValid) {
+    > 154 |       throw new CustomError(periodValidation.message || 'Période comptable verrouillée ou close', 400, 'INVALID_PERIOD');
+          |             ^
+      155 |     }
+      156 |
+      157 |     // Générer le numéro de facture
+
+      at InvoiceService.create (src/services/invoice.service.ts:154:13)
+      at Object.<anonymous> (src/__tests__/e2e/04-customers-complete.test.ts:135:7)
+
+  ● E2E Scénario 4: Gestion Complète des Clients › 4.5 - Suppression › ne devrait pas permettre de supprimer un client avec factures
+
+    Aucun exercice comptable trouvé pour la date 2026-01-07
+
+      152 |     const periodValidation = await fiscalPeriodService.validatePeriod(companyId, invoiceDate);
+      153 |     if (!periodValidation.isValid) {
+    > 154 |       throw new CustomError(periodValidation.message || 'Période comptable verrouillée ou close', 400, 'INVALID_PERIOD');
+          |             ^
+      155 |     }
+      156 |
+      157 |     // Générer le numéro de facture
+
+      at InvoiceService.create (src/services/invoice.service.ts:154:13)
+      at Object.<anonymous> (src/__tests__/e2e/04-customers-complete.test.ts:167:7)
+
+PASS src/__tests__/integration/customer.integration.test.ts
+  ● Console
+
+    console.log
+      [33mwarn[39m: No subscription found for company 80372eb5-c542-4519-835e-958f4533bbf1, returning null limit {"service":"conta-backend","timestamp":"2026-01-07 13:48:05"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Customer created: c9475b31-bb75-4e58-bd40-d76debd3ef37 {"company_id":"80372eb5-c542-4519-835e-958f4533bbf1","customerId":"c9475b31-bb75-4e58-bd40-d76debd3ef37","service":"conta-backend","timestamp":"2026-01-07 13:48:05","type":"particulier"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [33mwarn[39m: No subscription found for company 80372eb5-c542-4519-835e-958f4533bbf1, returning null limit {"service":"conta-backend","timestamp":"2026-01-07 13:48:05"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Customer created: 97d41663-cab4-4069-8f78-55b73b6d9425 {"company_id":"80372eb5-c542-4519-835e-958f4533bbf1","customerId":"97d41663-cab4-4069-8f78-55b73b6d9425","service":"conta-backend","timestamp":"2026-01-07 13:48:05","type":"entreprise"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [33mwarn[39m: No subscription found for company 80372eb5-c542-4519-835e-958f4533bbf1, returning null limit {"service":"conta-backend","timestamp":"2026-01-07 13:48:05"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Customer created: 700a83c5-27f7-492c-b4c3-e63c6473fdb1 {"company_id":"80372eb5-c542-4519-835e-958f4533bbf1","customerId":"700a83c5-27f7-492c-b4c3-e63c6473fdb1","service":"conta-backend","timestamp":"2026-01-07 13:48:05","type":"particulier"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [33mwarn[39m: No subscription found for company 80372eb5-c542-4519-835e-958f4533bbf1, returning null limit {"service":"conta-backend","timestamp":"2026-01-07 13:48:05"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [33mwarn[39m: No subscription found for company 80372eb5-c542-4519-835e-958f4533bbf1, returning null limit {"service":"conta-backend","timestamp":"2026-01-07 13:48:05"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Customer created: c5c98429-7994-4c5b-a817-5ad98b6e3872 {"company_id":"80372eb5-c542-4519-835e-958f4533bbf1","customerId":"c5c98429-7994-4c5b-a817-5ad98b6e3872","service":"conta-backend","timestamp":"2026-01-07 13:48:05","type":"particulier"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [33mwarn[39m: No subscription found for company 80372eb5-c542-4519-835e-958f4533bbf1, returning null limit {"service":"conta-backend","timestamp":"2026-01-07 13:48:05"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Customer created: 8affa939-34bd-4d3d-b3bb-0e893aad3c71 {"company_id":"80372eb5-c542-4519-835e-958f4533bbf1","customerId":"8affa939-34bd-4d3d-b3bb-0e893aad3c71","service":"conta-backend","timestamp":"2026-01-07 13:48:05","type":"particulier"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [33mwarn[39m: No subscription found for company 80372eb5-c542-4519-835e-958f4533bbf1, returning null limit {"service":"conta-backend","timestamp":"2026-01-07 13:48:06"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Customer created: 0207aef4-0979-4ce3-b79c-689231fa50de {"company_id":"80372eb5-c542-4519-835e-958f4533bbf1","customerId":"0207aef4-0979-4ce3-b79c-689231fa50de","service":"conta-backend","timestamp":"2026-01-07 13:48:06","type":"particulier"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Customer updated: 0207aef4-0979-4ce3-b79c-689231fa50de {"company_id":"80372eb5-c542-4519-835e-958f4533bbf1","customerId":"0207aef4-0979-4ce3-b79c-689231fa50de","service":"conta-backend","timestamp":"2026-01-07 13:48:06"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [33mwarn[39m: No subscription found for company 80372eb5-c542-4519-835e-958f4533bbf1, returning null limit {"service":"conta-backend","timestamp":"2026-01-07 13:48:06"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Customer created: ba3cf10f-53dc-4362-845e-ae7e95496545 {"company_id":"80372eb5-c542-4519-835e-958f4533bbf1","customerId":"ba3cf10f-53dc-4362-845e-ae7e95496545","service":"conta-backend","timestamp":"2026-01-07 13:48:06","type":"particulier"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Customer deleted: ba3cf10f-53dc-4362-845e-ae7e95496545 {"company_id":"80372eb5-c542-4519-835e-958f4533bbf1","customerId":"ba3cf10f-53dc-4362-845e-ae7e95496545","service":"conta-backend","timestamp":"2026-01-07 13:48:06"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      prisma:error 
+      Invalid `prisma.quotation_lines.deleteMany()` invocation in
+      /home/conta/conta.cd/backend/src/__tests__/helpers/test-db.ts:154:34
+      
+        151 });
+        152 
+        153 // Supprimer les devis et leurs lignes
+      → 154 await prisma.quotation_lines.deleteMany(
+      Error occurred during query execution:
+      ConnectorError(ConnectorError { user_facing_error: None, kind: QueryError(PostgresError { code: "42501", message: "permission denied for table quotation_lines", severity: "ERROR", detail: None, column: None, hint: None }), transient: false })
+
+      at Object.mc (node_modules/.prisma/client/runtime/library.js:21:432)
+
+    console.error
+      Error cleaning up test data: 
+      Invalid `prisma.quotation_lines.deleteMany()` invocation in
+      /home/conta/conta.cd/backend/src/__tests__/helpers/test-db.ts:154:34
+      
+        151 });
+        152 
+        153 // Supprimer les devis et leurs lignes
+      → 154 await prisma.quotation_lines.deleteMany(
+      Error occurred during query execution:
+      ConnectorError(ConnectorError { user_facing_error: None, kind: QueryError(PostgresError { code: "42501", message: "permission denied for table quotation_lines", severity: "ERROR", detail: None, column: None, hint: None }), transient: false })
+
+      202 |     });
+      203 |   } catch (error: any) {
+    > 204 |     console.error('Error cleaning up test data:', error.message);
+          |             ^
+      205 |     // Continue même en cas d'erreur pour ne pas bloquer les tests
+      206 |   }
+      207 | }
+
+      at cleanupTestData (src/__tests__/helpers/test-db.ts:204:13)
+      at Object.<anonymous> (src/__tests__/integration/customer.integration.test.ts:26:5)
+
+PASS src/__tests__/services/usage.service.test.ts
+PASS src/__tests__/integration/invoice.integration.test.ts
+  ● Console
+
+    console.log
+      [32minfo[39m: Email transporter initialized {"host":"localhost","port":587,"secure":false,"service":"conta-backend","timestamp":"2026-01-07 13:48:07"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: ✅ Queue service initialized with Redis {"service":"conta-backend","timestamp":"2026-01-07 13:48:07"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      TEST DATABASE_URL: postgresql://conta_user:aOpLcu14TmmBfxmkxF1n@localhost:5432/conta_db
+
+      at Object.<anonymous> (src/__tests__/integration/invoice.integration.test.ts:22:13)
+
+    console.warn
+      It is highly recommended to use a minimum Redis version of 6.2.0
+                   Current: 6.0.16
+
+      at RedisConnection.init (node_modules/bullmq/src/classes/redis-connection.ts:270:19)
+
+    console.warn
+      It is highly recommended to use a minimum Redis version of 6.2.0
+                   Current: 6.0.16
+
+      at RedisConnection.init (node_modules/bullmq/src/classes/redis-connection.ts:270:19)
+
+    console.warn
+      It is highly recommended to use a minimum Redis version of 6.2.0
+                   Current: 6.0.16
+
+      at RedisConnection.init (node_modules/bullmq/src/classes/redis-connection.ts:270:19)
+
+    console.log
+      [33mwarn[39m: No subscription found for company f6df7645-ef7d-4f83-bb65-2aabb5c303e7, returning null limit {"service":"conta-backend","timestamp":"2026-01-07 13:48:07"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Audit log created {"action":"CREATE","auditLogId":"46a10c6a-31e7-484e-9048-bcc9730f29ef","entityType":"invoice","module":"facturation","service":"conta-backend","timestamp":"2026-01-07 13:48:07"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Getting invoice {"companyId":"f6df7645-ef7d-4f83-bb65-2aabb5c303e7","invoiceId":"18739cfb-a805-4c19-a694-0044f393f7d4","isUUID":true,"service":"conta-backend","timestamp":"2026-01-07 13:48:07"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Invoice created: 18739cfb-a805-4c19-a694-0044f393f7d4 {"companyId":"f6df7645-ef7d-4f83-bb65-2aabb5c303e7","customerId":"1e116c8e-caa3-40af-be49-77dc8b5b74e2","invoiceId":"18739cfb-a805-4c19-a694-0044f393f7d4","invoiceNumber":"TEST-000001","service":"conta-backend","timestamp":"2026-01-07 13:48:07"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: ✅ Redis connected successfully {"service":"conta-backend","timestamp":"2026-01-07 13:48:07"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: ✅ Redis ready to accept commands {"service":"conta-backend","timestamp":"2026-01-07 13:48:07"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [33mwarn[39m: No subscription found for company f6df7645-ef7d-4f83-bb65-2aabb5c303e7, using default (free) plan {"service":"conta-backend","timestamp":"2026-01-07 13:48:08"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [33mwarn[39m: No subscription found for company f6df7645-ef7d-4f83-bb65-2aabb5c303e7, returning null limit {"service":"conta-backend","timestamp":"2026-01-07 13:48:08"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [33mwarn[39m: No subscription found for company f6df7645-ef7d-4f83-bb65-2aabb5c303e7, returning null limit {"service":"conta-backend","timestamp":"2026-01-07 13:48:08"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Audit log created {"action":"CREATE","auditLogId":"7c04ebe0-91f7-419c-9527-0ac908e85640","entityType":"invoice","module":"facturation","service":"conta-backend","timestamp":"2026-01-07 13:48:08"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Getting invoice {"companyId":"f6df7645-ef7d-4f83-bb65-2aabb5c303e7","invoiceId":"393dac59-91ce-4fef-b747-5c1f55317352","isUUID":true,"service":"conta-backend","timestamp":"2026-01-07 13:48:08"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Invoice created: 393dac59-91ce-4fef-b747-5c1f55317352 {"companyId":"f6df7645-ef7d-4f83-bb65-2aabb5c303e7","customerId":"1e116c8e-caa3-40af-be49-77dc8b5b74e2","invoiceId":"393dac59-91ce-4fef-b747-5c1f55317352","invoiceNumber":"TEST-000002","service":"conta-backend","timestamp":"2026-01-07 13:48:08"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Getting invoice {"companyId":"f6df7645-ef7d-4f83-bb65-2aabb5c303e7","invoiceId":"393dac59-91ce-4fef-b747-5c1f55317352","isUUID":true,"service":"conta-backend","timestamp":"2026-01-07 13:48:08"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Status transition validated {"newStatus":"cancelled","oldStatus":"draft","service":"conta-backend","timestamp":"2026-01-07 13:48:08"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Invoice status changed {"companyId":"f6df7645-ef7d-4f83-bb65-2aabb5c303e7","invoiceId":"393dac59-91ce-4fef-b747-5c1f55317352","newStatus":"cancelled","oldStatus":"draft","service":"conta-backend","timestamp":"2026-01-07 13:48:08","userId":"d96aa057-52fa-4dc8-8394-98705f9ccc66"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Invoice status updated: 393dac59-91ce-4fef-b747-5c1f55317352 {"companyId":"f6df7645-ef7d-4f83-bb65-2aabb5c303e7","invoiceId":"393dac59-91ce-4fef-b747-5c1f55317352","newStatus":"cancelled","oldStatus":"draft","service":"conta-backend","timestamp":"2026-01-07 13:48:08"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Audit log created {"action":"CANCEL_INVOICE","auditLogId":"64dc03b8-54ce-42b4-9a79-433d2fedbf8f","entityType":"invoice","module":"facturation","service":"conta-backend","timestamp":"2026-01-07 13:48:08"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Getting invoice {"companyId":"f6df7645-ef7d-4f83-bb65-2aabb5c303e7","invoiceId":"393dac59-91ce-4fef-b747-5c1f55317352","isUUID":true,"service":"conta-backend","timestamp":"2026-01-07 13:48:08"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [33mwarn[39m: No subscription found for company f6df7645-ef7d-4f83-bb65-2aabb5c303e7, returning null limit {"service":"conta-backend","timestamp":"2026-01-07 13:48:08"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Audit log created {"action":"CREATE","auditLogId":"f0f5f396-605c-4d48-b024-89c2c036d820","entityType":"invoice","module":"facturation","service":"conta-backend","timestamp":"2026-01-07 13:48:08"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Getting invoice {"companyId":"f6df7645-ef7d-4f83-bb65-2aabb5c303e7","invoiceId":"73f3d5a7-eada-452e-a7d4-1033c24ba6d4","isUUID":true,"service":"conta-backend","timestamp":"2026-01-07 13:48:08"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Invoice created: 73f3d5a7-eada-452e-a7d4-1033c24ba6d4 {"companyId":"f6df7645-ef7d-4f83-bb65-2aabb5c303e7","customerId":"1e116c8e-caa3-40af-be49-77dc8b5b74e2","invoiceId":"73f3d5a7-eada-452e-a7d4-1033c24ba6d4","invoiceNumber":"TEST-000003","service":"conta-backend","timestamp":"2026-01-07 13:48:08"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Getting invoice {"companyId":"f6df7645-ef7d-4f83-bb65-2aabb5c303e7","invoiceId":"73f3d5a7-eada-452e-a7d4-1033c24ba6d4","isUUID":true,"service":"conta-backend","timestamp":"2026-01-07 13:48:08"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Status transition validated {"newStatus":"cancelled","oldStatus":"draft","service":"conta-backend","timestamp":"2026-01-07 13:48:08"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Invoice status changed {"companyId":"f6df7645-ef7d-4f83-bb65-2aabb5c303e7","invoiceId":"73f3d5a7-eada-452e-a7d4-1033c24ba6d4","newStatus":"cancelled","oldStatus":"draft","service":"conta-backend","timestamp":"2026-01-07 13:48:08","userId":"d96aa057-52fa-4dc8-8394-98705f9ccc66"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Invoice status updated: 73f3d5a7-eada-452e-a7d4-1033c24ba6d4 {"companyId":"f6df7645-ef7d-4f83-bb65-2aabb5c303e7","invoiceId":"73f3d5a7-eada-452e-a7d4-1033c24ba6d4","newStatus":"cancelled","oldStatus":"draft","service":"conta-backend","timestamp":"2026-01-07 13:48:08"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [33mwarn[39m: No subscription found for company f6df7645-ef7d-4f83-bb65-2aabb5c303e7, returning null limit {"service":"conta-backend","timestamp":"2026-01-07 13:48:08"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Audit log created {"action":"CREATE","auditLogId":"e7b6a065-f962-42a8-bc4a-07771cf8627a","entityType":"invoice","module":"facturation","service":"conta-backend","timestamp":"2026-01-07 13:48:08"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Getting invoice {"companyId":"f6df7645-ef7d-4f83-bb65-2aabb5c303e7","invoiceId":"2950513a-a013-439e-a55c-19f1d36600a3","isUUID":true,"service":"conta-backend","timestamp":"2026-01-07 13:48:08"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Invoice created: 2950513a-a013-439e-a55c-19f1d36600a3 {"companyId":"f6df7645-ef7d-4f83-bb65-2aabb5c303e7","customerId":"1e116c8e-caa3-40af-be49-77dc8b5b74e2","invoiceId":"2950513a-a013-439e-a55c-19f1d36600a3","invoiceNumber":"TEST-000004","service":"conta-backend","timestamp":"2026-01-07 13:48:08"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Getting invoice {"companyId":"f6df7645-ef7d-4f83-bb65-2aabb5c303e7","invoiceId":"2950513a-a013-439e-a55c-19f1d36600a3","isUUID":true,"service":"conta-backend","timestamp":"2026-01-07 13:48:08"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Audit log created {"action":"DELETE","auditLogId":"2cf9d421-7aae-4bc8-a842-d1e7cefe7e37","entityType":"invoice","module":"facturation","service":"conta-backend","timestamp":"2026-01-07 13:48:08"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Invoice deleted: 2950513a-a013-439e-a55c-19f1d36600a3 {"companyId":"f6df7645-ef7d-4f83-bb65-2aabb5c303e7","invoiceId":"2950513a-a013-439e-a55c-19f1d36600a3","service":"conta-backend","timestamp":"2026-01-07 13:48:08"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      prisma:error 
+      Invalid `prisma.quotation_lines.deleteMany()` invocation in
+      /home/conta/conta.cd/backend/src/__tests__/helpers/test-db.ts:154:34
+      
+        151 });
+        152 
+        153 // Supprimer les devis et leurs lignes
+      → 154 await prisma.quotation_lines.deleteMany(
+      Error occurred during query execution:
+      ConnectorError(ConnectorError { user_facing_error: None, kind: QueryError(PostgresError { code: "42501", message: "permission denied for table quotation_lines", severity: "ERROR", detail: None, column: None, hint: None }), transient: false })
+
+      at Object.mc (node_modules/.prisma/client/runtime/library.js:21:432)
+
+    console.error
+      Error cleaning up test data: 
+      Invalid `prisma.quotation_lines.deleteMany()` invocation in
+      /home/conta/conta.cd/backend/src/__tests__/helpers/test-db.ts:154:34
+      
+        151 });
+        152 
+        153 // Supprimer les devis et leurs lignes
+      → 154 await prisma.quotation_lines.deleteMany(
+      Error occurred during query execution:
+      ConnectorError(ConnectorError { user_facing_error: None, kind: QueryError(PostgresError { code: "42501", message: "permission denied for table quotation_lines", severity: "ERROR", detail: None, column: None, hint: None }), transient: false })
+
+      202 |     });
+      203 |   } catch (error: any) {
+    > 204 |     console.error('Error cleaning up test data:', error.message);
+          |             ^
+      205 |     // Continue même en cas d'erreur pour ne pas bloquer les tests
+      206 |   }
+      207 | }
+
+      at cleanupTestData (src/__tests__/helpers/test-db.ts:204:13)
+      at Object.<anonymous> (src/__tests__/integration/invoice.integration.test.ts:45:5)
+
+PASS src/__tests__/integration/stock-movement.integration.test.ts
+  ● Console
+
+    console.log
+      [32minfo[39m: Stock movement created (DRAFT) {"companyId":"01ae5b57-221e-4cf8-884c-3ce92ebac0a8","itemsCount":1,"movementId":"9de0e76d-3a44-48a6-b1c5-7fc7547625ff","movementType":"IN","service":"conta-backend","timestamp":"2026-01-07 13:48:08"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Audit log created {"action":"CREATE","auditLogId":"5fc2e04b-725f-4ed0-8685-cf0ae3e99c86","entityType":"stock_movement","module":"stock","service":"conta-backend","timestamp":"2026-01-07 13:48:08"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Stock movement validated {"companyId":"01ae5b57-221e-4cf8-884c-3ce92ebac0a8","movementId":"9de0e76d-3a44-48a6-b1c5-7fc7547625ff","movementType":"IN","service":"conta-backend","timestamp":"2026-01-07 13:48:08"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Audit log created {"action":"VALIDATE_MOVEMENT","auditLogId":"08e4c036-22ec-47c2-bdfb-c302d6e2a057","entityType":"stock_movement","module":"stock","service":"conta-backend","timestamp":"2026-01-07 13:48:08"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Stock movement created (DRAFT) {"companyId":"01ae5b57-221e-4cf8-884c-3ce92ebac0a8","itemsCount":1,"movementId":"1beb4a28-2a25-400b-84de-1c4bd997b44b","movementType":"OUT","service":"conta-backend","timestamp":"2026-01-07 13:48:08"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Audit log created {"action":"CREATE","auditLogId":"421685b9-46f7-429b-884a-2678528cc3b0","entityType":"stock_movement","module":"stock","service":"conta-backend","timestamp":"2026-01-07 13:48:08"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Stock movement validated {"companyId":"01ae5b57-221e-4cf8-884c-3ce92ebac0a8","movementId":"1beb4a28-2a25-400b-84de-1c4bd997b44b","movementType":"OUT","service":"conta-backend","timestamp":"2026-01-07 13:48:08"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Audit log created {"action":"VALIDATE_MOVEMENT","auditLogId":"8aece6c9-b193-4674-947b-620b37623b49","entityType":"stock_movement","module":"stock","service":"conta-backend","timestamp":"2026-01-07 13:48:08"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Stock movement created (DRAFT) {"companyId":"01ae5b57-221e-4cf8-884c-3ce92ebac0a8","itemsCount":1,"movementId":"230c8a9b-fa0b-4118-b1d6-d5eb5167aae9","movementType":"IN","service":"conta-backend","timestamp":"2026-01-07 13:48:08"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Audit log created {"action":"CREATE","auditLogId":"d58c882e-8b4f-47bd-8a43-5a38d119b41b","entityType":"stock_movement","module":"stock","service":"conta-backend","timestamp":"2026-01-07 13:48:08"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Stock movement validated {"companyId":"01ae5b57-221e-4cf8-884c-3ce92ebac0a8","movementId":"230c8a9b-fa0b-4118-b1d6-d5eb5167aae9","movementType":"IN","service":"conta-backend","timestamp":"2026-01-07 13:48:08"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Audit log created {"action":"VALIDATE_MOVEMENT","auditLogId":"030cb642-cae6-498d-b788-05c39974c72c","entityType":"stock_movement","module":"stock","service":"conta-backend","timestamp":"2026-01-07 13:48:08"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Stock movement created (DRAFT) {"companyId":"01ae5b57-221e-4cf8-884c-3ce92ebac0a8","itemsCount":1,"movementId":"acfe5861-b80f-4fec-b580-ad2940cf0260","movementType":"IN","service":"conta-backend","timestamp":"2026-01-07 13:48:08"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Audit log created {"action":"CREATE","auditLogId":"923cf5e6-bf1c-4cef-a254-386dadc22f14","entityType":"stock_movement","module":"stock","service":"conta-backend","timestamp":"2026-01-07 13:48:08"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Stock movement validated {"companyId":"01ae5b57-221e-4cf8-884c-3ce92ebac0a8","movementId":"acfe5861-b80f-4fec-b580-ad2940cf0260","movementType":"IN","service":"conta-backend","timestamp":"2026-01-07 13:48:08"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Audit log created {"action":"VALIDATE_MOVEMENT","auditLogId":"43d31442-6e70-4a1c-aa18-3aa13e28733e","entityType":"stock_movement","module":"stock","service":"conta-backend","timestamp":"2026-01-07 13:48:08"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Stock movement reversed {"companyId":"01ae5b57-221e-4cf8-884c-3ce92ebac0a8","originalMovementId":"acfe5861-b80f-4fec-b580-ad2940cf0260","reversalMovementId":"7054fdec-d49d-4986-9661-9b7a8b87bf6c","service":"conta-backend","timestamp":"2026-01-07 13:48:08"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      [32minfo[39m: Audit log created {"action":"REVERSE_STOCK_MOVEMENT","auditLogId":"2fcbf484-5c88-4c57-acee-6e206daff277","entityType":"stock_movement","module":"stock","service":"conta-backend","timestamp":"2026-01-07 13:48:08"}
+
+      at Console.log (node_modules/winston/lib/winston/transports/console.js:90:12)
+
+    console.log
+      prisma:error 
+      Invalid `prisma.quotation_lines.deleteMany()` invocation in
+      /home/conta/conta.cd/backend/src/__tests__/helpers/test-db.ts:154:34
+      
+        151 });
+        152 
+        153 // Supprimer les devis et leurs lignes
+      → 154 await prisma.quotation_lines.deleteMany(
+      Error occurred during query execution:
+      ConnectorError(ConnectorError { user_facing_error: None, kind: QueryError(PostgresError { code: "42501", message: "permission denied for table quotation_lines", severity: "ERROR", detail: None, column: None, hint: None }), transient: false })
+
+      at Object.mc (node_modules/.prisma/client/runtime/library.js:21:432)
+
+    console.error
+      Error cleaning up test data: 
+      Invalid `prisma.quotation_lines.deleteMany()` invocation in
+      /home/conta/conta.cd/backend/src/__tests__/helpers/test-db.ts:154:34
+      
+        151 });
+        152 
+        153 // Supprimer les devis et leurs lignes
+      → 154 await prisma.quotation_lines.deleteMany(
+      Error occurred during query execution:
+      ConnectorError(ConnectorError { user_facing_error: None, kind: QueryError(PostgresError { code: "42501", message: "permission denied for table quotation_lines", severity: "ERROR", detail: None, column: None, hint: None }), transient: false })
+
+      202 |     });
+      203 |   } catch (error: any) {
+    > 204 |     console.error('Error cleaning up test data:', error.message);
+          |             ^
+      205 |     // Continue même en cas d'erreur pour ne pas bloquer les tests
+      206 |   }
+      207 | }
+
+      at cleanupTestData (src/__tests__/helpers/test-db.ts:204:13)
+      at Object.<anonymous> (src/__tests__/integration/stock-movement.integration.test.ts:48:9)
+
+
+Test Suites: 5 failed, 11 passed, 16 total
+Tests:       15 failed, 133 passed, 148 total
+Snapshots:   0 total
+Time:        40.108 s
+Ran all test suites.
+Force exiting Jest: Have you considered using `--detectOpenHandles` to detect async operations that kept running after all tests finished?
