@@ -378,6 +378,7 @@ model companies {
   onboarding_progress                   onboarding_progress?
   payments                              payments[]
   payrolls                              payrolls[]
+  employee_contracts                    employee_contracts[]
   products                              products[]
   quotations                            quotations[]
   recurring_invoices                    recurring_invoices[]
@@ -575,6 +576,7 @@ model employees {
   leave_balances         leave_balances[]
   leave_requests         leave_requests[]
   payrolls               payrolls[]
+  employee_contracts     employee_contracts[]
 
   @@unique([company_id, employee_number])
   @@index([company_id])
@@ -1175,7 +1177,8 @@ model warehouses {
   created_at           DateTime               @default(now())
   updated_at           DateTime               @updatedAt
   deleted_at           DateTime?
-  stock_movement_items stock_movement_items[]
+  stock_movement_items_from stock_movement_items[] @relation("StockMovementFromWarehouse")
+  stock_movement_items_to   stock_movement_items[] @relation("StockMovementToWarehouse")
   companies            companies              @relation(fields: [company_id], references: [id], onDelete: Cascade)
 
   @@index([company_id])
@@ -1231,7 +1234,8 @@ model stock_movement_items {
   batches           batches?        @relation(fields: [batch_id], references: [id])
   products          products        @relation(fields: [product_id], references: [id], onDelete: Cascade)
   stock_movements   stock_movements @relation(fields: [stock_movement_id], references: [id], onDelete: Cascade)
-  warehouses        warehouses?     @relation(fields: [warehouse_id], references: [id])
+  warehouse_from    warehouses?     @relation("StockMovementFromWarehouse", fields: [warehouse_id], references: [id])
+  warehouse_to      warehouses?     @relation("StockMovementToWarehouse", fields: [warehouse_to_id], references: [id])
 
   @@index([stock_movement_id])
   @@index([product_id])
@@ -1665,6 +1669,8 @@ model employee_contracts {
   created_at         DateTime  @default(now())
   updated_at         DateTime
   deleted_at         DateTime?
+  companies          companies @relation(fields: [company_id], references: [id], onDelete: Cascade)
+  employees          employees @relation(fields: [employee_id], references: [id], onDelete: Cascade)
 
   @@unique([employee_id, start_date])
   @@index([company_id])
