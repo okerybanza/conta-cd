@@ -384,6 +384,7 @@ model companies {
   recurring_invoices                    recurring_invoices[]
   settings                              settings[]
   stock_movements                       stock_movements[]
+  invoice_history                       invoiceHistory[]
   subscriptions                         subscriptions?
   suppliers                             suppliers[]
   support_tickets                       support_tickets[]
@@ -774,6 +775,7 @@ model invoices {
   recurring_invoices   recurring_invoices? @relation(fields: [recurring_invoice_id], references: [id])
   payments             payments[]
   quotations           quotations[]
+  invoice_history      invoiceHistory[]
 
   @@unique([company_id, invoice_number])
   @@index([recurring_invoice_id])
@@ -783,6 +785,28 @@ model invoices {
   @@index([due_date])
   @@index([invoice_date])
   @@index([status])
+}
+
+/// Historique des modifications de factures (DOC-07)
+/// Table physique : invoice_history
+model invoiceHistory {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  companyId   String
+  invoiceId   String
+  field       String   @db.VarChar(100)
+  oldValue    Json?
+  newValue    Json?
+  changedBy   String?
+  reason      String?  @db.VarChar(500)
+  createdAt   DateTime @default(now())
+
+  companies   companies @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  invoices    invoices  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+
+  @@index([companyId])
+  @@index([invoiceId])
+  @@index([createdAt])
+  @@map("invoice_history")
 }
 
 model journal_entries {
