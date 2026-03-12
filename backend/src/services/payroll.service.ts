@@ -21,18 +21,18 @@ import auditService from './audit.service';
 import fiscalPeriodService from './fiscalPeriod.service';
 
 export interface CreatePayrollData {
-  employeeId: string;
-  periodStart: Date | string;
-  periodEnd: Date | string;
-  payDate: Date | string;
+  employeeId?: string;
+  periodStart?: Date | string;
+  periodEnd?: Date | string;
+  payDate?: Date | string;
   notes?: string;
 }
 
 export interface PayrollItemData {
-  type: string; // 'salary', 'bonus', 'allowance', 'deduction', 'tax', etc.
-  description: string;
-  amount: number;
-  isDeduction: boolean;
+  type?: string; // 'salary', 'bonus', 'allowance', 'deduction', 'tax', etc.
+  description?: string;
+  amount?: number;
+  isDeduction?: boolean;
 }
 
 export interface RDCDeductions {

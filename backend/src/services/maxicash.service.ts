@@ -4,12 +4,12 @@ import logger from '../utils/logger';
 import platformSettingsService from './platform-settings.service';
 
 export interface MaxiCashInitPaymentInput {
-  companyId: string;
-  invoiceId: string;
-  amount: number;
-  currency: string;
-  customerPhone: string;
-  reference: string;
+  companyId?: string;
+  invoiceId?: string;
+  amount?: number;
+  currency?: string;
+  customerPhone?: string;
+  reference?: string;
 }
 
 export interface MaxiCashInitPaymentResult {
