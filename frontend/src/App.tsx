@@ -70,6 +70,7 @@ const AdminSettingsPage = lazy(() => import('./pages/admin/AdminSettingsPage'));
 const AdminAuditLogsPage = lazy(() => import('./pages/admin/AdminAuditLogsPage'));
 const AdminPaymentsPage = lazy(() => import('./pages/admin/AdminPaymentsPage'));
 const SelectPlanPage = lazy(() => import('./pages/onboarding/SelectPlanPage'));
+const OnboardingWizard = lazy(() => import('./pages/onboarding/OnboardingWizard'));
 const AccountantSelectPlanPage = lazy(() => import('./pages/onboarding/AccountantSelectPlanPage'));
 const PayPalReturnPage = lazy(() => import('./pages/payments/PayPalReturnPage'));
 const VisapayReturnPage = lazy(() => import('./pages/payments/VisapayReturnPage'));
@@ -215,7 +216,8 @@ function App() {
           }
         />
         <Route
-          path="/onboarding/select-plan"
+          path="/onboarding/setup" element={<Suspense fallback={<div>Chargement...</div>}><OnboardingWizard /></Suspense>} />
+          <Route path="/onboarding/select-plan"
           element={
             <PrivateRoute>
               <Suspense fallback={<LoadingFallback />}>
