@@ -1573,6 +1573,13 @@ model users {
   is_super_admin                                   Boolean                   @default(false)
   conta_role                                       String?                   @db.VarChar(50)
   conta_permissions                                Json?                     @default("{}")
+  referral_code                                    String?                   @unique @db.VarChar(20)
+  referred_by                                      String?
+  referral_reward_type                             String?                   @default("months") @db.VarChar(20)
+  referral_credits                                 Int?                      @default(0)
+  referral_commission_rate                         Float?                    @default(0.05)
+  referrals_made                                   referrals[]               @relation("ReferralMaker")
+  referrals_received                               referrals[]               @relation("ReferralReceiver")
   ExpenseAttachment                                ExpenseAttachment[]
   company_accountants                              company_accountants[]
   contracts                                        contracts[]
@@ -1734,4 +1741,24 @@ view account_balances_view {
   accountId String  @id @map("account_id")
   companyId String  @map("company_id")
   balance   Decimal @db.Decimal(15, 2)
+}
+
+model referrals {
+  id                String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  referrer_id       String
+  referee_id        String
+  referral_code     String    @db.VarChar(20)
+  status            String    @default("pending") @db.VarChar(20)
+  reward_type       String    @default("months") @db.VarChar(20)
+  reward_value      Float     @default(1)
+  commission_paid   Boolean   @default(false)
+  commission_amount Float?
+  activated_at      DateTime?
+  created_at        DateTime  @default(now())
+  updated_at        DateTime  @default(now())
+  referrer          users     @relation("ReferralMaker", fields: [referrer_id], references: [id])
+  referee           users     @relation("ReferralReceiver", fields: [referee_id], references: [id])
+
+  @@index([referrer_id])
+  @@index([referral_code])
 }
