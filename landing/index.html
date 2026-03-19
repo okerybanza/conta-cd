@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Conta.cd — Comptabilité SYSCOHADA pour l'Afrique Centrale</title>
+    <meta name="description" content="Conta.cd simplifie la comptabilité des entreprises en RDC. Facturation, gestion des dépenses, déclarations TVA, exports OHADA — tout en un.">
+    <meta name="keywords" content="comptabilité RDC, SYSCOHADA, facturation Congo, comptable Kinshasa, gestion financière Afrique">
+    <link rel="icon" href="/Logo/Icon.png">
+    <link rel="apple-touch-icon" href="/Logo/Icon.png">
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.min.css" rel="stylesheet">
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+      :root {
+        --primary: #1a3a5c;
+        --primary-light: #2d5f8a;
+        --accent: #00b894;
+        --accent-dark: #00a381;
+        --text-dark: #1a1a2e;
+        --text-muted: #6c757d;
+        --bg-light: #f8fafc;
+        --border: #e2e8f0;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font-family: 'Inter', sans-serif; color: var(--text-dark); }
+      
+      /* NAVBAR */
+      .navbar { background: var(--primary); padding: 16px 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 20px rgba(0,0,0,0.15); }
+      .navbar-brand img { height: 36px; }
+      .navbar-brand span { color: white; font-weight: 700; font-size: 22px; margin-left: 8px; }
+      .nav-link { color: rgba(255,255,255,0.85) !important; font-weight: 500; margin: 0 4px; transition: color 0.2s; }
+      .nav-link:hover { color: white !important; }
+      .btn-nav { background: var(--accent); color: white !important; border-radius: 8px; padding: 8px 20px !important; font-weight: 600; }
+      .btn-nav:hover { background: var(--accent-dark); }
+
+      /* HERO */
+      .hero { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 60%, #1a5c4a 100%); min-height: 90vh; display: flex; align-items: center; position: relative; overflow: hidden; }
+      .hero::before { content: ''; position: absolute; top: -50%; right: -20%; width: 600px; height: 600px; background: rgba(255,255,255,0.03); border-radius: 50%; }
+      .hero-subtitle { color: var(--accent); font-size: 13px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
+      .hero-title { color: white; font-size: clamp(32px, 5vw, 56px); font-weight: 800; line-height: 1.15; }
+      .hero-title span { color: var(--accent); }
+      .hero-desc { color: rgba(255,255,255,0.8); font-size: 18px; line-height: 1.7; max-width: 540px; }
+      .btn-primary-conta { background: var(--accent); color: white; border: none; border-radius: 10px; padding: 14px 32px; font-weight: 700; font-size: 16px; text-decoration: none; display: inline-block; transition: all 0.3s; }
+      .btn-primary-conta:hover { background: var(--accent-dark); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,184,148,0.4); color: white; }
+      .btn-outline-conta { border: 2px solid rgba(255,255,255,0.5); color: white; border-radius: 10px; padding: 14px 32px; font-weight: 600; font-size: 16px; text-decoration: none; display: inline-block; transition: all 0.3s; }
+      .btn-outline-conta:hover { border-color: white; background: rgba(255,255,255,0.1); color: white; }
+      .hero-badges { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 12px; }
+      .hero-badge { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; border-radius: 20px; padding: 6px 16px; font-size: 13px; }
+      .hero-card { background: white; border-radius: 16px; padding: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); max-width: 380px; }
+      .hero-card-header { background: var(--primary); border-radius: 10px; padding: 12px 16px; color: white; font-weight: 600; font-size: 13px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+      .metric-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); }
+      .metric-row:last-child { border-bottom: none; }
+      .metric-label { font-size: 13px; color: var(--text-muted); }
+      .metric-value { font-weight: 700; color: var(--text-dark); }
+      .metric-value.green { color: #00b894; }
+      .metric-value.red { color: #e74c3c; }
+      .metric-badge { background: #e8f5e9; color: #00b894; border-radius: 6px; padding: 2px 8px; font-size: 11px; font-weight: 600; }
+
+      /* STATS */
+      .stats-section { background: var(--primary); padding: 60px 0; }
+      .stat-item { text-align: center; color: white; }
+      .stat-number { font-size: 48px; font-weight: 800; color: var(--accent); }
+      .stat-label { font-size: 14px; opacity: 0.8; margin-top: 4px; }
+
+      /* SECTIONS */
+      section { padding: 80px 0; }
+      .section-label { color: var(--accent); font-size: 12px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 12px; }
+      .section-title { font-size: clamp(28px, 4vw, 42px); font-weight: 800; color: var(--text-dark); margin-bottom: 16px; }
+      .section-desc { color: var(--text-muted); font-size: 17px; line-height: 1.7; max-width: 600px; margin: 0 auto; }
+
+      /* FEATURES */
+      .feature-card { background: white; border: 1px solid var(--border); border-radius: 16px; padding: 28px; height: 100%; transition: all 0.3s; }
+      .feature-card:hover { border-color: var(--accent); box-shadow: 0 8px 30px rgba(0,184,148,0.15); transform: translateY(-4px); }
+      .feature-icon { width: 56px; height: 56px; background: linear-gradient(135deg, #e8f5e9, #c8f0e8); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; font-size: 24px; }
+      .feature-title { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+      .feature-desc { color: var(--text-muted); font-size: 14px; line-height: 1.6; }
+
+      /* HOW IT WORKS */
+      .how-section { background: var(--bg-light); }
+      .step-number { width: 48px; height: 48px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; margin: 0 auto 16px; }
+      .step-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+      .step-desc { color: var(--text-muted); font-size: 14px; line-height: 1.6; }
+
+      /* PRICING */
+      .pricing-card { background: white; border: 2px solid var(--border); border-radius: 20px; padding: 36px; height: 100%; transition: all 0.3s; }
+      .pricing-card.featured { border-color: var(--accent); position: relative; }
+      .pricing-badge { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: var(--accent); color: white; border-radius: 20px; padding: 4px 20px; font-size: 12px; font-weight: 700; white-space: nowrap; }
+      .pricing-name { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+      .pricing-price { font-size: 42px; font-weight: 800; color: var(--primary); }
+      .pricing-price span { font-size: 16px; font-weight: 500; color: var(--text-muted); }
+      .pricing-desc { color: var(--text-muted); font-size: 14px; margin-bottom: 24px; }
+      .pricing-feature { display: flex; align-items: center; gap: 10px; padding: 8px 0; font-size: 14px; border-bottom: 1px solid var(--border); }
+      .pricing-feature:last-child { border-bottom: none; }
+      .pricing-feature i { color: var(--accent); font-size: 16px; }
+      .btn-pricing { display: block; text-align: center; padding: 14px; border-radius: 10px; font-weight: 700; text-decoration: none; margin-top: 24px; transition: all 0.3s; }
+      .btn-pricing-primary { background: var(--accent); color: white; }
+      .btn-pricing-primary:hover { background: var(--accent-dark); color: white; }
+      .btn-pricing-outline { border: 2px solid var(--primary); color: var(--primary); }
+      .btn-pricing-outline:hover { background: var(--primary); color: white; }
+
+      /* TESTIMONIALS */
+      .testimonial-card { background: white; border: 1px solid var(--border); border-radius: 16px; padding: 28px; height: 100%; }
+      .testimonial-text { font-size: 15px; line-height: 1.7; color: var(--text-dark); margin-bottom: 20px; font-style: italic; }
+      .testimonial-avatar { width: 44px; height: 44px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 16px; }
+      .testimonial-name { font-weight: 700; font-size: 14px; }
+      .testimonial-role { font-size: 12px; color: var(--text-muted); }
+      .stars { color: #f39c12; font-size: 14px; margin-bottom: 12px; }
+
+      /* FAQ */
+      .faq-section { background: var(--bg-light); }
+      .accordion-button { font-weight: 600; }
+      .accordion-button:not(.collapsed) { color: var(--primary); background: #f0f7ff; }
+
+      /* CONTACT */
+      .contact-info-item { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+      .contact-icon { width: 48px; height: 48px; background: linear-gradient(135deg, #e8f0fe, #c8e0fe); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 20px; flex-shrink: 0; }
+      .form-control { border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; font-size: 14px; }
+      .form-control:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,184,148,0.1); }
+      .btn-submit { background: var(--accent); color: white; border: none; border-radius: 10px; padding: 14px 32px; font-weight: 700; width: 100%; font-size: 16px; transition: all 0.3s; }
+      .btn-submit:hover { background: var(--accent-dark); }
+
+      /* CTA */
+      .cta-section { background: linear-gradient(135deg, var(--primary), var(--primary-light)); padding: 80px 0; text-align: center; }
+      .cta-title { color: white; font-size: clamp(28px, 4vw, 42px); font-weight: 800; margin-bottom: 16px; }
+      .cta-desc { color: rgba(255,255,255,0.8); font-size: 17px; margin-bottom: 32px; }
+
+      /* FOOTER */
+      footer { background: #0d1b2a; color: rgba(255,255,255,0.7); padding: 60px 0 30px; }
+      footer h6 { color: white; font-weight: 700; margin-bottom: 16px; }
+      footer a { color: rgba(255,255,255,0.6); text-decoration: none; display: block; margin-bottom: 8px; font-size: 14px; transition: color 0.2s; }
+      footer a:hover { color: var(--accent); }
+      .footer-brand { color: white; font-size: 22px; font-weight: 800; margin-bottom: 12px; }
+      .footer-desc { font-size: 14px; line-height: 1.7; margin-bottom: 20px; }
+      .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); margin-top: 40px; padding-top: 24px; text-align: center; font-size: 13px; }
+      .social-link { width: 36px; height: 36px; background: rgba(255,255,255,0.1); border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; color: white; margin-right: 8px; transition: all 0.2s; text-decoration: none; }
+      .social-link:hover { background: var(--accent); color: white; }
+
+      /* OHADA BADGE */
+      .ohada-badge { background: linear-gradient(135deg, #1a3a5c, #2d5f8a); color: white; border-radius: 12px; padding: 16px 20px; display: flex; align-items: center; gap: 12px; }
+      .ohada-badge i { font-size: 28px; color: var(--accent); }
+
+      @media (max-width: 768px) {
+        .hero { min-height: auto; padding: 60px 0; }
+        .hero-card { display: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg">
+      <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="/">
+          <img src="/Logo/Icon.png" alt="Conta.cd" onerror="this.style.display='none'">
+          <span>Conta.cd</span>
+        </a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+          <i class="bi bi-list text-white fs-4"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navMain">
+          <ul class="navbar-nav mx-auto">
+            <li class="nav-item"><a class="nav-link" href="#fonctionnalites">Fonctionnalités</a></li>
+            <li class="nav-item"><a class="nav-link" href="#comment-ca-marche">Comment ça marche</a></li>
+            <li class="nav-item"><a class="nav-link" href="#tarifs">Tarifs</a></li>
+            <li class="nav-item"><a class="nav-link" href="#temoignages">Témoignages</a></li>
+            <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+          </ul>
+          <div class="d-flex gap-2">
+            <a href="/login" class="nav-link">Connexion</a>
+            <a href="/register" class="btn-nav nav-link">Commencer gratuitement</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="home">
+      <div class="container">
+        <div class="row align-items-center g-5">
+          <div class="col-lg-6" data-aos="fade-right">
+            <p class="hero-subtitle mb-3">Comptabilité SYSCOHADA Révisé</p>
+            <h1 class="hero-title mb-4">La comptabilité <span>simplifiée</span> pour l'Afrique Centrale</h1>
+            <p class="hero-desc mb-4">Conta.cd automatise votre comptabilité selon les normes OHADA. Facturation, dépenses, TVA, exports légaux — gérez tout depuis une seule plateforme conçue pour la RDC.</p>
+            <div class="d-flex gap-3 flex-wrap mb-4">
+              <a href="/register" class="btn-primary-conta">Essai gratuit 30 jours</a>
+              <a href="#comment-ca-marche" class="btn-outline-conta">Voir comment ça marche</a>
+            </div>
+            <div class="hero-badges">
+              <span class="hero-badge"><i class="bi bi-check-circle me-1"></i>Conforme SYSCOHADA</span>
+              <span class="hero-badge"><i class="bi bi-shield-check me-1"></i>Données sécurisées</span>
+              <span class="hero-badge"><i class="bi bi-phone me-1"></i>Mobile Money</span>
+            </div>
+          </div>
+          <div class="col-lg-6 text-center" data-aos="fade-left">
+            <div class="hero-card mx-auto">
+              <div class="hero-card-header">
+                <i class="bi bi-graph-up-arrow"></i>
+                Tableau de bord — Décembre 2025
+              </div>
+              <div class="metric-row">
+                <span class="metric-label">Chiffre d'affaires</span>
+                <span class="metric-value green">12,450,000 CDF <span class="metric-badge">+18%</span></span>
+              </div>
+              <div class="metric-row">
+                <span class="metric-label">Factures émises</span>
+                <span class="metric-value">47</span>
+              </div>
+              <div class="metric-row">
+                <span class="metric-label">Dépenses du mois</span>
+                <span class="metric-value red">3,820,000 CDF</span>
+              </div>
+              <div class="metric-row">
+                <span class="metric-label">TVA à verser (DGI)</span>
+                <span class="metric-value">1,254,000 CDF</span>
+              </div>
+              <div class="metric-row">
+                <span class="metric-label">Bénéfice net</span>
+                <span class="metric-value green">8,630,000 CDF</span>
+              </div>
+              <div class="mt-3 d-flex gap-2">
+                <div style="flex:1;background:#e8f5e9;border-radius:8px;padding:10px;text-align:center">
+                  <div style="font-size:11px;color:#666">Factures payées</div>
+                  <div style="font-weight:800;color:#00b894">38/47</div>
+                </div>
+                <div style="flex:1;background:#fff3e0;border-radius:8px;padding:10px;text-align:center">
+                  <div style="font-size:11px;color:#666">En attente</div>
+                  <div style="font-weight:800;color:#f39c12">9/47</div>
+                </div>
+                <div style="flex:1;background:#fce4ec;border-radius:8px;padding:10px;text-align:center">
+                  <div style="font-size:11px;color:#666">En retard</div>
+                  <div style="font-weight:800;color:#e74c3c">2/47</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <div class="stats-section">
+      <div class="container">
+        <div class="row g-4">
+          <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="0">
+            <div class="stat-item">
+              <div class="stat-number">500+</div>
+              <div class="stat-label">Entreprises actives</div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="100">
+            <div class="stat-item">
+              <div class="stat-number">99.9%</div>
+              <div class="stat-label">Disponibilité</div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="200">
+            <div class="stat-item">
+              <div class="stat-number">50K+</div>
+              <div class="stat-label">Factures générées</div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="300">
+            <div class="stat-item">
+              <div class="stat-number">100%</div>
+              <div class="stat-label">Conforme OHADA</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FONCTIONNALITÉS -->
+    <section id="fonctionnalites">
+      <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+          <p class="section-label">Ce que vous obtenez</p>
+          <h2 class="section-title">Tout ce dont votre entreprise a besoin</h2>
+          <p class="section-desc">Une plateforme complète conçue spécifiquement pour les entreprises de la RDC et de l'Afrique Centrale.</p>
+        </div>
+        <div class="row g-4">
+          <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="0">
+            <div class="feature-card">
+              <div class="feature-icon">🧾</div>
+              <h4 class="feature-title">Facturation professionnelle</h4>
+              <p class="feature-desc">Créez des factures conformes aux normes RDC en quelques secondes. Envoi par email, suivi des paiements, relances automatiques.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+            <div class="feature-card">
+              <div class="feature-icon">📊</div>
+              <h4 class="feature-title">Comptabilité SYSCOHADA</h4>
+              <p class="feature-desc">Journal comptable automatique, plan de comptes SYSCOHADA Révisé, bilan et compte de résultat conformes aux normes OHADA.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+            <div class="feature-card">
+              <div class="feature-icon">📱</div>
+              <h4 class="feature-title">Mobile Money intégré</h4>
+              <p class="feature-desc">Acceptez les paiements Airtel Money et M-Pesa directement depuis vos factures. Réconciliation automatique.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
+            <div class="feature-card">
+              <div class="feature-icon">🏛️</div>
+              <h4 class="feature-title">Déclarations TVA DGI</h4>
+              <p class="feature-desc">Calcul automatique de la TVA collectée et déductible. Génération du rapport mensuel prêt pour la Direction Générale des Impôts.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="400">
+            <div class="feature-card">
+              <div class="feature-icon">👨‍💼</div>
+              <h4 class="feature-title">Gestion des experts comptables</h4>
+              <p class="feature-desc">Invitez votre expert comptable à accéder à votre espace. Il gère vos comptes directement depuis sa propre interface.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="500">
+            <div class="feature-card">
+              <div class="feature-icon">🤖</div>
+              <h4 class="feature-title">Assistant IA comptable</h4>
+              <p class="feature-desc">Détection automatique des anomalies, conseils personnalisés et prévisions financières basées sur vos données réelles.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="0">
+            <div class="feature-card">
+              <div class="feature-icon">📸</div>
+              <h4 class="feature-title">Scan de factures (OCR)</h4>
+              <p class="feature-desc">Photographiez vos factures fournisseurs et importez-les automatiquement. Extraction intelligente des montants et dates.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+            <div class="feature-card">
+              <div class="feature-icon">👥</div>
+              <h4 class="feature-title">Gestion RH & Paie</h4>
+              <p class="feature-desc">Gestion des employés, contrats, congés et bulletins de paie. Calcul automatique des charges sociales selon la législation RDC.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+            <div class="feature-card">
+              <div class="feature-icon">📦</div>
+              <h4 class="feature-title">Gestion des stocks</h4>
+              <p class="feature-desc">Suivez vos stocks en temps réel, gérez les entrées/sorties et recevez des alertes de réapprovisionnement automatiques.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Badge OHADA -->
+        <div class="row mt-5" data-aos="fade-up">
+          <div class="col-md-8 mx-auto">
+            <div class="ohada-badge">
+              <i class="bi bi-award-fill"></i>
+              <div>
+                <div style="font-weight:700;font-size:16px;margin-bottom:4px">Conforme SYSCOHADA Révisé</div>
+                <div style="font-size:13px;opacity:0.85">Conta.cd respecte intégralement les normes comptables de l'Organisation pour l'Harmonisation en Afrique du Droit des Affaires (OHADA), applicables en RDC et dans 16 pays d'Afrique.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMMENT ÇA MARCHE -->
+    <section id="comment-ca-marche" class="how-section">
+      <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+          <p class="section-label">Simple et rapide</p>
+          <h2 class="section-title">Démarrez en 4 étapes</h2>
+          <p class="section-desc">Pas besoin d'être comptable pour utiliser Conta.cd. Notre assistant vous guide pas à pas.</p>
+        </div>
+        <div class="row g-4">
+          <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="0">
+            <div class="text-center p-4">
+              <div class="step-number">1</div>
+              <h5 class="step-title">Créez votre compte</h5>
+              <p class="step-desc">Inscrivez-vous gratuitement en 2 minutes. Essai de 30 jours sans carte bancaire.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+            <div class="text-center p-4">
+              <div class="step-number">2</div>
+              <h5 class="step-title">Configurez votre entreprise</h5>
+              <p class="step-desc">Notre assistant d'intégration configure votre plan comptable SYSCOHADA automatiquement.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
+            <div class="text-center p-4">
+              <div class="step-number">3</div>
+              <h5 class="step-title">Gérez vos finances</h5>
+              <p class="step-desc">Créez vos factures, enregistrez vos dépenses, suivez vos paiements en temps réel.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
+            <div class="text-center p-4">
+              <div class="step-number">4</div>
+              <h5 class="step-title">Exportez vos états</h5>
+              <p class="step-desc">Générez votre bilan, compte de résultat et déclarations TVA en un clic. PDF prêt à soumettre.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TARIFS -->
+    <section id="tarifs">
+      <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+          <p class="section-label">Tarification transparente</p>
+          <h2 class="section-title">Un plan pour chaque entreprise</h2>
+          <p class="section-desc">Pas de frais cachés. Annulez à tout moment. Essai gratuit 30 jours inclus.</p>
+        </div>
+        <div class="row g-4 justify-content-center">
+          <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="0">
+            <div class="pricing-card">
+              <p class="pricing-name">Starter</p>
+              <div class="pricing-price">Gratuit<span>/30 jours</span></div>
+              <p class="pricing-desc">Pour découvrir Conta.cd sans engagement.</p>
+              <div class="pricing-feature"><i class="bi bi-check-lg"></i> 10 factures par mois</div>
+              <div class="pricing-feature"><i class="bi bi-check-lg"></i> 1 utilisateur</div>
+              <div class="pricing-feature"><i class="bi bi-check-lg"></i> Tableau de bord basique</div>
+              <div class="pricing-feature"><i class="bi bi-check-lg"></i> Export PDF</div>
+              <div class="pricing-feature"><i class="bi bi-x-lg text-muted"></i> <span class="text-muted">Déclarations TVA</span></div>
+              <div class="pricing-feature"><i class="bi bi-x-lg text-muted"></i> <span class="text-muted">Multi-utilisateurs</span></div>
+              <a href="/register" class="btn-pricing btn-pricing-outline">Commencer gratuitement</a>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+            <div class="pricing-card featured position-relative">
+              <span class="pricing-badge">⭐ Le plus populaire</span>
+              <p class="pricing-name">Business</p>
+              <div class="pricing-price">$29<span>/mois</span></div>
+              <p class="pricing-desc">Pour les PME et TPE en croissance.</p>
+              <div class="pricing-feature"><i class="bi bi-check-lg"></i> Factures illimitées</div>
+              <div class="pricing-feature"><i class="bi bi-check-lg"></i> 5 utilisateurs</div>
+              <div class="pricing-feature"><i class="bi bi-check-lg"></i> Comptabilité SYSCOHADA complète</div>
+              <div class="pricing-feature"><i class="bi bi-check-lg"></i> Déclarations TVA DGI</div>
+              <div class="pricing-feature"><i class="bi bi-check-lg"></i> Mobile Money (Airtel, M-Pesa)</div>
+              <div class="pricing-feature"><i class="bi bi-check-lg"></i> Export OHADA PDF</div>
+              <div class="pricing-feature"><i class="bi bi-check-lg"></i> Assistant IA comptable</div>
+              <a href="/register" class="btn-pricing btn-pricing-primary">Démarrer l'essai gratuit</a>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+            <div class="pricing-card">
+              <p class="pricing-name">Expert Comptable</p>
+              <div class="pricing-price">$79<span>/mois</span></div>
+              <p class="pricing-desc">Pour les cabinets comptables gérant plusieurs clients.</p>
+              <div class="pricing-feature"><i class="bi bi-check-lg"></i> Entreprises illimitées</div>
+              <div class="pricing-feature"><i class="bi bi-check-lg"></i> Utilisateurs illimités</div>
+              <div class="pricing-feature"><i class="bi bi-check-lg"></i> Toutes les fonctionnalités Business</div>
+              <div class="pricing-feature"><i class="bi bi-check-lg"></i> Tableau de bord multi-clients</div>
+              <div class="pricing-feature"><i class="bi bi-check-lg"></i> Programme de commission parrainage</div>
+              <div class="pricing-feature"><i class="bi bi-check-lg"></i> Support prioritaire 24/7</div>
+              <a href="/register" class="btn-pricing btn-pricing-outline">Contacter notre équipe</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TÉMOIGNAGES -->
+    <section id="temoignages" style="background:var(--bg-light)">
+      <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+          <p class="section-label">Ils nous font confiance</p>
+          <h2 class="section-title">Ce que disent nos utilisateurs</h2>
+          <p class="section-desc">Des entrepreneurs et comptables de Kinshasa, Lubumbashi et Goma partagent leur expérience.</p>
+        </div>
+        <div class="row g-4">
+          <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="0">
+            <div class="testimonial-card">
+              <div class="stars">★★★★★</div>
+              <p class="testimonial-text">"Avant Conta.cd, je passais 2 jours par mois à faire ma comptabilité manuellement. Maintenant tout est automatique. Mes déclarations TVA sont générées en un clic !"</p>
+              <div class="d-flex align-items-center gap-3">
+                <div class="testimonial-avatar">JM</div>
+                <div>
+                  <div class="testimonial-name">Jean-Marie Kabila</div>
+                  <div class="testimonial-role">Directeur, Import-Export Kinshasa</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+            <div class="testimonial-card">
+              <div class="stars">★★★★★</div>
+              <p class="testimonial-text">"En tant qu'expert comptable, je gère 23 entreprises depuis une seule interface. Le système de switch entre clients est révolutionnaire. Je recommande à tous mes confrères."</p>
+              <div class="d-flex align-items-center gap-3">
+                <div class="testimonial-avatar">GN</div>
+                <div>
+                  <div class="testimonial-name">Grace Nkemba</div>
+                  <div class="testimonial-role">Expert Comptable Agréé, Lubumbashi</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+            <div class="testimonial-card">
+              <div class="stars">★★★★★</div>
+              <p class="testimonial-text">"La conformité SYSCOHADA était mon principal souci. Conta.cd génère automatiquement tous les états financiers requis par la DGI. C'est exactement ce dont le marché congolais avait besoin."</p>
+              <div class="d-flex align-items-center gap-3">
+                <div class="testimonial-avatar">PM</div>
+                <div>
+                  <div class="testimonial-name">Pascal Mutombo</div>
+                  <div class="testimonial-role">PDG, Groupe Mutombo & Associés</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="faq-section">
+      <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+          <p class="section-label">Questions fréquentes</p>
+          <h2 class="section-title">Vous avez des questions ?</h2>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-lg-8" data-aos="fade-up">
+            <div class="accordion" id="faqAccordion">
+              <div class="accordion-item border mb-3 rounded-3 overflow-hidden">
+                <h2 class="accordion-header">
+                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                    Conta.cd est-il vraiment conforme aux normes OHADA ?
+                  </button>
+                </h2>
+                <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                  <div class="accordion-body text-muted">
+                    Oui. Conta.cd implémente le Plan Comptable SYSCOHADA Révisé dans son intégralité — les 8 classes de comptes, les états financiers (bilan, compte de résultat, TAFIRE) et les exports PDF conformes aux exigences légales en RDC et dans les 16 pays membres de l'OHADA.
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item border mb-3 rounded-3 overflow-hidden">
+                <h2 class="accordion-header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                    Puis-je utiliser Conta.cd sans connaissances en comptabilité ?
+                  </button>
+                </h2>
+                <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                  <div class="accordion-body text-muted">
+                    Absolument. Conta.cd est conçu pour les entrepreneurs, pas seulement pour les comptables. L'interface est intuitive et notre assistant IA vous guide. Pour les opérations complexes, vous pouvez inviter votre expert comptable à accéder à votre espace.
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item border mb-3 rounded-3 overflow-hidden">
+                <h2 class="accordion-header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                    Comment fonctionne le Mobile Money dans Conta.cd ?
+                  </button>
+                </h2>
+                <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                  <div class="accordion-body text-muted">
+                    Conta.cd intègre Airtel Money et M-Pesa. Vos clients peuvent payer directement depuis leurs téléphones. Une fois le paiement confirmé, la facture est automatiquement marquée comme payée et l'écriture comptable est générée.
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item border mb-3 rounded-3 overflow-hidden">
+                <h2 class="accordion-header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                    Mes données sont-elles sécurisées ?
+                  </button>
+                </h2>
+                <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                  <div class="accordion-body text-muted">
+                    Vos données sont chiffrées et hébergées sur des serveurs sécurisés avec des sauvegardes quotidiennes automatiques. Nous utilisons HTTPS, authentification à deux facteurs et des audits de sécurité réguliers conformes aux standards OWASP.
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item border mb-3 rounded-3 overflow-hidden">
+                <h2 class="accordion-header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                    Puis-je gérer plusieurs entreprises avec un seul compte ?
+                  </button>
+                </h2>
+                <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                  <div class="accordion-body text-muted">
+                    Oui, avec le plan Expert Comptable. Vous pouvez gérer un nombre illimité d'entreprises et switcher entre elles en un clic. Chaque entreprise a son propre espace comptable isolé et sécurisé.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+          <p class="section-label">Parlons-nous</p>
+          <h2 class="section-title">Contactez notre équipe</h2>
+          <p class="section-desc">Une question ? Notre équipe basée à Kinshasa vous répond dans les 24 heures.</p>
+        </div>
+        <div class="row g-5">
+          <div class="col-lg-5" data-aos="fade-right">
+            <div class="contact-info-item">
+              <div class="contact-icon"><i class="bi bi-telephone"></i></div>
+              <div>
+                <div style="font-weight:600;margin-bottom:4px">Téléphone</div>
+                <div class="text-muted">+243 XXX XXX XXX</div>
+              </div>
+            </div>
+            <div class="contact-info-item">
+              <div class="contact-icon"><i class="bi bi-envelope"></i></div>
+              <div>
+                <div style="font-weight:600;margin-bottom:4px">Email</div>
+                <div class="text-muted">support@conta.cd</div>
+              </div>
+            </div>
+            <div class="contact-info-item">
+              <div class="contact-icon"><i class="bi bi-geo-alt"></i></div>
+              <div>
+                <div style="font-weight:600;margin-bottom:4px">Adresse</div>
+                <div class="text-muted">Kinshasa, République Démocratique du Congo</div>
+              </div>
+            </div>
+            <div class="contact-info-item">
+              <div class="contact-icon"><i class="bi bi-clock"></i></div>
+              <div>
+                <div style="font-weight:600;margin-bottom:4px">Heures d'ouverture</div>
+                <div class="text-muted">Lun–Ven : 8h–18h (WAT)</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-7" data-aos="fade-left">
+            <form id="contactForm">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <input type="text" class="form-control" placeholder="Votre nom" required>
+                </div>
+                <div class="col-md-6">
+                  <input type="email" class="form-control" placeholder="Votre email" required>
+                </div>
+                <div class="col-12">
+                  <input type="text" class="form-control" placeholder="Sujet">
+                </div>
+                <div class="col-12">
+                  <textarea class="form-control" rows="5" placeholder="Votre message..." required></textarea>
+                </div>
+                <div class="col-12">
+                  <button type="submit" class="btn-submit">Envoyer le message</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA FINAL -->
+    <div class="cta-section">
+      <div class="container" data-aos="fade-up">
+        <h2 class="cta-title">Prêt à simplifier votre comptabilité ?</h2>
+        <p class="cta-desc">Rejoignez 500+ entreprises qui font confiance à Conta.cd. Essai gratuit 30 jours, sans carte bancaire.</p>
+        <a href="/register" class="btn-primary-conta" style="font-size:18px;padding:16px 40px;">Commencer gratuitement →</a>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="container">
+        <div class="row g-4">
+          <div class="col-lg-4">
+            <div class="footer-brand">Conta.cd</div>
+            <p class="footer-desc">La plateforme comptable conçue pour les entreprises de l'Afrique Centrale. Conforme SYSCOHADA Révisé, simple à utiliser, puissante.</p>
+            <div>
+              <a href="#" class="social-link"><i class="bi bi-facebook"></i></a>
+              <a href="#" class="social-link"><i class="bi bi-linkedin"></i></a>
+              <a href="#" class="social-link"><i class="bi bi-twitter-x"></i></a>
+              <a href="#" class="social-link"><i class="bi bi-whatsapp"></i></a>
+            </div>
+          </div>
+          <div class="col-6 col-lg-2">
+            <h6>Produit</h6>
+            <a href="#fonctionnalites">Fonctionnalités</a>
+            <a href="#tarifs">Tarifs</a>
+            <a href="/api/docs">API Documentation</a>
+            <a href="#faq">FAQ</a>
+          </div>
+          <div class="col-6 col-lg-2">
+            <h6>Entreprise</h6>
+            <a href="#about">À propos</a>
+            <a href="#contact">Contact</a>
+            <a href="#">Carrières</a>
+            <a href="#">Blog</a>
+          </div>
+          <div class="col-6 col-lg-2">
+            <h6>Légal</h6>
+            <a href="#">Conditions d'utilisation</a>
+            <a href="#">Politique de confidentialité</a>
+            <a href="#">Mentions légales</a>
+          </div>
+          <div class="col-6 col-lg-2">
+            <h6>Compte</h6>
+            <a href="/register">S'inscrire</a>
+            <a href="/login">Se connecter</a>
+            <a href="/login">Mot de passe oublié</a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>© 2025 Conta.cd — Tous droits réservés. Conçu pour la RDC et l'Afrique Centrale.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      AOS.init({ duration: 700, once: true, offset: 80 });
+      
+      // Contact form
+      document.getElementById('contactForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const btn = this.querySelector('.btn-submit');
+        btn.textContent = 'Message envoyé ✓';
+        btn.style.background = '#00b894';
+        setTimeout(() => { btn.textContent = 'Envoyer le message'; btn.style.background = ''; }, 3000);
+      });
+
+      // Smooth scroll
+      document.querySelectorAll('a[href^="#"]').forEach(a => {
+        a.addEventListener('click', function(e) {
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+        });
+      });
+    </script>
+  </body>
+</html>
