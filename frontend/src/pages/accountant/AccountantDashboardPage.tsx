@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -137,7 +136,7 @@ function AccountantDashboardPage() {
 
     // Utiliser le nom du cabinet du profil si disponible
     const profileResponse = await accountantService.getProfile(user.id);
-    const profile = profileResponse.data?.profile;
+    const profile = profileResponse;
     const cabinetName = profile?.companyName || `Cabinet ${user.firstName || ''} ${user.lastName || ''}`.trim() || 'Mon Cabinet';
 
     try {

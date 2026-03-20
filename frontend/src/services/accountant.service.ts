@@ -13,10 +13,16 @@ export interface Accountant {
   address?: string;
   phone?: string;
   email?: string;
+  professionalPhone?: string;
+  professionalEmail?: string;
   website?: string;
   isAvailable: boolean;
   rating?: number;
   totalCompanies?: number;
+  activeCompaniesCount?: number;
+  maxCompanies?: number;
+  totalReviews?: number;
+  totalCompaniesManaged?: number;
   createdAt: string;
   updatedAt: string;
   user?: {
@@ -43,10 +49,14 @@ export interface CreateAccountantProfileData {
   address?: string;
   phone?: string;
   email?: string;
+  professionalPhone?: string;
+  professionalEmail?: string;
   website?: string;
   bio?: string;
   certifications?: string[];
   languages?: string[];
+  isAvailable?: boolean;
+  maxCompanies?: number;
 }
 
 export interface SearchAccountantFilters {
@@ -97,6 +107,16 @@ const accountantService = {
 
   async getManagedCompanies(): Promise<any[]> {
     const response = await api.get('/accountants/companies');
+    return response.data;
+  },
+
+  /**
+   * Récupérer le cabinet de l'expert connecté (si existant).
+   * Le backend peut retourner l'objet directement ou le wrapper via `.data`,
+   * donc le type est volontairement souple côté frontend.
+   */
+  async getOwnCabinet(): Promise<any> {
+    const response = await api.get('/accountants/cabinet');
     return response.data;
   },
 
