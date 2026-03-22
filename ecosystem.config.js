@@ -8,6 +8,7 @@ module.exports = {
       exec_mode: 'fork',
       env: {
         NODE_ENV: 'production',
+        UPLOAD_DIR: '/home/conta/conta.cd-prod/uploads',
         PORT: 3001  // PORT FIXE PRODUCTION - NE PAS CHANGER
       },
       error_file: './logs/backend-error.log',

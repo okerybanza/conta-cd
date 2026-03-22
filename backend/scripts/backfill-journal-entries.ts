@@ -7,8 +7,8 @@ dotenv.config({ path: '../.env' });
 async function main() {
   console.log('🔄 Démarrage du rattrapage des écritures comptables (factures & dépenses)...');
 
-  const companies = await prisma.company.findMany({
-    where: { deletedAt: null },
+  const companies = await prisma.companies.findMany({
+    where: { deleted_at: null },
     select: { id: true, name: true },
   });
 
@@ -18,16 +18,16 @@ async function main() {
     console.log(`\n=== Société: ${company.name} (${company.id}) ===`);
 
     // FACTURES
-    const invoices = await prisma.invoice.findMany({
+    const invoices = await prisma.invoices.findMany({
       where: {
-        companyId: company.id,
-        deletedAt: null,
+        company_id: company.id,
+        deleted_at: null,
         status: {
           notIn: ['draft', 'cancelled'],
         },
       },
       include: {
-        customer: true,
+        customers: true,
       },
     });
 
@@ -36,30 +36,30 @@ async function main() {
     let createdInvoiceEntries = 0;
 
     for (const invoice of invoices) {
-      const customer = invoice.customer;
+      const customer = invoice.customers;
       if (!customer) continue;
 
       const customerName =
         customer.type === 'particulier'
-          ? `${customer.firstName || ''} ${customer.lastName || ''}`.trim()
-          : customer.businessName || '';
+          ? `${customer.first_name || ''} ${customer.last_name || ''}`.trim()
+          : customer.business_name || '';
 
       try {
         await journalEntryService.ensureForInvoice(company.id, invoice.id, {
-          invoiceNumber: invoice.invoiceNumber,
-          invoiceDate: invoice.invoiceDate,
-          customerId: invoice.customerId,
+          invoiceNumber: invoice.invoice_number,
+          invoiceDate: invoice.invoice_date,
+          customerId: invoice.customer_id,
           customerName,
           amountHt: Number(invoice.subtotal),
-          taxAmount: Number(invoice.taxAmount),
-          amountTtc: Number(invoice.totalAmount),
+          taxAmount: Number(invoice.tax_amount),
+          amountTtc: Number(invoice.total_amount),
           currency: invoice.currency || 'CDF',
-          createdBy: invoice.createdBy || undefined,
+          createdBy: invoice.created_by || undefined,
         });
         createdInvoiceEntries++;
       } catch (error: any) {
         console.error(
-          `⚠️ Impossible de créer l'écriture pour la facture ${invoice.invoiceNumber}: ${error.code || error.message}`,
+          `⚠️ Impossible de créer l'écriture pour la facture ${invoice.invoice_number}: ${error.code || error.message}`,
         );
       }
     }
@@ -67,17 +67,17 @@ async function main() {
     console.log(`✅ Écritures factures traitées pour ${company.name}: ${createdInvoiceEntries}`);
 
     // DÉPENSES
-    const expenses = await prisma.expense.findMany({
+    const expenses = await prisma.expenses.findMany({
       where: {
-        companyId: company.id,
-        deletedAt: null,
+        company_id: company.id,
+        deleted_at: null,
         status: {
           notIn: ['draft', 'cancelled'],
         },
       },
       include: {
-        supplier: true,
-        account: true,
+        suppliers: true,
+        accounts: true,
       },
     });
 
@@ -88,21 +88,21 @@ async function main() {
     for (const expense of expenses) {
       try {
         await journalEntryService.ensureForExpense(company.id, expense.id, {
-          expenseNumber: expense.expenseNumber,
-          expenseDate: expense.expenseDate,
-          supplierId: expense.supplierId || undefined,
-          supplierName: expense.supplierName || undefined,
-          accountId: expense.accountId || undefined,
-          amountHt: Number(expense.amountHt || expense.amount || 0),
-          taxAmount: Number(expense.taxAmount || 0),
-          amountTtc: Number(expense.amountTtc || expense.totalAmount || 0),
+          expenseNumber: expense.expense_number,
+          expenseDate: expense.expense_date,
+          supplierId: expense.supplier_id || undefined,
+          supplierName: expense.supplier_name || undefined,
+          accountId: expense.account_id || undefined,
+          amountHt: Number(expense.amount_ht || expense.amount || 0),
+          taxAmount: Number(expense.tax_amount || 0),
+          amountTtc: Number(expense.amount_ttc || expense.total_amount || 0),
           currency: expense.currency || 'CDF',
-          createdBy: expense.createdBy || undefined,
+          createdBy: expense.created_by || undefined,
         });
         createdExpenseEntries++;
       } catch (error: any) {
         console.error(
-          `⚠️ Impossible de créer l'écriture pour la dépense ${expense.expenseNumber}: ${error.code || error.message}`,
+          `⚠️ Impossible de créer l'écriture pour la dépense ${expense.expense_number}: ${error.code || error.message}`,
         );
       }
     }
@@ -121,5 +121,3 @@ main()
   .finally(async () => {
     await prisma.$disconnect();
   });
-
-

@@ -1,43 +1,14 @@
 {
   "name": "conta-backend",
   "version": "1.0.0",
-  "description": "Backend API for Conta - Invoice Management Application",
+  "description": "Conta Backend API",
   "main": "dist/server.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-    "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate dev",
-    "prisma:studio": "prisma studio",
-    "prisma:seed": "tsx ../database/prisma/seed.ts",
-    "prisma:seed:accounts": "tsx ../database/prisma/seed-accounts.ts",
-    "prisma:seed:test": "tsx ../database/prisma/seed-test-data.ts",
-    "lint": "eslint src --ext .ts",
-    "test": "jest",
-    "test:coverage": "jest --coverage",
-    "test:watch": "jest --watch",
-    "test:smtp": "tsx scripts/test-smtp.ts",
-    "check:config": "tsx scripts/check-config.ts",
-    "diagnose:redis": "tsx scripts/diagnose-redis.ts",
-    "create:super-admin": "tsx scripts/create-super-admin.ts",
-    "setup:branding-logos": "tsx scripts/setup-branding-logos.ts",
-    "reset-and-seed": "tsx scripts/reset-and-seed.ts",
-    "test:all-users": "tsx scripts/test-all-users.ts",
-    "create:test-accounts": "tsx scripts/create-test-accounts.ts",
-    "test:interconnections": "tsx scripts/test-interconnections.ts",
-    "prepare:demo": "tsx scripts/prepare-demo.ts",
-    "test:demo": "tsx scripts/test-demo-accounts.ts",
-    "test:all-processes": "tsx scripts/test-all-processes.ts"
+    "test": "jest"
   },
-  "keywords": [
-    "invoice",
-    "billing",
-    "rdc",
-    "saas"
-  ],
-  "author": "",
-  "license": "UNLICENSED",
   "dependencies": {
     "@paypal/paypal-server-sdk": "^2.1.0",
     "@prisma/client": "^5.22.0",
@@ -76,6 +47,7 @@
     "uuid": "^13.0.0",
     "web-push": "^3.6.7",
     "winston": "^3.11.0",
+    "written-number": "^0.11.1",
     "xml2js": "^0.6.2",
     "zod": "^3.22.4"
   },

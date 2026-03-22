@@ -8,7 +8,7 @@ async function checkPayments() {
   console.log('🔍 Vérification des paiements...\n');
 
   try {
-    const company = await prisma.company.findFirst({
+    const company = await prisma.companies.findFirst({
       where: { name: { contains: 'Test Enterprise' } },
     });
 
@@ -19,18 +19,17 @@ async function checkPayments() {
     console.log(`📦 Entreprise: ${company.name} (${company.id})\n`);
 
     // Vérifier les paiements
-    const payments = await prisma.payment.findMany({
+    const payments = await prisma.payments.findMany({
       where: {
-        companyId: company.id,
+        company_id: company.id,
       },
       take: 10,
       include: {
-        invoice: {
+        invoices: {
           select: {
-            invoiceNumber: true,
-            totalTtc: true,
-            paidAmount: true,
-            remainingBalance: true,
+            invoice_number: true,
+            total_amount: true,
+            paid_amount: true,
             status: true,
           },
         },
@@ -39,29 +38,33 @@ async function checkPayments() {
 
     console.log(`📊 ${payments.length} paiements trouvés (affichage des 10 premiers):\n`);
     for (const payment of payments) {
+      const inv = payment.invoices;
+      const total = inv ? Number(inv.total_amount) : 0;
+      const paid = inv ? Number(inv.paid_amount || 0) : 0;
+      const remaining = inv ? total - paid : 0;
       console.log(`  💳 Paiement ${payment.id}:`);
-      console.log(`     - Facture: ${payment.invoice?.invoiceNumber || 'N/A'}`);
+      console.log(`     - Facture: ${inv?.invoice_number || 'N/A'}`);
       console.log(`     - Montant: ${payment.amount} ${payment.currency}`);
       console.log(`     - Statut: ${payment.status}`);
-      console.log(`     - Méthode: ${payment.paymentMethod}`);
-      console.log(`     - Facture totalTtc: ${payment.invoice?.totalTtc || 'N/A'}`);
-      console.log(`     - Facture paidAmount: ${payment.invoice?.paidAmount || 'N/A'}`);
-      console.log(`     - Facture remainingBalance: ${payment.invoice?.remainingBalance || 'N/A'}`);
-      console.log(`     - Facture status: ${payment.invoice?.status || 'N/A'}`);
+      console.log(`     - Méthode: ${payment.payment_method}`);
+      console.log(`     - Facture total TTC: ${inv ? total : 'N/A'}`);
+      console.log(`     - Facture paid_amount: ${inv ? paid : 'N/A'}`);
+      console.log(`     - Solde restant (calculé): ${inv ? remaining : 'N/A'}`);
+      console.log(`     - Facture status: ${inv?.status || 'N/A'}`);
       console.log('');
     }
 
     // Vérifier les factures payées
-    const paidInvoices = await prisma.invoice.findMany({
+    const paidInvoices = await prisma.invoices.findMany({
       where: {
-        companyId: company.id,
+        company_id: company.id,
         status: 'paid',
-        deletedAt: null,
+        deleted_at: null,
       },
       include: {
         payments: {
           where: {
-            deletedAt: null,
+            deleted_at: null,
           },
         },
       },
@@ -70,10 +73,13 @@ async function checkPayments() {
 
     console.log(`📄 ${paidInvoices.length} factures payées (affichage des 5 premières):\n`);
     for (const invoice of paidInvoices) {
-      console.log(`  📄 Facture ${invoice.invoiceNumber}:`);
-      console.log(`     - Total TTC: ${invoice.totalTtc}`);
-      console.log(`     - Payé: ${invoice.paidAmount || 0}`);
-      console.log(`     - Solde: ${invoice.remainingBalance}`);
+      const total = Number(invoice.total_amount);
+      const paidAmt = Number(invoice.paid_amount || 0);
+      const remaining = total - paidAmt;
+      console.log(`  📄 Facture ${invoice.invoice_number}:`);
+      console.log(`     - Total TTC: ${invoice.total_amount}`);
+      console.log(`     - Payé: ${invoice.paid_amount || 0}`);
+      console.log(`     - Solde (calculé): ${remaining}`);
       console.log(`     - Statut: ${invoice.status}`);
       console.log(`     - Nombre de paiements: ${invoice.payments.length}`);
       if (invoice.payments.length > 0) {
@@ -82,7 +88,6 @@ async function checkPayments() {
       }
       console.log('');
     }
-
   } catch (error) {
     console.error('❌ Erreur:', error);
     throw error;
@@ -100,4 +105,3 @@ checkPayments()
     console.error('\n💥 Erreur fatale:', error);
     process.exit(1);
   });
-

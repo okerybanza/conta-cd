@@ -1,0 +1,1 @@
+{"version":3,"file":"hrCompliance.controller.d.ts","sourceRoot":"","sources":["../../src/controllers/hrCompliance.controller.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,QAAQ,EAAE,YAAY,EAAE,MAAM,SAAS,CAAC;AAEjD,OAAO,EAAE,WAAW,EAAgB,MAAM,+BAA+B,CAAC;AAQ1E,qBAAa,sBAAsB;IAC3B,YAAY,CAAC,GAAG,EAAE,WAAW,EAAE,GAAG,EAAE,QAAQ,EAAE,IAAI,EAAE,YAAY;CAuBvE;;AAED,wBAA4C"}
