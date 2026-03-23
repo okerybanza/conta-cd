@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const path_1 = __importDefault(require("path"));
 const cors_1 = __importDefault(require("cors"));
 const helmet_1 = __importDefault(require("helmet"));
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const error_middleware_1 = require("./middleware/error.middleware");
 const readonly_middleware_1 = require("./middleware/readonly.middleware");
 const env_1 = __importDefault(require("./config/env"));
@@ -108,6 +109,7 @@ app.use((0, cors_1.default)({
     credentials: true,
 }));
 // Parser JSON
+app.use(cookie_parser_1.default());
 app.use(express_1.default.json({ limit: '10mb' }));
 app.use(express_1.default.urlencoded({ extended: true, limit: '10mb' }));
 // ARCH-012: Exposer explicitement la version d'API

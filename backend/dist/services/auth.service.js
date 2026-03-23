@@ -506,6 +506,7 @@ class AuthService {
             return tokens;
         }
         catch (error) {
+            console.error('REFRESH_ERROR:', error.message, error.stack);
             if (error instanceof error_middleware_1.CustomError)
                 throw error;
             throw new error_middleware_1.CustomError('Invalid refresh token', 401, 'INVALID_REFRESH_TOKEN');
