@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body { font-family: Arial, sans-serif; background: #f5f5f5; margin: 0; padding: 20px; }
+  .container { max-width: 600px; margin: 0 auto; background: white; border-radius: 8px; overflow: hidden; }
+  .header { background: #1a3a5c; color: white; padding: 24px; text-align: center; }
+  .header h1 { margin: 0; font-size: 20px; }
+  .header p { margin: 4px 0 0; opacity: 0.8; font-size: 13px; }
+  .body { padding: 24px; }
+  .greeting { font-size: 15px; margin-bottom: 16px; }
+  .kpi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
+  .kpi { background: #f0f4ff; border-radius: 6px; padding: 16px; text-align: center; }
+  .kpi .value { font-size: 22px; font-weight: bold; color: #1a3a5c; }
+  .kpi .label { font-size: 11px; color: #666; margin-top: 4px; }
+  .kpi.alert { background: #fff0f0; }
+  .kpi.alert .value { color: #c0392b; }
+  .cta { text-align: center; margin: 24px 0; }
+  .cta a { background: #1a3a5c; color: white; padding: 12px 28px; border-radius: 6px; text-decoration: none; font-size: 14px; }
+  .footer { background: #f9f9f9; padding: 16px; text-align: center; font-size: 11px; color: #999; border-top: 1px solid #eee; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>📊 Rapport hebdomadaire</h1>
+    <p>{{companyName}} — {{period}}</p>
+  </div>
+  <div class="body">
+    <p class="greeting">Bonjour {{firstName}},</p>
+    <p>Voici le résumé de votre activité de la semaine :</p>
+    <div class="kpi-grid">
+      <div class="kpi">
+        <div class="value">{{totalRevenue}} CDF</div>
+        <div class="label">Chiffre d'affaires</div>
+      </div>
+      <div class="kpi">
+        <div class="value">{{invoiceCount}}</div>
+        <div class="label">Factures émises</div>
+      </div>
+      <div class="kpi alert">
+        <div class="value">{{unpaidCount}}</div>
+        <div class="label">Factures impayées</div>
+      </div>
+      <div class="kpi alert">
+        <div class="value">{{unpaidAmount}} CDF</div>
+        <div class="label">Montant impayé</div>
+      </div>
+    </div>
+    <div class="cta">
+      <a href="https://conta.cd/dashboard">Voir le tableau de bord</a>
+    </div>
+  </div>
+  <div class="footer">
+    Conta.cd — Comptabilité simplifiée pour l'Afrique Centrale<br>
+    <a href="https://conta.cd/settings/notifications">Se désabonner</a>
+  </div>
+</div>
+</body></html>

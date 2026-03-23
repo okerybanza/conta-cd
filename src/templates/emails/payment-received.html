@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paiement Reçu</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+    .container {
+      background-color: white;
+      border-radius: 8px;
+      padding: 30px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .header {
+      background-color: #1FAB89;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      border-radius: 8px 8px 0 0;
+      margin: -30px -30px 20px -30px;
+    }
+    .header-logo {
+      max-width: 150px;
+      height: auto;
+      margin-bottom: 15px;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+    .content {
+      padding: 20px 0;
+    }
+    .payment-info {
+      background-color: #f0fdf4;
+      padding: 15px;
+      border-radius: 5px;
+      margin: 20px 0;
+      border-left: 4px solid #1FAB89;
+    }
+    .payment-info p {
+      margin: 5px 0;
+    }
+    .amount {
+      font-size: 24px;
+      font-weight: bold;
+      color: #1FAB89;
+    }
+    .footer {
+      text-align: center;
+      padding: 20px 0;
+      color: #666;
+      font-size: 12px;
+      border-top: 1px solid #eee;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      {{#if companyLogo}}
+      <img src="{{companyLogo}}" alt="{{companyName}}" class="header-logo">
+      {{else if platformLogo}}
+      <img src="{{platformLogo}}" alt="Conta" class="header-logo">
+      {{/if}}
+      <h1>Paiement Reçu</h1>
+    </div>
+    <div class="content">
+      <p>Bonjour {{clientName}},</p>
+      
+      <p>Nous vous confirmons la réception de votre paiement.</p>
+      
+      <div class="payment-info">
+        <p><strong>Facture :</strong> {{invoiceNumber}}</p>
+        <p><strong>Date de paiement :</strong> {{paymentDate}}</p>
+        <p><strong>Méthode :</strong> {{paymentMethod}}</p>
+        <p class="amount">Montant : {{amount}} {{currency}}</p>
+        {{#if remainingBalance}}
+        <p><strong>Solde restant :</strong> {{remainingBalance}} {{currency}}</p>
+        {{else}}
+        <p><strong>Statut :</strong> Facture entièrement payée ✅</p>
+        {{/if}}
+      </div>
+      
+      <p>Merci pour votre paiement !</p>
+      
+      <p>Cordialement,<br>{{companyName}}</p>
+    </div>
+    <div class="footer">
+      <p>Conta - Application de Facturation</p>
+      <p>Cet email a été envoyé automatiquement, merci de ne pas y répondre.</p>
+    </div>
+  </div>
+</body>
+</html>
+

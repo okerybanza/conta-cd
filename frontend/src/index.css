@@ -1,0 +1,185 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-text-primary font-sans antialiased;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  
+  h1 {
+    @apply font-display font-bold text-2xl leading-tight;
+    color: #111827;
+  }
+  
+  h2 {
+    @apply font-display font-semibold text-xl leading-tight;
+    color: #111827;
+  }
+  
+  h3 {
+    @apply font-display font-semibold text-lg leading-tight;
+    color: #111827;
+  }
+  
+  h4 {
+    @apply font-display font-semibold text-base leading-tight;
+    color: #111827;
+  }
+  
+  h5, h6 {
+    @apply font-display font-semibold text-sm leading-tight;
+    color: #111827;
+  }
+}
+
+@layer components {
+  /* Buttons - Design Minimaliste */
+  .btn-primary {
+    @apply bg-primary text-white px-5 py-2.5 rounded-md 
+           font-medium text-sm
+           hover:bg-primary-dark transition-colors duration-150
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  
+  .btn-secondary {
+    @apply bg-white border border-primary text-primary px-5 py-2.5 rounded-md 
+           font-medium text-sm hover:bg-primary/5 
+           transition-colors duration-150;
+  }
+  
+  .btn-success {
+    @apply bg-secondary text-white px-5 py-2.5 rounded-md 
+           font-medium text-sm hover:bg-secondary-dark 
+           transition-colors duration-150;
+  }
+  
+  .btn-danger {
+    @apply bg-danger text-white px-5 py-2.5 rounded-md 
+           font-medium text-sm hover:bg-danger-dark 
+           transition-colors duration-150;
+  }
+  
+  .btn-ghost {
+    @apply bg-transparent text-text-secondary px-4 py-2 rounded-md 
+           font-medium text-sm hover:bg-background-gray hover:text-text-primary 
+           transition-colors duration-150;
+  }
+  
+  .btn-sm {
+    @apply px-3 py-1.5 text-xs rounded-md;
+  }
+  
+  .btn-lg {
+    @apply px-6 py-3 text-base rounded-md;
+  }
+  
+  /* Inputs - Design Minimaliste */
+  .input {
+    @apply w-full px-3 py-2 border border-border rounded-md text-sm
+           focus:outline-none focus:border-primary transition-colors duration-150
+           placeholder:text-text-muted bg-white;
+  }
+  
+  .input-error {
+    @apply border-danger focus:border-danger;
+  }
+  
+  .input-sm {
+    @apply px-2.5 py-1.5 text-xs rounded-md;
+  }
+  
+  .input-lg {
+    @apply px-4 py-3 text-base rounded-md;
+  }
+  
+  /* Cards - Design Minimaliste */
+  .card {
+    @apply bg-white rounded-lg border border-border/30 p-6;
+  }
+  
+  .card-stat {
+    @apply bg-white rounded-lg border border-border/30 p-6;
+  }
+  
+  .card-hover {
+    @apply card cursor-pointer hover:border-primary/40 transition-colors;
+  }
+  
+  .card-compact {
+    @apply card p-4;
+  }
+  
+  /* Badges - Design Minimaliste */
+  .badge {
+    @apply inline-flex items-center px-2 py-0.5 rounded text-xs font-medium;
+  }
+  
+  .badge-primary {
+    @apply bg-primary/10 text-primary;
+  }
+  
+  .badge-success {
+    @apply bg-secondary/10 text-secondary;
+  }
+  
+  .badge-warning {
+    @apply bg-accent/10 text-accent;
+  }
+  
+  .badge-danger {
+    @apply bg-danger/10 text-danger;
+  }
+  
+  .badge-info {
+    @apply bg-info/10 text-info;
+  }
+  
+  /* Loading Skeleton */
+  .skeleton {
+    @apply animate-pulse bg-background-gray rounded;
+  }
+  
+  /* Table - Design Minimaliste */
+  .table-row {
+    @apply border-b border-border/30 hover:bg-background-gray/50 transition-colors duration-150;
+  }
+  
+  .table-row td {
+    @apply text-sm py-3 px-4;
+  }
+  
+  .table-header {
+    @apply bg-background-gray/50 text-text-secondary text-xs font-medium;
+  }
+  
+  .table-header th {
+    @apply text-xs py-2.5 px-4 text-left;
+  }
+  
+  /* Utilities */
+  .gradient-primary {
+    @apply bg-gradient-to-r from-primary to-primary-light;
+  }
+  
+  .gradient-secondary {
+    @apply bg-gradient-to-r from-secondary to-secondary-light;
+  }
+  
+  .text-gradient-primary {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary-light;
+  }
+  
+  .glass-effect {
+    @apply bg-white/80 backdrop-blur-lg border border-white/20;
+  }
+}
+

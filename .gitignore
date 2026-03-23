@@ -1,5 +1,5 @@
 node_modules/
-dist/
+
 .env
 .env.local
 uploads/
@@ -12,7 +12,7 @@ Pricing design.png
 invoices/
 migrate_to_kazurih.sh
 create_crudix_data.py
-src/
+
 # Fichiers sensibles
 backend/.env.backup
 backend/.env.dev

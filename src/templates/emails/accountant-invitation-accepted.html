@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invitation acceptée</title>
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; background-color: #f4f4f4; }
+    .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; }
+    .header { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 30px; text-align: center; }
+    .header img { max-height: 50px; margin-bottom: 15px; }
+    .header h1 { margin: 0; font-size: 24px; font-weight: 600; }
+    .content { padding: 30px; }
+    .success-icon { font-size: 48px; text-align: center; margin: 20px 0; }
+    .accountant-card { background-color: #d4edda; border-radius: 8px; padding: 20px; margin: 20px 0; border-left: 4px solid #28a745; }
+    .accountant-card h3 { margin: 0 0 10px 0; color: #155724; }
+    .accountant-card p { margin: 5px 0; color: #155724; }
+    .btn { display: inline-block; padding: 14px 28px; background: linear-gradient(135deg, #0D3B66 0%, #1a5490 100%); color: white !important; text-decoration: none; border-radius: 6px; font-weight: 600; }
+    .btn-container { text-align: center; margin: 30px 0; }
+    .footer { text-align: center; padding: 20px; background-color: #f8f9fa; color: #666; font-size: 12px; }
+    .footer img { max-height: 30px; margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      {{#if platformLogo}}
+      <img src="{{platformLogo}}" alt="Conta">
+      {{/if}}
+      <h1>✅ Invitation acceptée</h1>
+    </div>
+    <div class="content">
+      <div class="success-icon">🎉</div>
+      
+      <p>Bonjour,</p>
+      
+      <p>Bonne nouvelle ! <strong>{{accountantName}}</strong> a accepté de gérer la comptabilité de votre entreprise <strong>{{companyName}}</strong>.</p>
+      
+      <div class="accountant-card">
+        <h3>{{accountantName}}</h3>
+        {{#if accountantEmail}}<p>📧 {{accountantEmail}}</p>{{/if}}
+        {{#if accountantPhone}}<p>📞 {{accountantPhone}}</p>{{/if}}
+        {{#if cabinetName}}<p>🏢 {{cabinetName}}</p>{{/if}}
+      </div>
+      
+      <p>Votre expert comptable a désormais accès à vos données comptables et peut vous accompagner dans la gestion de votre entreprise.</p>
+      
+      <div class="btn-container">
+        <a href="{{dashboardUrl}}" class="btn">Accéder à mon espace</a>
+      </div>
+    </div>
+    <div class="footer">
+      {{#if platformLogo}}
+      <img src="{{platformLogo}}" alt="Conta">
+      {{/if}}
+      <p>Conta - Application de Facturation</p>
+      <p>Cet email a été envoyé automatiquement, merci de ne pas y répondre.</p>
+    </div>
+  </div>
+</body>
+</html>
+

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Abonnement Mis à Jour - Conta</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+    .container {
+      background-color: white;
+      border-radius: 8px;
+      padding: 30px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .header {
+      background-color: #0D3B66;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      border-radius: 8px 8px 0 0;
+      margin: -30px -30px 20px -30px;
+    }
+    .header-logo {
+      max-width: 150px;
+      height: auto;
+      margin-bottom: 15px;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+    .content {
+      padding: 20px 0;
+    }
+    .info-box {
+      background-color: #f8f9fa;
+      border-left: 4px solid #0D3B66;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+    }
+    .info-row:last-child {
+      border-bottom: none;
+    }
+    .info-label {
+      font-weight: bold;
+      color: #666;
+    }
+    .info-value {
+      color: #333;
+    }
+    .button {
+      display: inline-block;
+      padding: 12px 24px;
+      background-color: #0D3B66;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      margin: 20px 0;
+    }
+    .footer {
+      text-align: center;
+      padding: 20px 0;
+      color: #666;
+      font-size: 12px;
+      border-top: 1px solid #eee;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      {{#if platformLogo}}
+      <img src="{{platformLogo}}" alt="Conta" class="header-logo">
+      {{/if}}
+      <h1>Abonnement Mis à Jour</h1>
+    </div>
+    <div class="content">
+      <p>Bonjour {{firstName}},</p>
+      
+      <p>Votre abonnement Conta a été mis à jour avec succès !</p>
+      
+      <div class="info-box">
+        <div class="info-row">
+          <span class="info-label">Nouveau plan:</span>
+          <span class="info-value">{{newPackageName}}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Ancien plan:</span>
+          <span class="info-value">{{oldPackageName}}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Cycle de facturation:</span>
+          <span class="info-value">{{billingCycle}}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Prochain paiement:</span>
+          <span class="info-value">{{nextPaymentDate}}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Montant:</span>
+          <span class="info-value">{{amount}} {{currency}}</span>
+        </div>
+      </div>
+      
+      <p>Vous avez maintenant accès à toutes les fonctionnalités du plan <strong>{{newPackageName}}</strong>.</p>
+      
+      {{#if newFeatures}}
+      <p><strong>Nouvelles fonctionnalités débloquées :</strong></p>
+      <ul>
+        {{#each newFeatures}}
+        <li>{{this}}</li>
+        {{/each}}
+      </ul>
+      {{/if}}
+      
+      {{#if dashboardUrl}}
+      <p>
+        <a href="{{dashboardUrl}}" class="button">Accéder à mon tableau de bord</a>
+      </p>
+      {{/if}}
+      
+      <p>Si vous avez des questions concernant votre abonnement, n'hésitez pas à nous contacter.</p>
+      
+      <p>Cordialement,<br>L'équipe Conta</p>
+    </div>
+    <div class="footer">
+      <p>Conta - Application de Facturation</p>
+      <p>Cet email a été envoyé automatiquement, merci de ne pas y répondre.</p>
+    </div>
+  </div>
+</body>
+</html>
+

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fiche de Paie - {{employeeName}}</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Arial', sans-serif;
+      font-size: 12px;
+      color: #333;
+      line-height: 1.5;
+      padding: 20px;
+      background: #fff;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #fff;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid #333;
+    }
+    .company-info {
+      flex: 1;
+    }
+    .company-logo {
+      max-width: 150px;
+      max-height: 80px;
+      margin-bottom: 10px;
+    }
+    .company-name {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .company-details {
+      font-size: 11px;
+      color: #666;
+    }
+    .payslip-title {
+      text-align: right;
+      flex: 1;
+    }
+    .payslip-title h1 {
+      font-size: 24px;
+      margin-bottom: 10px;
+      color: #333;
+    }
+    .payslip-number {
+      font-size: 12px;
+      color: #666;
+    }
+    .info-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+    .info-box {
+      background: #f9f9f9;
+      padding: 15px;
+      border-radius: 5px;
+    }
+    .info-box h3 {
+      font-size: 14px;
+      margin-bottom: 10px;
+      color: #333;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 5px;
+    }
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 11px;
+    }
+    .info-label {
+      font-weight: bold;
+      color: #666;
+    }
+    .info-value {
+      color: #333;
+    }
+    .items-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    .items-table thead {
+      background: #333;
+      color: #fff;
+    }
+    .items-table th {
+      padding: 10px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: bold;
+    }
+    .items-table td {
+      padding: 8px 10px;
+      border-bottom: 1px solid #ddd;
+      font-size: 11px;
+    }
+    .items-table tbody tr:hover {
+      background: #f5f5f5;
+    }
+    .items-table .text-right {
+      text-align: right;
+    }
+    .items-table .text-center {
+      text-align: center;
+    }
+    .deduction-row {
+      color: #d32f2f;
+    }
+    .totals-section {
+      margin-top: 20px;
+      margin-left: auto;
+      width: 300px;
+    }
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #ddd;
+      font-size: 12px;
+    }
+    .total-row.total-label {
+      font-weight: bold;
+    }
+    .total-row.final-total {
+      border-top: 2px solid #333;
+      border-bottom: 2px solid #333;
+      padding: 12px 0;
+      margin-top: 10px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .notes-section {
+      margin-top: 30px;
+      padding: 15px;
+      background: #f9f9f9;
+      border-radius: 5px;
+    }
+    .notes-section h3 {
+      font-size: 14px;
+      margin-bottom: 10px;
+      color: #333;
+    }
+    .notes-content {
+      font-size: 11px;
+      color: #666;
+      white-space: pre-wrap;
+    }
+    .footer {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid #ddd;
+      text-align: center;
+      font-size: 10px;
+      color: #999;
+    }
+    @media print {
+      body {
+        padding: 0;
+      }
+      .container {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- En-tête -->
+    <div class="header">
+      <div class="company-info">
+        {{#if companyLogo}}
+        <img src="{{companyLogo}}" alt="Logo" class="company-logo" />
+        {{/if}}
+        <div class="company-name">{{companyName}}</div>
+        <div class="company-details">
+          {{#if companyAddress}}{{companyAddress}}<br>{{/if}}
+          {{#if companyCity}}{{companyCity}}{{#if companyPostalCode}} {{companyPostalCode}}{{/if}}<br>{{/if}}
+          {{#if companyCountry}}{{companyCountry}}<br>{{/if}}
+          {{#if companyPhone}}Tél: {{companyPhone}}<br>{{/if}}
+          {{#if companyEmail}}Email: {{companyEmail}}<br>{{/if}}
+          {{#if companyNIF}}NIF: {{companyNIF}}{{/if}}
+        </div>
+      </div>
+      <div class="payslip-title">
+        <h1>FICHE DE PAIE</h1>
+        <div class="payslip-number">Période: {{periodStart}} - {{periodEnd}}</div>
+        <div class="payslip-number">Date de paiement: {{payDate}}</div>
+      </div>
+    </div>
+
+    <!-- Informations employé et période -->
+    <div class="info-section">
+      <div class="info-box">
+        <h3>Informations Employé</h3>
+        <div class="info-row">
+          <span class="info-label">Nom:</span>
+          <span class="info-value">{{employeeName}}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Numéro:</span>
+          <span class="info-value">{{employeeNumber}}</span>
+        </div>
+        {{#if employeePosition}}
+        <div class="info-row">
+          <span class="info-label">Poste:</span>
+          <span class="info-value">{{employeePosition}}</span>
+        </div>
+        {{/if}}
+        {{#if employeeDepartment}}
+        <div class="info-row">
+          <span class="info-label">Département:</span>
+          <span class="info-value">{{employeeDepartment}}</span>
+        </div>
+        {{/if}}
+      </div>
+      <div class="info-box">
+        <h3>Période de Paie</h3>
+        <div class="info-row">
+          <span class="info-label">Début:</span>
+          <span class="info-value">{{periodStart}}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Fin:</span>
+          <span class="info-value">{{periodEnd}}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Date de paiement:</span>
+          <span class="info-value">{{payDate}}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Statut:</span>
+          <span class="info-value">{{status}}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Détails des éléments de paie -->
+    <table class="items-table">
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+          <th class="text-right">Montant</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each items}}
+        <tr class="{{#if isDeduction}}deduction-row{{/if}}">
+          <td>{{typeLabel}}</td>
+          <td>{{description}}</td>
+          <td class="text-right">{{#if isDeduction}}-{{/if}}{{amountFormatted}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+
+    <!-- Totaux -->
+    <div class="totals-section">
+      <div class="total-row">
+        <span>Salaire brut:</span>
+        <span>{{grossSalaryFormatted}}</span>
+      </div>
+      <div class="total-row">
+        <span>Total déductions:</span>
+        <span>{{totalDeductionsFormatted}}</span>
+      </div>
+      <div class="total-row final-total">
+        <span>Salaire net:</span>
+        <span>{{netSalaryFormatted}}</span>
+      </div>
+    </div>
+
+    <!-- Notes -->
+    {{#if notes}}
+    <div class="notes-section">
+      <h3>Notes</h3>
+      <div class="notes-content">{{notes}}</div>
+    </div>
+    {{/if}}
+
+    <!-- Pied de page -->
+    <div class="footer">
+      <p>Document généré le {{generatedAt}}</p>
+      <p>Ce document est confidentiel et destiné uniquement à l'employé concerné.</p>
+    </div>
+  </div>
+</body>
+</html>
+

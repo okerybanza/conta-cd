@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dernière chance - Votre essai se termine demain</title>
+</head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; padding: 20px; background-color: #f5f5f5;">
+  <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+    {{#if platformLogo}}
+    <div style="text-align: center; margin-bottom: 30px;">
+      <img src="{{platformLogo}}" alt="Conta" style="max-width: 150px; height: auto;">
+    </div>
+    {{/if}}
+    
+    <h1 style="color: #dc3545; margin-bottom: 20px; font-size: 24px;">🚨 Dernière chance : Votre essai se termine demain</h1>
+    
+    <p style="font-size: 16px; margin-bottom: 20px;">Bonjour <strong>{{firstName}}</strong>,</p>
+    
+    <p style="margin-bottom: 20px; font-size: 16px;">
+      <strong>Votre période d'essai gratuite se termine demain, le {{trialEndDate}}.</strong>
+    </p>
+
+    <div style="background-color: #f8d7da; padding: 20px; border-radius: 6px; margin: 25px 0; border-left: 4px solid #dc3545;">
+      <h2 style="color: #721c24; margin-top: 0; margin-bottom: 15px; font-size: 18px;">⚠️ Action urgente requise</h2>
+      <p style="margin: 10px 0; font-size: 15px; color: #721c24;">
+        Après demain, vous passerez en <strong>mode lecture seule</strong>. Vous pourrez consulter vos données, mais ne pourrez plus créer ou modifier de nouveaux éléments.
+      </p>
+      <p style="margin: 10px 0; font-size: 14px; color: #721c24;">
+        <strong>Plan :</strong> {{packageName}}<br>
+        <strong>Prix :</strong> {{amount}} {{currency}} / {{billingCycleText}}
+      </p>
+    </div>
+
+    <div style="background-color: #d1ecf1; padding: 20px; border-radius: 6px; margin: 25px 0; border-left: 4px solid #0c5460;">
+      <h2 style="color: #0c5460; margin-top: 0; margin-bottom: 15px; font-size: 18px;">✅ Abonnez-vous maintenant pour :</h2>
+      <ul style="margin: 10px 0; padding-left: 20px; font-size: 14px; color: #0c5460;">
+        <li style="margin-bottom: 8px;">Éviter toute interruption de service</li>
+        <li style="margin-bottom: 8px;">Continuer à créer et modifier vos données</li>
+        <li style="margin-bottom: 8px;">Profiter de toutes les fonctionnalités</li>
+        <li style="margin-bottom: 8px;">Bénéficier du support prioritaire</li>
+      </ul>
+    </div>
+
+    <!-- Bouton CTA -->
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="{{subscriptionUrl}}" style="display: inline-block; background-color: #dc3545; color: #ffffff; padding: 16px 35px; text-decoration: none; border-radius: 5px; font-weight: bold; font-size: 18px;">
+        S'abonner maintenant - Dernière chance
+      </a>
+    </div>
+
+    <p style="margin-top: 20px; font-size: 14px; color: #666; text-align: center;">
+      Besoin d'aide ? Contactez-nous immédiatement à <a href="mailto:{{supportEmail}}" style="color: #0D3B66; font-weight: bold;">{{supportEmail}}</a>
+    </p>
+
+    <p style="margin-top: 30px; font-size: 14px; color: #666;">
+      Cordialement,<br>
+      <strong>L'équipe Conta</strong>
+    </p>
+    
+    <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
+    
+    <p style="font-size: 12px; color: #999; margin: 0; text-align: center;">
+      Conta - Application de Facturation Complète<br>
+      Cet email a été envoyé automatiquement, merci de ne pas y répondre.
+    </p>
+  </div>
+</body>
+</html>

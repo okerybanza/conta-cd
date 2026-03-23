@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Réponse à votre ticket de support - Conta</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+    .container {
+      background-color: white;
+      border-radius: 8px;
+      padding: 30px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .header {
+      background-color: #0D3B66;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      border-radius: 8px 8px 0 0;
+      margin: -30px -30px 20px -30px;
+    }
+    .header-logo {
+      max-width: 150px;
+      height: auto;
+      margin-bottom: 15px;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+    .content {
+      padding: 20px 0;
+    }
+    .ticket-info {
+      background-color: #f8f9fa;
+      border: 1px solid #dee2e6;
+      border-radius: 5px;
+      padding: 15px;
+      margin: 20px 0;
+    }
+    .ticket-info strong {
+      color: #0D3B66;
+    }
+    .response-box {
+      background-color: #e7f3ff;
+      border-left: 4px solid #0D3B66;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+    .response-box h3 {
+      margin-top: 0;
+      color: #0D3B66;
+    }
+    .button {
+      display: inline-block;
+      padding: 12px 24px;
+      background-color: #0D3B66;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      margin: 20px 0;
+    }
+    .footer {
+      text-align: center;
+      padding: 20px 0;
+      color: #666;
+      font-size: 12px;
+      border-top: 1px solid #eee;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      {{#if platformLogo}}
+      <img src="{{platformLogo}}" alt="Conta" class="header-logo">
+      {{/if}}
+      <h1>📧 Réponse à votre ticket de support</h1>
+    </div>
+    <div class="content">
+      <p>Bonjour,</p>
+      
+      <p>Notre équipe de support a répondu à votre ticket de support.</p>
+      
+      <div class="ticket-info">
+        <p><strong>Numéro de ticket :</strong> #{{ticketId}}</p>
+        <p><strong>Sujet :</strong> {{subject}}</p>
+      </div>
+      
+      <div class="response-box">
+        <h3>Réponse de notre équipe :</h3>
+        <div style="white-space: pre-wrap;">{{response}}</div>
+      </div>
+      
+      <p>Si vous avez d'autres questions ou si cette réponse ne résout pas votre problème, n'hésitez pas à répondre à cet email ou à créer un nouveau ticket de support.</p>
+      
+      <p>Nous restons à votre disposition pour toute assistance supplémentaire.</p>
+      
+      <p>Cordialement,<br>L'équipe de support Conta</p>
+    </div>
+    <div class="footer">
+      <p>Conta - Application de Facturation</p>
+      <p>Cet email a été envoyé automatiquement en réponse à votre ticket de support.</p>
+    </div>
+  </div>
+</body>
+</html>
+

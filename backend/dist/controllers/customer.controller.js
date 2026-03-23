@@ -182,8 +182,9 @@ class CustomerController {
                 return res.status(400).json({ success: false, error: { code: 'NO_FILE', message: 'Aucun fichier fourni' } });
             }
             const logoUrl = '/uploads/logos/' + req.file.filename;
-            await customer_service_1.default.update(companyId, id, { logo_url: logoUrl });
-            res.json({ success: true, data: { logoUrl } });
+            const customer = await customer_service_1.default.update(companyId, id, { logo_url: logoUrl });
+            const updated = await customer_service_1.default.getById(companyId, id);
+            res.json({ success: true, data: { ...updated, logoUrl } });
         } catch (error) {
             next(error);
         }

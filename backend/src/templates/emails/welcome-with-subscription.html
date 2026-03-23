@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bienvenue sur Conta - Votre abonnement est activé</title>
+</head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; padding: 20px; background-color: #f5f5f5;">
+  <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+    {{#if platformLogo}}
+    <div style="text-align: center; margin-bottom: 30px;">
+      <img src="{{platformLogo}}" alt="Conta" style="max-width: 150px; height: auto;">
+    </div>
+    {{/if}}
+    
+    <h1 style="color: #0D3B66; margin-bottom: 20px; font-size: 24px;">Bienvenue sur Conta ! 🎉</h1>
+    
+    <p style="font-size: 16px; margin-bottom: 20px;">Bonjour <strong>{{firstName}}</strong>,</p>
+    
+    <p style="margin-bottom: 20px;">
+      Félicitations ! Votre compte a été créé avec succès pour l'entreprise <strong>{{companyName}}</strong>.
+    </p>
+
+    <!-- Section Plan choisi -->
+    <div style="background-color: #f8f9fa; padding: 20px; border-radius: 6px; margin: 25px 0; border-left: 4px solid #0D3B66;">
+      <h2 style="color: #0D3B66; margin-top: 0; margin-bottom: 15px; font-size: 18px;">📦 Votre Plan : {{packageName}}</h2>
+      <p style="margin: 10px 0; font-size: 15px;">
+        <strong>Cycle de facturation :</strong> {{billingCycle}}<br>
+        {{#if isFreePlan}}
+        <strong>Prix :</strong> Gratuit
+        {{else}}
+        <strong>Prix :</strong> {{amount}} {{currency}} / {{billingCycleText}}
+        {{/if}}
+      </p>
+    </div>
+
+    <!-- Section Période d'essai (si applicable) -->
+    {{#if isTrial}}
+    <div style="background-color: #fff3cd; padding: 20px; border-radius: 6px; margin: 25px 0; border-left: 4px solid #ffc107;">
+      <h2 style="color: #856404; margin-top: 0; margin-bottom: 15px; font-size: 18px;">⏰ Période d'essai activée</h2>
+      <p style="margin: 10px 0; font-size: 15px; color: #856404;">
+        <strong>Votre essai gratuit de {{trialDays}} jours a commencé !</strong>
+      </p>
+      <p style="margin: 10px 0; font-size: 14px; color: #856404;">
+        Votre période d'essai se termine le <strong>{{trialEndDate}}</strong>.
+      </p>
+      <p style="margin: 10px 0; font-size: 14px; color: #856404;">
+        Profitez de toutes les fonctionnalités de votre plan pendant cette période. Aucun paiement ne sera effectué avant la fin de l'essai.
+      </p>
+    </div>
+    {{/if}}
+
+    <!-- Section Fonctionnalités -->
+    <div style="margin: 25px 0;">
+      <h2 style="color: #0D3B66; margin-bottom: 15px; font-size: 18px;">✨ Ce que vous pouvez faire maintenant :</h2>
+      <ul style="padding-left: 20px; font-size: 15px;">
+        <li style="margin-bottom: 8px;">Gérer vos clients et fournisseurs</li>
+        <li style="margin-bottom: 8px;">Créer et envoyer des factures professionnelles</li>
+        <li style="margin-bottom: 8px;">Suivre les paiements et relances</li>
+        <li style="margin-bottom: 8px;">Gérer votre stock et inventaire</li>
+        <li style="margin-bottom: 8px;">Générer des rapports financiers</li>
+        <li style="margin-bottom: 8px;">Gérer vos employés et paie (selon votre plan)</li>
+      </ul>
+    </div>
+
+    <!-- Bouton CTA -->
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="{{dashboardUrl}}" style="display: inline-block; background-color: #0D3B66; color: #ffffff; padding: 14px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; font-size: 16px;">
+        Accéder à mon tableau de bord
+      </a>
+    </div>
+
+    <!-- Section Support -->
+    <div style="background-color: #f8f9fa; padding: 15px; border-radius: 6px; margin: 25px 0;">
+      <p style="margin: 0; font-size: 14px; color: #666;">
+        <strong>Besoin d'aide ?</strong><br>
+        Notre équipe est là pour vous accompagner. Contactez-nous à <a href="mailto:{{supportEmail}}" style="color: #0D3B66;">{{supportEmail}}</a>
+      </p>
+    </div>
+
+    <p style="margin-top: 30px; font-size: 14px; color: #666;">
+      Cordialement,<br>
+      <strong>L'équipe Conta</strong>
+    </p>
+    
+    <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
+    
+    <p style="font-size: 12px; color: #999; margin: 0; text-align: center;">
+      Conta - Application de Facturation Complète<br>
+      Cet email a été envoyé automatiquement, merci de ne pas y répondre.
+    </p>
+  </div>
+</body>
+</html>

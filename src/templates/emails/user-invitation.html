@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invitation à rejoindre Conta</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+    .container {
+      background-color: white;
+      border-radius: 8px;
+      padding: 30px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .header {
+      background-color: #0D3B66;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      border-radius: 8px 8px 0 0;
+      margin: -30px -30px 20px -30px;
+    }
+    .header-logo {
+      max-width: 150px;
+      height: auto;
+      margin-bottom: 15px;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+    .content {
+      padding: 20px 0;
+    }
+    .button {
+      display: inline-block;
+      padding: 12px 24px;
+      background-color: #0D3B66;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      margin: 20px 0;
+    }
+    .info {
+      background-color: #e7f3ff;
+      border-left: 4px solid #0D3B66;
+      padding: 15px;
+      margin: 20px 0;
+    }
+    .footer {
+      text-align: center;
+      padding: 20px 0;
+      color: #666;
+      font-size: 12px;
+      border-top: 1px solid #eee;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      {{#if platformLogo}}
+      <img src="{{platformLogo}}" alt="Conta" class="header-logo">
+      {{/if}}
+      <h1>Invitation à rejoindre Conta</h1>
+    </div>
+    <div class="content">
+      <p>Bonjour {{firstName}},</p>
+      
+      <p><strong>{{inviterName}}</strong> vous invite à rejoindre l'équipe de <strong>{{companyName}}</strong> sur Conta, l'application de facturation complète.</p>
+      
+      <div class="info">
+        <strong>📋 À propos de Conta :</strong>
+        <ul style="margin: 10px 0; padding-left: 20px;">
+          <li>Gestion complète de vos clients et articles</li>
+          <li>Création et envoi de factures professionnelles</li>
+          <li>Suivi des paiements et rappels automatiques</li>
+          <li>Génération de rapports détaillés</li>
+        </ul>
+      </div>
+      
+      <p>Pour accepter cette invitation et créer votre compte, cliquez sur le bouton ci-dessous :</p>
+      
+      <p style="text-align: center;">
+        <a href="{{invitationUrl}}" class="button">Accepter l'invitation</a>
+      </p>
+      
+      <p>Ce lien est valide pendant <strong>7 jours</strong>. Si vous ne souhaitez pas rejoindre cette entreprise, vous pouvez simplement ignorer cet email.</p>
+      
+      <p>Si le bouton ne fonctionne pas, copiez et collez ce lien dans votre navigateur :</p>
+      <p style="word-break: break-all; color: #666; font-size: 12px;">{{invitationUrl}}</p>
+      
+      <p>Cordialement,<br>L'équipe Conta</p>
+    </div>
+    <div class="footer">
+      <p>Conta - Application de Facturation</p>
+      <p>Cet email a été envoyé automatiquement, merci de ne pas y répondre.</p>
+    </div>
+  </div>
+</body>
+</html>
+
+

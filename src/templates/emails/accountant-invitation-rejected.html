@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invitation déclinée</title>
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; background-color: #f4f4f4; }
+    .container { max-width: 600px; margin: 0 auto; background-color: #ffffff; }
+    .header { background: linear-gradient(135deg, #dc3545 0%, #c82333 100%); color: white; padding: 30px; text-align: center; }
+    .header img { max-height: 50px; margin-bottom: 15px; }
+    .header h1 { margin: 0; font-size: 24px; font-weight: 600; }
+    .content { padding: 30px; }
+    .reason-box { background-color: #f8d7da; border-radius: 8px; padding: 15px; margin: 20px 0; border: 1px solid #f5c6cb; }
+    .reason-box strong { color: #721c24; }
+    .reason-box p { color: #721c24; margin: 10px 0 0 0; }
+    .btn { display: inline-block; padding: 14px 28px; background: linear-gradient(135deg, #0D3B66 0%, #1a5490 100%); color: white !important; text-decoration: none; border-radius: 6px; font-weight: 600; }
+    .btn-container { text-align: center; margin: 30px 0; }
+    .footer { text-align: center; padding: 20px; background-color: #f8f9fa; color: #666; font-size: 12px; }
+    .footer img { max-height: 30px; margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      {{#if platformLogo}}
+      <img src="{{platformLogo}}" alt="Conta">
+      {{/if}}
+      <h1>❌ Invitation déclinée</h1>
+    </div>
+    <div class="content">
+      <p>Bonjour,</p>
+      
+      <p>Malheureusement, <strong>{{accountantName}}</strong> a décliné votre demande de collaboration pour l'entreprise <strong>{{companyName}}</strong>.</p>
+      
+      {{#if rejectionReason}}
+      <div class="reason-box">
+        <strong>Raison indiquée :</strong>
+        <p>{{rejectionReason}}</p>
+      </div>
+      {{/if}}
+      
+      <p>Vous pouvez rechercher d'autres experts comptables disponibles sur notre plateforme.</p>
+      
+      <div class="btn-container">
+        <a href="{{searchUrl}}" class="btn">Rechercher un expert</a>
+      </div>
+    </div>
+    <div class="footer">
+      {{#if platformLogo}}
+      <img src="{{platformLogo}}" alt="Conta">
+      {{/if}}
+      <p>Conta - Application de Facturation</p>
+      <p>Cet email a été envoyé automatiquement, merci de ne pas y répondre.</p>
+    </div>
+  </div>
+</body>
+</html>
+
