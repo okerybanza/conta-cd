@@ -24,6 +24,7 @@ class CustomError extends Error {
 exports.CustomError = CustomError;
 function errorHandler(err, req, res, next) {
     // Log erreur avec plus de détails
+    console.error('ERROR_CAPTURED:', err.message, err.stack?.split('\n')[1]);
     logger_1.default.error('Error occurred', {
         error: err.message,
         stack: err.stack,

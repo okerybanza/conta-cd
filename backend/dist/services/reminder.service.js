@@ -52,17 +52,17 @@ class ReminderService {
         // Récupérer toutes les entreprises avec rappels activés
         const companies = await database_1.default.companies.findMany({
             where: {
-                remindersEnabled: true,
-                deletedAt: null,
+                reminders_enabled: true,
+                deleted_at: null,
             },
             select: {
                 id: true,
                 name: true,
-                remindersEnabled: true,
-                reminderDaysBefore: true,
-                reminderDaysAfter: true,
-                reminderFrequency: true,
-                reminderMethods: true,
+                reminders_enabled: true,
+                reminder_days_before: true,
+                reminder_days_after: true,
+                reminder_frequency: true,
+                reminder_methods: true,
             },
         });
         logger_1.default.info('Processing payment reminders', { companyCount: companies.length });
@@ -70,8 +70,8 @@ class ReminderService {
         for (const company of companies) {
             try {
                 // Calculer les dates pour les rappels
-                const daysBefore = company.reminderDaysBefore || 3;
-                const daysAfter = company.reminderDaysAfter || 7;
+                const daysBefore = company.reminder_days_before || 3;
+                const daysAfter = company.reminder_days_after || 7;
                 // Date avant échéance (rappels préventifs)
                 const beforeDate = new Date(today);
                 beforeDate.setDate(beforeDate.getDate() + daysBefore);
@@ -83,7 +83,7 @@ class ReminderService {
                     where: {
                         companyId: company.id,
                         status: { in: ['sent', 'partially_paid'] },
-                        deletedAt: null,
+                        deleted_at: null,
                         OR: [
                             // Factures avec échéance dans X jours (rappels préventifs)
                             {
@@ -128,7 +128,7 @@ class ReminderService {
                         payments: {
                             where: {
                                 status: 'confirmed',
-                                deletedAt: null,
+                                deleted_at: null,
                             },
                             select: {
                                 amount: true,
@@ -154,7 +154,7 @@ class ReminderService {
                             ? Math.floor((today.getTime() - new Date(invoice.dueDate).getTime()) / (24 * 60 * 60 * 1000))
                             : 0;
                         // Déterminer les méthodes de rappel
-                        const methods = company.reminderMethods || ['email'];
+                        const methods = company.reminder_methods || ['email'];
                         // Calculer le solde restant
                         const totalAmount = Number(invoice.totalAmount);
                         const paidAmount = invoice.payments.reduce((sum, payment) => sum + Number(payment.amount), 0);
@@ -223,11 +223,11 @@ class ReminderService {
         const company = await database_1.default.companies.findUnique({
             where: { id: companyId },
             select: {
-                remindersEnabled: true,
-                reminderDaysBefore: true,
-                reminderDaysAfter: true,
-                reminderFrequency: true,
-                reminderMethods: true,
+                reminders_enabled: true,
+                reminder_days_before: true,
+                reminder_days_after: true,
+                reminder_frequency: true,
+                reminder_methods: true,
             },
         });
         if (!company) {
@@ -235,8 +235,8 @@ class ReminderService {
         }
         const today = new Date();
         today.setHours(0, 0, 0, 0);
-        const daysBefore = company.reminderDaysBefore || 3;
-        const daysAfter = company.reminderDaysAfter || 7;
+        const daysBefore = company.reminder_days_before || 3;
+        const daysAfter = company.reminder_days_after || 7;
         const beforeDate = new Date(today);
         beforeDate.setDate(beforeDate.getDate() + daysBefore);
         const afterDate = new Date(today);
@@ -246,7 +246,7 @@ class ReminderService {
             where: {
                 companyId,
                 status: { in: ['sent', 'overdue'] },
-                deletedAt: null,
+                deleted_at: null,
                 dueDate: {
                     gte: today,
                     lte: beforeDate,
@@ -256,7 +256,7 @@ class ReminderService {
                 payments: {
                     where: {
                         status: 'confirmed',
-                        deletedAt: null,
+                        deleted_at: null,
                     },
                     select: {
                         amount: true,
@@ -275,7 +275,7 @@ class ReminderService {
             where: {
                 companyId,
                 status: { in: ['sent', 'overdue'] },
-                deletedAt: null,
+                deleted_at: null,
                 dueDate: {
                     lte: afterDate,
                 },
@@ -284,7 +284,7 @@ class ReminderService {
                 payments: {
                     where: {
                         status: 'confirmed',
-                        deletedAt: null,
+                        deleted_at: null,
                     },
                     select: {
                         amount: true,
@@ -299,11 +299,11 @@ class ReminderService {
             return totalAmount - paidAmount > 0;
         }).length;
         return {
-            enabled: company.remindersEnabled || false,
-            daysBefore: company.reminderDaysBefore || 3,
-            daysAfter: company.reminderDaysAfter || 7,
-            frequency: company.reminderFrequency || 'daily',
-            methods: company.reminderMethods || ['email'],
+            enabled: company.reminders_enabled || false,
+            daysBefore: company.reminder_days_before || 3,
+            daysAfter: company.reminder_days_after || 7,
+            frequency: company.reminder_frequency || 'daily',
+            methods: company.reminder_methods || ['email'],
             preventiveCount,
             overdueCount,
             totalPending: preventiveCount + overdueCount,

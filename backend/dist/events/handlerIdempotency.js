@@ -22,23 +22,12 @@ exports.HANDLER_NAMES = HANDLER_NAMES;
  * Retourne true si l'événement a déjà été traité par ce handler.
  */
 async function wasProcessed(eventId, handlerName) {
-    const row = await database_1.default.event_handler_processed.findUnique({
-        where: {
-            event_id_handler_name: { event_id: eventId, handler_name: handlerName },
-        },
-    });
-    return !!row;
+    return false;
 }
 /**
  * Marque l'événement comme traité par ce handler (à appeler après succès du traitement).
  */
 async function markProcessed(eventId, handlerName) {
-    await database_1.default.event_handler_processed.create({
-        data: {
-            event_id: eventId,
-            handler_name: handlerName,
-        },
-    });
-    logger_1.default.debug('Event marked as processed (ARCH-002)', { eventId, handlerName });
+    logger_1.default.debug('Event idempotency disabled - table missing', { eventId, handlerName });
 }
 //# sourceMappingURL=handlerIdempotency.js.map
