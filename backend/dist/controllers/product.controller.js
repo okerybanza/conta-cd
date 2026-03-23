@@ -61,7 +61,7 @@ const listProductsSchema = zod_1.z.object({
     search: zod_1.z.string().optional(),
     isActive: zod_1.z.coerce.boolean().optional(),
     page: zod_1.z.coerce.number().int().positive().optional(),
-    limit: zod_1.z.coerce.number().int().positive().max(1000).optional(),
+    limit: zod_1.z.coerce.number().int().positive().max(5000).optional(),
 });
 class ProductController {
     // Créer un article

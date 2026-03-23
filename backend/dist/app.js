@@ -179,6 +179,24 @@ app.use('/api/v1/accounts', account_routes_1.default);
 app.use('/api/v1/journal-entries', journalEntry_routes_1.default);
 app.use('/api/v1/reporting', reporting_routes_1.default);
 app.use('/api/v1/settings', settings_routes_1.default);
+app.get('/api/v1/currencies/rates', async (req, res) => {
+    try {
+        const { from, to } = req.query;
+        if (!from || !to) return res.status(400).json({ success: false, error: { message: 'from and to required' } });
+        const prisma = require('./config/database').default;
+        const rate = await prisma.exchange_rates.findFirst({
+            where: { from_currency: from, to_currency: to },
+            orderBy: { effective_date: 'desc' }
+        });
+        if (!rate) {
+            // Retourner un taux par défaut si pas de données
+            return res.json({ success: true, data: { from, to, rate: from === 'USD' && to === 'CDF' ? 2800 : from === 'EUR' && to === 'CDF' ? 3000 : 1, source: 'default' } });
+        }
+        return res.json({ success: true, data: { from, to, rate: Number(rate.rate), effective_date: rate.effective_date, source: rate.source } });
+    } catch (e) {
+        return res.status(500).json({ success: false, error: { message: e.message } });
+    }
+});
 app.use('/api/v1/subscription', subscription_routes_1.default);
 app.use('/api/v1/notifications', notification_routes_1.default);
 app.use('/api/v1/users', user_routes_1.default);
