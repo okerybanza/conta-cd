@@ -1,159 +1,158 @@
 /**
  * DOC-10 : Dashboard RH
- * Employés, contrats, préparation paie
+ * Employes actifs, conges en attente, paies a valider
  */
 
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Users, FileText, DollarSign, Calendar, AlertCircle, CheckCircle2 } from 'lucide-react';
-import employeeService from '../../services/employee.service';
-import payrollService from '../../services/payroll.service';
+import { Users, Calendar, DollarSign, AlertCircle, ArrowRight } from 'lucide-react';
+import api from '../../services/api';
 
 export function RHDashboard() {
   const [loading, setLoading] = useState(true);
   const [totalEmployees, setTotalEmployees] = useState(0);
-  const [activeContracts, setActiveContracts] = useState(0);
-  const [pendingPayrolls, setPendingPayrolls] = useState<any[]>([]);
-  const [recentEmployees, setRecentEmployees] = useState<any[]>([]);
+  const [pendingLeaves, setPendingLeaves] = useState<any[]>([]);
+  const [draftPayrolls, setDraftPayrolls] = useState<any[]>([]);
+  const [error, setError] = useState('');
 
-  useEffect(() => {
-    loadDashboardData();
-  }, []);
+  useEffect(() => { load(); }, []);
 
-  const loadDashboardData = async () => {
+  const load = async () => {
     try {
       setLoading(true);
-      
-      // Compter les employés
-      try {
-        const employees = await employeeService.list();
-        setTotalEmployees(employees.data?.length || 0);
-        setRecentEmployees(employees.data?.slice(0, 5) || []);
-      } catch (e) {
-        console.error('Error loading employees:', e);
-      }
-
-      // TODO: Compter les contrats actifs
-      setActiveContracts(0);
-
-      // TODO: Charger les paies en attente
-      try {
-        const payrolls = await payrollService.list({ status: 'draft' });
-        setPendingPayrolls(payrolls.data || []);
-      } catch (e) {
-        console.error('Error loading payrolls:', e);
-      }
+      const [empRes, leaveRes, payrollRes] = await Promise.all([
+        api.get('/hr/employees?limit=1'),
+        api.get('/hr/leave-requests?status=pending&limit=5'),
+        api.get('/hr/payroll?status=draft&limit=5'),
+      ]);
+      const empData = empRes.data?.data;
+      setTotalEmployees(empData?.total ?? empData?.pagination?.total ?? empData?.employees?.length ?? 0);
+      setPendingLeaves(leaveRes.data?.data?.leaveRequests ?? leaveRes.data?.data ?? []);
+      setDraftPayrolls(payrollRes.data?.data?.payrolls ?? payrollRes.data?.data ?? []);
     } catch (err: any) {
-      console.error('Error loading dashboard:', err);
+      if (err?.response?.status !== 401) setError('Erreur de chargement.');
     } finally {
       setLoading(false);
     }
   };
 
   if (loading) {
-    return <div className="flex items-center justify-center min-h-screen"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div></div>;
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600" />
+      </div>
+    );
   }
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-6 space-y-6 bg-[#FAFBFC] min-h-screen">
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">Tableau de bord - RH</h1>
-        <p className="text-gray-600 mt-1">Employés, contrats, préparation paie</p>
+        <h1 className="text-2xl font-bold text-gray-900">Tableau de bord RH</h1>
+        <p className="text-gray-500 text-sm mt-1">Gestion des ressources humaines</p>
       </div>
 
-      {/* Paies en attente */}
-      {pendingPayrolls.length > 0 && (
-        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-          <div className="flex items-start gap-3">
-            <AlertCircle className="h-5 w-5 text-yellow-600 flex-shrink-0 mt-0.5" />
-            <div className="flex-1">
-              <p className="font-medium text-yellow-900 mb-1">
-                {pendingPayrolls.length} paie(s) en préparation
-              </p>
-              <p className="text-sm text-yellow-800">
-                Des paies nécessitent votre attention avant validation (DOC-04, DOC-06)
-              </p>
-            </div>
-          </div>
+      {error && (
+        <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+          <AlertCircle size={16} /> {error}
         </div>
       )}
 
-      {/* Statistiques */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-white rounded-lg shadow p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600">Employés actifs</p>
-              <p className="text-2xl font-bold text-gray-900">{totalEmployees}</p>
-            </div>
-            <Users className="h-8 w-8 text-blue-600" />
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="bg-white border border-gray-200 rounded-xl p-5 flex items-center justify-between">
+          <div>
+            <p className="text-sm text-gray-500">Employes actifs</p>
+            <p className="text-3xl font-bold text-gray-900 mt-1">{totalEmployees}</p>
           </div>
+          <div className="p-3 rounded-lg bg-blue-600"><Users className="h-6 w-6 text-white" /></div>
         </div>
-
-        <div className="bg-white rounded-lg shadow p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600">Contrats actifs</p>
-              <p className="text-2xl font-bold text-gray-900">{activeContracts}</p>
-            </div>
-            <FileText className="h-8 w-8 text-green-600" />
+        <div className="bg-white border border-gray-200 rounded-xl p-5 flex items-center justify-between">
+          <div>
+            <p className="text-sm text-gray-500">Conges en attente</p>
+            <p className="text-3xl font-bold text-gray-900 mt-1">{pendingLeaves.length}</p>
           </div>
+          <div className="p-3 rounded-lg bg-orange-500"><Calendar className="h-6 w-6 text-white" /></div>
         </div>
-
-        <div className="bg-white rounded-lg shadow p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600">Paies en préparation</p>
-              <p className="text-2xl font-bold text-gray-900">{pendingPayrolls.length}</p>
-            </div>
-            <DollarSign className="h-8 w-8 text-purple-600" />
+        <div className="bg-white border border-gray-200 rounded-xl p-5 flex items-center justify-between">
+          <div>
+            <p className="text-sm text-gray-500">Paies a valider</p>
+            <p className="text-3xl font-bold text-gray-900 mt-1">{draftPayrolls.length}</p>
           </div>
+          <div className="p-3 rounded-lg bg-green-600"><DollarSign className="h-6 w-6 text-white" /></div>
         </div>
       </div>
 
-      {/* Employés récents */}
-      <div className="bg-white rounded-lg shadow p-6">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-gray-900">Employés récents</h2>
-          <Link to="/hr/employees" className="text-sm text-primary hover:underline">Voir tout</Link>
-        </div>
-        <div className="space-y-2">
-          {recentEmployees.length === 0 ? (
-            <p className="text-gray-500 text-sm">Aucun employé</p>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="bg-white border border-gray-200 rounded-xl p-5">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="font-semibold text-gray-900">Conges a approuver</h2>
+            <Link to="/hr/leave-requests" className="text-sm text-blue-600 hover:underline flex items-center gap-1">
+              Voir tout <ArrowRight size={14} />
+            </Link>
+          </div>
+          {pendingLeaves.length === 0 ? (
+            <p className="text-sm text-gray-400">Aucune demande en attente</p>
           ) : (
-            recentEmployees.map((emp) => (
-              <div key={emp.id} className="flex items-center justify-between p-3 border border-gray-200 rounded">
-                <div>
-                  <p className="font-medium text-gray-900">
-                    {emp.firstName} {emp.lastName}
-                  </p>
-                  <p className="text-sm text-gray-600">{emp.employeeNumber || emp.id}</p>
+            <div className="space-y-2">
+              {pendingLeaves.map((leave: any) => (
+                <div key={leave.id} className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50">
+                  <div>
+                    <p className="text-sm font-medium text-gray-900">
+                      {leave.employee?.firstName} {leave.employee?.lastName}
+                    </p>
+                    <p className="text-xs text-gray-500">{leave.leaveType ?? leave.type ?? '—'}</p>
+                  </div>
+                  <span className="text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full">
+                    {leave.daysRequested ?? leave.days ?? '?'} jour(s)
+                  </span>
                 </div>
-                <span className="text-sm text-gray-600">{emp.status || 'Actif'}</span>
-              </div>
-            ))
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div className="bg-white border border-gray-200 rounded-xl p-5">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="font-semibold text-gray-900">Paies a valider</h2>
+            <Link to="/hr/payroll" className="text-sm text-blue-600 hover:underline flex items-center gap-1">
+              Voir tout <ArrowRight size={14} />
+            </Link>
+          </div>
+          {draftPayrolls.length === 0 ? (
+            <p className="text-sm text-gray-400">Aucune paie en attente</p>
+          ) : (
+            <div className="space-y-2">
+              {draftPayrolls.map((pay: any) => (
+                <div key={pay.id} className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50">
+                  <div>
+                    <p className="text-sm font-medium text-gray-900">
+                      {pay.employee?.firstName} {pay.employee?.lastName}
+                    </p>
+                    <p className="text-xs text-gray-500">{pay.period ?? pay.month ?? '—'}</p>
+                  </div>
+                  <span className="text-xs bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded-full">Brouillon</span>
+                </div>
+              ))}
+            </div>
           )}
         </div>
       </div>
 
-      {/* Actions rapides */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Link to="/hr/employees/new" className="bg-white rounded-lg shadow p-6 hover:bg-gray-50 transition-colors">
-          <Users className="h-8 w-8 text-blue-600 mb-3" />
-          <p className="font-medium text-gray-900">Nouvel employé</p>
-          <p className="text-sm text-gray-600 mt-1">Créer un employé</p>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <Link to="/hr/employees" className="bg-white border border-gray-200 rounded-xl p-4 flex items-center gap-3 hover:bg-gray-50 transition-colors">
+          <Users size={20} className="text-blue-600" />
+          <span className="font-medium text-gray-900">Employes</span>
         </Link>
-        <Link to="/hr/payroll" className="bg-white rounded-lg shadow p-6 hover:bg-gray-50 transition-colors">
-          <DollarSign className="h-8 w-8 text-green-600 mb-3" />
-          <p className="font-medium text-gray-900">Préparer une paie</p>
-          <p className="text-sm text-gray-600 mt-1">Créer une paie</p>
+        <Link to="/hr/leave-requests" className="bg-white border border-gray-200 rounded-xl p-4 flex items-center gap-3 hover:bg-gray-50 transition-colors">
+          <Calendar size={20} className="text-orange-500" />
+          <span className="font-medium text-gray-900">Conges</span>
         </Link>
-        <Link to="/hr/contracts" className="bg-white rounded-lg shadow p-6 hover:bg-gray-50 transition-colors">
-          <FileText className="h-8 w-8 text-purple-600 mb-3" />
-          <p className="font-medium text-gray-900">Gérer les contrats</p>
-          <p className="text-sm text-gray-600 mt-1">Contrats employés</p>
+        <Link to="/hr/payroll" className="bg-white border border-gray-200 rounded-xl p-4 flex items-center gap-3 hover:bg-gray-50 transition-colors">
+          <DollarSign size={20} className="text-green-600" />
+          <span className="font-medium text-gray-900">Paie</span>
         </Link>
       </div>
     </div>
   );
 }
+
+export default RHDashboard;
