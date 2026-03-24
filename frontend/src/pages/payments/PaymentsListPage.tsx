@@ -5,8 +5,8 @@ import paymentService, { Payment, PaymentFilters } from '../../services/payment.
 import { useToastContext } from '../../contexts/ToastContext';
 import { useConfirm } from '../../hooks/useConfirm';
 import { ConfirmDialog } from '../../components/ui/ConfirmDialog';
-import ActionsMenu from '../../components/shared/ActionsMenu';
-import { formatRequiredDate, formatCurrency } from '../../utils/formatters';
+import { ActionsMenu } from '../../components/shared/ActionsMenu';
+import { formatDate, formatCurrency } from '../../utils/formatters';
 import { PaymentDetailSlideIn } from '../../components/payments/PaymentDetailSlideIn';
 
 function PaymentsListPage() {
@@ -343,7 +343,7 @@ function PaymentsListPage() {
                     >
                       <td className="px-6 py-4 text-left">
                         <div className="text-sm text-text-primary font-medium">
-                          {formatRequiredDate(payment.paymentDate)}
+                          {formatDate(payment.paymentDate)}
                         </div>
                         {(payment.transactionReference || payment.reference) && (
                           <p className="text-text-muted text-xs mt-0.5">
@@ -352,7 +352,7 @@ function PaymentsListPage() {
                         )}
                         {payment.createdAt && (
                           <p className="text-text-muted text-xs mt-0.5">
-                            Créé: {formatRequiredDate(payment.createdAt)}
+                            Créé: {formatDate(payment.createdAt)}
                           </p>
                         )}
                       </td>
@@ -400,7 +400,6 @@ function PaymentsListPage() {
                               label: 'Supprimer',
                               onClick: () => handleDelete(payment.id),
                               icon: <Trash2 size={14} />,
-                              className: 'text-danger',
                             },
                           ]}
                         />

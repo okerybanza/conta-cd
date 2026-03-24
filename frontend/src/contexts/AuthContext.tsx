@@ -36,6 +36,8 @@ interface Company {
   address?: string;
   city?: string;
   country?: string;
+  visapay_enabled?: boolean;
+  currency?: string;
 }
 
 interface AuthContextType {

@@ -1,3 +1,4 @@
+import { formatCurrency, formatDate } from '../../utils/formatters';
 import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate, useLocation } from 'react-router-dom';
 import {
@@ -187,7 +188,7 @@ function PaymentDetailPage() {
               {payment.invoice.invoiceNumber}
             </Link>
             <p className="text-xs text-text-secondary mt-1">
-              Montant facture: {formatPrice(payment.invoice.totalTtc, payment.currency)}
+              Montant facture: {formatCurrency(Number(payment.invoice?.totalTtc || 0), payment.currency)}
             </p>
           </div>
         )}
@@ -210,7 +211,7 @@ function PaymentDetailPage() {
             Montant
           </p>
           <p className="text-lg font-medium text-text-primary">
-            {formatPrice(Number(payment.amount), payment.currency)}
+            {formatCurrency(Number(payment.amount), payment.currency)}
           </p>
         </div>
       </div>

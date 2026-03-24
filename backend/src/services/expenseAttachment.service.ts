@@ -1,6 +1,6 @@
+import { randomUUID } from 'crypto';
 import prisma from '../config/database';
 import { CustomError } from '../middleware/error.middleware';
-import logger from '../utils/logger';
 
 export interface CreateAttachmentData {
   expenseId?: string;
@@ -11,6 +11,22 @@ export interface CreateAttachmentData {
   size?: number;
   url?: string;
   uploadedBy?: string;
+}
+
+const uploaderInclude = {
+  users: {
+    select: {
+      id: true,
+      first_name: true,
+      last_name: true,
+      email: true,
+    },
+  },
+} as const;
+
+function withUploader<T extends { users?: unknown | null }>(row: T) {
+  const { users, ...rest } = row;
+  return { ...rest, uploader: users ?? null };
 }
 
 export class ExpenseAttachmentService {
@@ -31,30 +47,22 @@ export class ExpenseAttachmentService {
     }
 
     // Créer l'attachment
-    const attachment = await prisma.expenseAttachment.create({
+    const row = await prisma.expenseAttachment.create({
       data: {
-        expenseId: data.expenseId,
-        companyId: data.companyId,
-        filename: data.filename,
-        originalName: data.originalName,
-        mimetype: data.mimetype,
-        size: data.size,
-        url: data.url,
-        uploadedBy: data.uploadedBy,
+        id: randomUUID(),
+        expenseId: data.expenseId!,
+        companyId: data.companyId!,
+        filename: data.filename!,
+        originalName: data.originalName!,
+        mimetype: data.mimetype!,
+        size: data.size!,
+        url: data.url!,
+        uploadedBy: data.uploadedBy!,
       },
-      include: {
-        uploader: {
-          select: {
-            id: true,
-            first_name: true,
-            last_name: true,
-            email: true,
-          },
-        },
-      },
+      include: uploaderInclude,
     });
 
-    return attachment;
+    return withUploader(row);
   }
 
   /**
@@ -78,22 +86,13 @@ export class ExpenseAttachmentService {
         expenseId,
         companyId,
       },
-      include: {
-        uploader: {
-          select: {
-            id: true,
-            first_name: true,
-            last_name: true,
-            email: true,
-          },
-        },
-      },
+      include: uploaderInclude,
       orderBy: {
         createdAt: 'desc',
       },
     });
 
-    return attachments;
+    return attachments.map(withUploader);
   }
 
   /**
@@ -105,23 +104,14 @@ export class ExpenseAttachmentService {
         id: attachmentId,
         companyId,
       },
-      include: {
-        uploader: {
-          select: {
-            id: true,
-            first_name: true,
-            last_name: true,
-            email: true,
-          },
-        },
-      },
+      include: uploaderInclude,
     });
 
     if (!attachment) {
       throw new CustomError('Attachment not found', 404, 'ATTACHMENT_NOT_FOUND');
     }
 
-    return attachment;
+    return withUploader(attachment);
   }
 
   /**
@@ -168,4 +158,3 @@ export class ExpenseAttachmentService {
 }
 
 export default new ExpenseAttachmentService();
-

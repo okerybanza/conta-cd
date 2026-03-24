@@ -453,8 +453,8 @@ export function PaymentFormSlideIn({
                 typeof formData.paymentDate === 'string'
                   ? formData.paymentDate
                   : formData.paymentDate
-                  ? typeof formData.paymentDate === 'object' && 'toISOString' in formData.paymentDate
-                    ? formData.paymentDate.toISOString().split('T')[0]
+                  ? typeof formData.paymentDate === 'object' && 'toISOString' in (formData.paymentDate as any)
+                    ? (formData.paymentDate as any).toISOString().split('T')[0]
                     : ''
                   : ''
               }

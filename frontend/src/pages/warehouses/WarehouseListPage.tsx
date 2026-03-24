@@ -5,7 +5,7 @@ import warehouseService, { Warehouse } from '../../services/warehouse.service';
 import { useToastContext } from '../../contexts/ToastContext';
 import { useConfirm } from '../../hooks/useConfirm';
 import { ConfirmDialog } from '../../components/ui/ConfirmDialog';
-import ActionsMenu from '../../components/shared/ActionsMenu';
+import { ActionsMenu } from '../../components/shared/ActionsMenu';
 
 function WarehouseListPage() {
   const navigate = useNavigate();
@@ -234,7 +234,6 @@ function WarehouseListPage() {
                             label: 'Supprimer',
                             icon: <Trash2 size={14} />,
                             onClick: () => handleDelete(warehouse.id, warehouse.name),
-                            className: 'text-red-600',
                           },
                         ]}
                       />

@@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const customer_controller_1 = __importDefault(require("../controllers/customer.controller"));
 const auth_middleware_1 = require("../middleware/auth.middleware");
-const upload_middleware_1 = require("../middleware/upload.middleware");
 const router = (0, express_1.Router)();
 // Toutes les routes nécessitent une authentification
 router.use(auth_middleware_1.authenticate);
@@ -17,6 +16,5 @@ router.get('/export', customer_controller_1.default.exportCSV.bind(customer_cont
 router.get('/:id', customer_controller_1.default.getById.bind(customer_controller_1.default));
 router.put('/:id', customer_controller_1.default.update.bind(customer_controller_1.default));
 router.delete('/:id', customer_controller_1.default.delete.bind(customer_controller_1.default));
-router.post('/:id/logo', upload_middleware_1.uploadLogo.single('logo'), customer_controller_1.default.uploadLogo.bind(customer_controller_1.default));
 exports.default = router;
 //# sourceMappingURL=customer.routes.js.map

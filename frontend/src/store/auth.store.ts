@@ -28,6 +28,8 @@ interface Company {
   city?: string;
   country?: string;
   currency?: string;
+  visapay_enabled?: boolean;
+  visapay_merchant_code?: string;
 }
 
 interface AuthState {

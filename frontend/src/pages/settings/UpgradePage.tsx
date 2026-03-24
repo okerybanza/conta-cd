@@ -99,7 +99,7 @@ function UpgradePage() {
       }
 
       // Si Visapay est sélectionné
-      if (paymentMethod === 'visapay' && selectedPackage && company?.visapayEnabled) {
+      if (paymentMethod === 'visapay' && selectedPackage && company?.visapay_enabled) {
         const amount = Number(selectedPackage.priceMonthly || 0);
         const returnUrl = `${window.location.origin}/payments/visapay/return?type=subscription&packageId=${selectedPackageId}`;
         const cancelUrl = `${window.location.origin}/settings/subscription/upgrade`;
@@ -334,7 +334,7 @@ function UpgradePage() {
                     <div className="text-sm text-gray-600">Payer via PayPal (redirection vers PayPal)</div>
                   </div>
                 </label>
-                {company?.visapayEnabled && (
+                {company?.visapay_enabled && (
                   <label className="flex items-center p-4 border-2 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
                     <input
                       type="radio"

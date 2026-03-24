@@ -4,7 +4,7 @@ import { ArrowLeft, Save, Loader2, AlertCircle, DollarSign, Calendar, User, Plus
 import payrollService, { CreatePayrollData, PayrollItemData } from '../../services/payroll.service';
 import employeeService, { Employee } from '../../services/employee.service';
 import { useToastContext } from '../../contexts/ToastContext';
-import { formatPrice } from '../../utils/formatters';
+import { formatCurrency } from '../../utils/formatters';
 
 function PayrollFormPage() {
   const navigate = useNavigate();
@@ -319,19 +319,19 @@ function PayrollFormPage() {
                   <div className="flex justify-between text-gray-700">
                     <span>Salaire brut:</span>
                     <span className="font-medium text-gray-900">
-                      {formatPrice(totals.grossSalary, currency)}
+                      {formatCurrency(totals.grossSalary, currency)}
                     </span>
                   </div>
                   <div className="flex justify-between text-gray-700">
                     <span>Total déductions:</span>
                     <span className="font-medium text-gray-900">
-                      {formatPrice(totals.totalDeductions, currency)}
+                      {formatCurrency(totals.totalDeductions, currency)}
                     </span>
                   </div>
                   <div className="flex justify-between font-bold text-lg border-t border-gray-300 pt-3 text-gray-900">
                     <span>Salaire net:</span>
                     <span className="text-blue-600">
-                      {formatPrice(totals.netSalary, currency)}
+                      {formatCurrency(totals.netSalary, currency)}
                     </span>
                   </div>
                 </div>

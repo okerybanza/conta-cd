@@ -1,3 +1,4 @@
+import { randomUUID } from 'crypto';
 import prisma from '../config/database';
 import { CustomError } from '../middleware/error.middleware';
 import logger from '../utils/logger';
@@ -18,6 +19,13 @@ export interface RejectExpenseData {
   reason?: string;
   comments?: string;
 }
+
+const userPublicSelect = {
+  id: true,
+  first_name: true,
+  last_name: true,
+  email: true,
+} as const;
 
 export class ExpenseApprovalService {
   /**
@@ -91,6 +99,7 @@ export class ExpenseApprovalService {
     // Créer la demande d'approbation
     const approval = await prisma.expenseApproval.create({
       data: {
+        id: randomUUID(),
         expenseId,
         companyId,
         ruleId: approvalCheck.ruleId || null,
@@ -105,7 +114,7 @@ export class ExpenseApprovalService {
 
     const requesterProfile = await prisma.users.findUnique({
       where: { id: userId },
-      select: { first_name: true, last_name: true, email: true },
+      select: userPublicSelect,
     });
 
     // Mettre à jour la dépense
@@ -123,7 +132,7 @@ export class ExpenseApprovalService {
       try {
         const approver = await prisma.users.findUnique({
           where: { id: approverId },
-          select: { email: true, first_name: true, last_name: true },
+          select: userPublicSelect,
         });
 
         if (approver) {
@@ -150,8 +159,8 @@ export class ExpenseApprovalService {
     realtimeService.emitExpenseUpdated(companyId, approval);
 
     logger.info(`Expense approval requested: ${expenseId}`, {
-      company_id: companyId,
-      expense_id: expenseId,
+      companyId,
+      expenseId,
       ruleId: approvalCheck.ruleId,
       approvers: approvers.length,
     });
@@ -222,7 +231,7 @@ export class ExpenseApprovalService {
 
     const approverUser = await prisma.users.findUnique({
       where: { id: approverId },
-      select: { first_name: true, last_name: true, email: true },
+      select: userPublicSelect,
     });
 
     // Mettre à jour la dépense
@@ -243,7 +252,7 @@ export class ExpenseApprovalService {
         approval.expenseId,
         {
           status: 'approved',
-          expenseNumber: (expRel as any)?.expense_number ?? (expRel as any)?.expenseNumber,
+          expenseNumber: expRel?.expense_number ?? (expRel as any)?.expenseNumber,
           approverName:
             `${approverUser?.first_name || ''} ${approverUser?.last_name || ''}`.trim() ||
             approverUser?.email ||
@@ -258,8 +267,8 @@ export class ExpenseApprovalService {
     realtimeService.emitExpenseUpdated(companyId, updated);
 
     logger.info(`Expense approved: ${approval.expenseId}`, {
-      company_id: companyId,
-      expense_id: approval.expenseId,
+      companyId,
+      expenseId: approval.expenseId,
       approvalId,
       approverId,
     });
@@ -322,7 +331,7 @@ export class ExpenseApprovalService {
 
     const rejectorUser = await prisma.users.findUnique({
       where: { id: rejectorId },
-      select: { first_name: true, last_name: true, email: true },
+      select: userPublicSelect,
     });
 
     // Mettre à jour la dépense
@@ -343,7 +352,7 @@ export class ExpenseApprovalService {
         approval.expenseId,
         {
           status: 'rejected',
-          expenseNumber: (expRel as any)?.expense_number ?? (expRel as any)?.expenseNumber,
+          expenseNumber: expRel?.expense_number ?? (expRel as any)?.expenseNumber,
           rejectorName:
             `${rejectorUser?.first_name || ''} ${rejectorUser?.last_name || ''}`.trim() ||
             rejectorUser?.email ||
@@ -359,8 +368,8 @@ export class ExpenseApprovalService {
     realtimeService.emitExpenseUpdated(companyId, updated);
 
     logger.info(`Expense rejected: ${approval.expenseId}`, {
-      company_id: companyId,
-      expense_id: approval.expenseId,
+      companyId,
+      expenseId: approval.expenseId,
       approvalId,
       rejectorId,
       reason: data.reason,
@@ -427,12 +436,7 @@ export class ExpenseApprovalService {
               },
             },
             users: {
-              select: {
-                id: true,
-                first_name: true,
-                last_name: true,
-                email: true,
-              },
+              select: userPublicSelect,
             },
           },
         });
@@ -440,12 +444,7 @@ export class ExpenseApprovalService {
         // Récupérer le requester
         const requester = await prisma.users.findUnique({
           where: { id: approval.requestedBy },
-          select: {
-            id: true,
-            first_name: true,
-            last_name: true,
-            email: true,
-          },
+          select: userPublicSelect,
         });
 
         return {
@@ -483,59 +482,39 @@ export class ExpenseApprovalService {
         suppliers: true,
         expense_categories: true,
         users: {
-          select: {
-            id: true,
-            first_name: true,
-            last_name: true,
-            email: true,
-          },
+          select: userPublicSelect,
         },
       },
     });
 
-    const requester = await prisma.users.findUnique({
-      where: { id: approval.requestedBy },
-      select: {
-        id: true,
-        first_name: true,
-        last_name: true,
-        email: true,
-      },
-    });
-
-    const approver = approval.approvedBy
-      ? await prisma.users.findUnique({
-          where: { id: approval.approvedBy },
-          select: {
-            id: true,
-            first_name: true,
-            last_name: true,
-            email: true,
-          },
-        })
-      : null;
-
-    const rejector = approval.rejectedBy
-      ? await prisma.users.findUnique({
-          where: { id: approval.rejectedBy },
-          select: {
-            id: true,
-            first_name: true,
-            last_name: true,
-            email: true,
-          },
-        })
-      : null;
+    const [requester, approver, rejector] = await Promise.all([
+      prisma.users.findUnique({
+        where: { id: approval.requestedBy },
+        select: userPublicSelect,
+      }),
+      approval.approvedBy
+        ? prisma.users.findUnique({
+            where: { id: approval.approvedBy },
+            select: userPublicSelect,
+          })
+        : Promise.resolve(null),
+      approval.rejectedBy
+        ? prisma.users.findUnique({
+            where: { id: approval.rejectedBy },
+            select: userPublicSelect,
+          })
+        : Promise.resolve(null),
+    ]);
 
     const { ExpenseApprovalRule, ...rest } = approval;
 
     return {
       ...rest,
+      rule: ExpenseApprovalRule,
       expense,
       requester,
       approver,
       rejector,
-      rule: ExpenseApprovalRule,
     };
   }
 
@@ -543,7 +522,7 @@ export class ExpenseApprovalService {
    * Obtenir l'historique d'approbation d'une dépense
    */
   async getByExpense(companyId: string, expenseId: string) {
-    const rows = await prisma.expenseApproval.findMany({
+    const approvals = await prisma.expenseApproval.findMany({
       where: {
         expenseId,
         companyId,
@@ -561,10 +540,36 @@ export class ExpenseApprovalService {
       },
     });
 
-    return rows.map(({ ExpenseApprovalRule, ...a }) => ({
-      ...a,
-      rule: ExpenseApprovalRule,
-    }));
+    return Promise.all(
+      approvals.map(async (a) => {
+        const [requester, approver, rejector] = await Promise.all([
+          prisma.users.findUnique({
+            where: { id: a.requestedBy },
+            select: userPublicSelect,
+          }),
+          a.approvedBy
+            ? prisma.users.findUnique({
+                where: { id: a.approvedBy },
+                select: userPublicSelect,
+              })
+            : Promise.resolve(null),
+          a.rejectedBy
+            ? prisma.users.findUnique({
+                where: { id: a.rejectedBy },
+                select: userPublicSelect,
+              })
+            : Promise.resolve(null),
+        ]);
+        const { ExpenseApprovalRule, ...rest } = a;
+        return {
+          ...rest,
+          rule: ExpenseApprovalRule,
+          requester,
+          approver,
+          rejector,
+        };
+      })
+    );
   }
 }
 

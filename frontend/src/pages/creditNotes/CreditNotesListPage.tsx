@@ -20,7 +20,7 @@ import creditNoteService, { CreditNote } from '../../services/creditNote.service
 import { useToastContext } from '../../contexts/ToastContext';
 import { useConfirm } from '../../hooks/useConfirm';
 import { ConfirmDialog } from '../../components/ui/ConfirmDialog';
-import ActionsMenu, { ActionItem } from '../../components/shared/ActionsMenu';
+import { ActionsMenu, Action as ActionItem } from '../../components/shared/ActionsMenu';
 import { formatDate, formatCurrency } from '../../utils/formatters';
 
 function CreditNotesListPage() {
@@ -142,7 +142,6 @@ function CreditNotesListPage() {
         label: 'Supprimer',
         icon: <Trash2 size={14} />,
         onClick: () => handleDelete(creditNote.id),
-        className: 'text-red-600',
       });
     }
 

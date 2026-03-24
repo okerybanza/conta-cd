@@ -152,7 +152,7 @@ function SubscriptionPage() {
       }
 
       // Si Visapay est sélectionné
-      if (renewalPaymentMethod === 'visapay' && company?.visapayEnabled) {
+      if (renewalPaymentMethod === 'visapay' && company?.visapay_enabled) {
         if (!subscription.package) {
           showError('Le package de l\'abonnement n\'a pas été trouvé. Veuillez contacter le support.');
           setRenewing(false);
@@ -408,7 +408,7 @@ function SubscriptionPage() {
                           <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">Sécurisé</span>
                         </span>
                       </label>
-                      {company?.visapayEnabled && (
+                      {company?.visapay_enabled && (
                         <label className="flex items-center cursor-pointer">
                           <input
                             type="radio"
