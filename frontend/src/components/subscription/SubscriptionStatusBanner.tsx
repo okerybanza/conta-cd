@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import quotaService, { QuotaSummary } from '../../services/quota.service';
 import { AlertCircle, Clock, Sparkles } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
 
 /**
  * Bannière globale d'état d'abonnement, affichée en haut du dashboard.
@@ -15,7 +14,6 @@ export function SubscriptionStatusBanner() {
   const [daysLeft, setDaysLeft] = useState<number | null>(null);
   const navigate = useNavigate();
   const location = useLocation();
-  const { t } = useTranslation();
 
   useEffect(() => {
     const load = async () => {
@@ -90,15 +88,15 @@ export function SubscriptionStatusBanner() {
           <div className="flex-1">
             <p className="text-sm text-blue-900 font-medium flex items-center gap-1">
               <Sparkles size={14} className="text-blue-600" />
-              {t('dashboard.subscriptionBanner.trialTitle')}
+              Période d'essai
             </p>
             <p className="text-xs text-blue-800 mt-1">
-              {t('dashboard.subscriptionBanner.trialBodyPrefix', { pkgName })}{' '}
+              {`Vous testez le plan ${pkgName}`}{' '}
               {typeof daysLeft === 'number' && (
                 <>
-                  {t('dashboard.subscriptionBanner.trialDaysLeftPrefix')}{' '}
+                  Il reste{' '}
                   <span className="font-semibold">{daysLeft}</span>{' '}
-                  {t(daysLeft > 1 ? 'dashboard.subscriptionBanner.trialDaysSuffixPlural' : 'dashboard.subscriptionBanner.trialDaysSuffixSingular')}
+                  {daysLeft > 1 ? 'jours' : 'jour'}
                 </>
               )}
             </p>
@@ -107,7 +105,7 @@ export function SubscriptionStatusBanner() {
             onClick={() => navigate('/settings/subscription')}
             className="text-xs font-medium text-blue-900 bg-white border border-blue-200 rounded px-3 py-1 hover:bg-blue-50 transition-colors"
           >
-            {t('dashboard.subscriptionBanner.manageSubscription')}
+            Gérer l'abonnement
           </button>
         </div>
       </div>
@@ -120,16 +118,16 @@ export function SubscriptionStatusBanner() {
       <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 flex items-start gap-3">
         <AlertCircle className="text-amber-700 mt-0.5" size={18} />
         <div className="flex-1">
-          <p className="text-sm text-amber-900 font-medium">{t('dashboard.subscriptionBanner.expiredTitle')}</p>
+          <p className="text-sm text-amber-900 font-medium">Essai expiré</p>
           <p className="text-xs text-amber-800 mt-1">
-            {t('dashboard.subscriptionBanner.expiredBody')}
+            Votre période d'essai est terminée. Choisissez un plan pour continuer.
           </p>
         </div>
         <button
           onClick={() => navigate('/settings/subscription/upgrade')}
           className="text-xs font-medium text-amber-900 bg-white border border-amber-200 rounded px-3 py-1 hover:bg-amber-100 transition-colors"
         >
-          {t('dashboard.subscriptionBanner.choosePlan')}
+          Choisir un plan
         </button>
       </div>
     </div>
