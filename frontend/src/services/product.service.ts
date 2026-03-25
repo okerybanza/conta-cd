@@ -4,16 +4,26 @@ export interface Product {
   id: string;
   name: string;
   description?: string;
+  sku?: string;
+  category?: string;
   unitPrice: number;
+  costPrice?: number;
   taxRate?: number;
   unit?: string;
+  stockTracking?: boolean;
+  minStock?: number;
+  maxStock?: number;
   active?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface ProductFilters {
   page?: number;
   limit?: number;
   search?: string;
+  category?: string;
+  active?: boolean;
 }
 
 export interface ProductListResponse {
@@ -29,9 +39,15 @@ export interface ProductListResponse {
 export interface CreateProductData {
   name: string;
   description?: string;
+  sku?: string;
+  category?: string;
   unitPrice: number;
+  costPrice?: number;
   taxRate?: number;
   unit?: string;
+  stockTracking?: boolean;
+  minStock?: number;
+  maxStock?: number;
 }
 
 class ProductService {
