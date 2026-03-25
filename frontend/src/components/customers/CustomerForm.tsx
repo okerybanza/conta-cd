@@ -19,6 +19,13 @@ export function CustomerForm({ customerId, onSuccess, onCancel }: CustomerFormPr
     businessName: '',
     email: '',
     phone: '',
+    mobile: '',
+    address: '',
+    city: '',
+    country: '',
+    nif: '',
+    rccm: '',
+    notes: '',
   });
   const [loading, setLoading] = useState(false);
 
@@ -121,6 +128,36 @@ export function CustomerForm({ customerId, onSuccess, onCancel }: CustomerFormPr
         </div>
       </div>
 
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium mb-1">Mobile</label>
+          <input className="input" value={form.mobile || ''} onChange={(e) => setForm((p) => ({ ...p, mobile: e.target.value }))} placeholder="+243..." />
+        </div>
+        <div>
+          <label className="block text-sm font-medium mb-1">Pays</label>
+          <input className="input" value={form.country || ''} onChange={(e) => setForm((p) => ({ ...p, country: e.target.value }))} placeholder="RDC" />
+        </div>
+        <div>
+          <label className="block text-sm font-medium mb-1">Ville</label>
+          <input className="input" value={form.city || ''} onChange={(e) => setForm((p) => ({ ...p, city: e.target.value }))} placeholder="Kinshasa" />
+        </div>
+        <div>
+          <label className="block text-sm font-medium mb-1">Adresse</label>
+          <input className="input" value={form.address || ''} onChange={(e) => setForm((p) => ({ ...p, address: e.target.value }))} />
+        </div>
+        <div>
+          <label className="block text-sm font-medium mb-1">NIF</label>
+          <input className="input" value={form.nif || ''} onChange={(e) => setForm((p) => ({ ...p, nif: e.target.value }))} />
+        </div>
+        <div>
+          <label className="block text-sm font-medium mb-1">RCCM</label>
+          <input className="input" value={form.rccm || ''} onChange={(e) => setForm((p) => ({ ...p, rccm: e.target.value }))} />
+        </div>
+      </div>
+      <div>
+        <label className="block text-sm font-medium mb-1">Notes</label>
+        <textarea className="input" rows={3} value={form.notes || ''} onChange={(e) => setForm((p) => ({ ...p, notes: e.target.value }))} />
+      </div>
       <div className="flex gap-2">
         <button type="button" className="btn-secondary" onClick={onCancel} disabled={loading}>Annuler</button>
         <button type="submit" className="btn-primary" disabled={loading}>{loading ? 'Enregistrement...' : 'Enregistrer'}</button>

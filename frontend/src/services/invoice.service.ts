@@ -175,6 +175,7 @@ const mapInvoice = (data: any): Invoice => {
       subtotal: Number(line.subtotal),
       total: Number(line.total),
     })) : data.lines,
+    payments: data.payments || [],
     createdAt: data.created_at || data.createdAt,
     updatedAt: data.updated_at || data.updatedAt,
   };
