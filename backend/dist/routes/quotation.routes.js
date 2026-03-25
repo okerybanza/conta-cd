@@ -18,5 +18,6 @@ router.put('/:id', quotation_controller_1.default.update.bind(quotation_controll
 router.delete('/:id', quotation_controller_1.default.delete.bind(quotation_controller_1.default));
 // Route spéciale: convertir devis en facture
 router.post('/:id/convert-to-invoice', quotation_controller_1.default.convertToInvoice.bind(quotation_controller_1.default));
+router.post('/:id/convert', quotation_controller_1.default.convertToInvoice.bind(quotation_controller_1.default));
 exports.default = router;
 //# sourceMappingURL=quotation.routes.js.map

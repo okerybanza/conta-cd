@@ -76,27 +76,34 @@ const prismaReadExtended = readUrl ? applyExtensions(prismaReadBase) : prismaExt
 const readOperations = ['findUnique', 'findMany', 'findFirst', 'count', 'aggregate', 'groupBy'];
 const prisma = new Proxy(prismaExtended, {
     get(target, prop) {
-        // Si on accède à un modèle (ex: prisma.users)
-        if (typeof prop === 'string' && prop in target) {
+        // Ne pas proxifier les propriétés internes de Prisma (commencent par $ ou _)
+        if (typeof prop === 'string' && (prop.startsWith('$') || prop.startsWith('_'))) {
+            return target[prop];
+        }
+        // Si on accède à un modèle (ex: prisma.users, prisma.suppliers)
+        if (typeof prop === 'string') {
             const model = target[prop];
-            // On retourne un proxy du modèle pour intercepter les méthodes
-            return new Proxy(model, {
-                get(modelTarget, method) {
-                    const originalMethod = modelTarget[method];
-                    if (typeof originalMethod === 'function') {
-                        return (...args) => {
-                            // Routage vers le réplica si c'est une opération de lecture
-                            const useRead = readUrl && readOperations.includes(method);
-                            const clientToUse = useRead ? prismaReadExtended[prop] : modelTarget;
-                            if (useRead) {
-                                logger_1.default.debug(`Routing read operation to replica: ${prop}.${method}`);
-                            }
-                            return clientToUse[method](...args);
-                        };
+            // Vérifier que le modèle existe et est un objet (pas undefined, pas une fonction)
+            if (model && typeof model === 'object' && !Array.isArray(model)) {
+                // On retourne un proxy du modèle pour intercepter les méthodes
+                return new Proxy(model, {
+                    get(modelTarget, method) {
+                        const originalMethod = modelTarget[method];
+                        if (typeof originalMethod === 'function') {
+                            return (...args) => {
+                                // Routage vers le réplica si c'est une opération de lecture
+                                const useRead = readUrl && readOperations.includes(method);
+                                const clientToUse = useRead ? prismaReadExtended[prop] : modelTarget;
+                                if (useRead) {
+                                    logger_1.default.debug(`Routing read operation to replica: ${prop}.${method}`);
+                                }
+                                return clientToUse[method](...args);
+                            };
+                        }
+                        return originalMethod;
                     }
-                    return originalMethod;
-                }
-            });
+                });
+            }
         }
         return target[prop];
     }
