@@ -54,7 +54,13 @@ export const useAuthStore = create<AuthState>()(
       isAuthenticated: false,
       companyVersion: 0,
       setAuth: (user, company) => set({ user, company, activeCompanyId: company?.id || null, isAuthenticated: true, companyVersion: 0 }),
-      logout: () => set({ user: null, company: null, activeCompanyId: null, isAuthenticated: false, companyVersion: 0 }),
+      logout: () => {
+        // Nettoyer localStorage
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        // Réinitialiser le state
+        set({ user: null, company: null, activeCompanyId: null, isAuthenticated: false, companyVersion: 0 });
+      },
       updateUser: (data) => set((state) => ({ user: state.user ? { ...state.user, ...data } : null })),
       updateCompany: (data) => set((state) => ({ company: state.company ? { ...state.company, ...data } : null })),
       setActiveCompany: (company) => set((state) => ({ company, activeCompanyId: company.id, companyVersion: state.companyVersion + 1 })),

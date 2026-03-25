@@ -49,33 +49,12 @@ function SubscriptionPage() {
         const subResponse = await subscriptionService.getActive();
         const subData = subResponse.data;
         
-        // Log détaillé pour debug
-        console.log('📦 Subscription API Response:', {
-          success: subResponse.success,
-          hasData: !!subData,
-          hasPackage: !!subData?.package,
-          packageName: subData?.package?.name,
-          packageCode: subData?.package?.code,
-          subscriptionId: subData?.id,
-          packageId: subData?.packageId,
-          fullResponse: subResponse,
-        });
-        
-        // Vérifier que le package existe, sinon logger une erreur
+        // Vérifier que le package existe
         if (subData && !subData.package) {
           console.error('❌ Subscription loaded but package is missing:', {
             subscription: subData,
             hasPackageId: !!subData.packageId,
             packageId: subData.packageId,
-            responseKeys: Object.keys(subData),
-          });
-          // Ne pas afficher d'erreur bloquante, juste un avertissement
-          console.warn('⚠️ Package manquant pour l\'abonnement, affichage des plans disponibles uniquement');
-        } else if (subData?.package) {
-          console.log('✅ Package trouvé dans la réponse:', {
-            name: subData.package.name,
-            code: subData.package.code,
-            features: Object.keys(subData.package.features || {}),
           });
         }
         setSubscription(subData);

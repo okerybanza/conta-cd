@@ -24,7 +24,6 @@ export function DefaultDashboard() {
     } catch (err: any) {
       // Gérer gracieusement les erreurs 401 (non authentifié)
       if (err.response?.status === 401) {
-        console.log('User not authenticated, skipping dashboard stats');
         // Ne pas afficher d'erreur, juste laisser les stats à null
       } else {
         console.error('Error loading dashboard:', err);

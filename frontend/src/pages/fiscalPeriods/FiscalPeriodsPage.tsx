@@ -127,7 +127,7 @@ function FiscalPeriodsPage() {
         showSuccess('Exercice clôturé et verrouillé automatiquement avec succès.');
       } catch (lockErr: any) {
         // Si le verrouillage échoue, on informe mais on considère la clôture réussie
-        console.warn('Period closed but lock failed:', lockErr);
+        console.error('Period closed but lock failed:', lockErr);
         showSuccess('Exercice clôturé avec succès. Le verrouillage automatique a échoué, veuillez verrouiller manuellement.');
       }
 

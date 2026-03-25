@@ -162,7 +162,6 @@ function DepreciationsPage() {
     }
 
     try {
-      console.log('Generating entry with period:', period, 'for depreciation:', id);
       await depreciationService.generateEntry(id, period);
       await loadDepreciations();
       showSuccess('Écriture d\'amortissement générée avec succès !');

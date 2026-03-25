@@ -106,9 +106,8 @@ class BrandingService {
       // 3) Logging doux selon le type d'erreur
       if (status === 429) {
         // Trop de requêtes : ce n'est pas critique pour l'utilisateur, on reste discret
-        console.info('Branding rate-limited, using default branding');
       } else {
-        console.warn('Could not fetch branding, using defaults', error);
+        console.error('Could not fetch branding, using defaults', error);
       }
 
       // 4) Dernier recours : valeurs par défaut produit

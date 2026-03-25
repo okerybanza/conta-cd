@@ -258,7 +258,6 @@ function Sidebar() {
         // Gérer gracieusement les erreurs 401 (non authentifié) ou autres
         if (error.response?.status === 401) {
           // Utilisateur non authentifié, ne pas afficher d'erreur
-          console.log('User not authenticated, skipping quota summary');
         } else {
           console.error('Error loading features:', error);
         }
