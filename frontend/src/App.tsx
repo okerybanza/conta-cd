@@ -101,6 +101,9 @@ const PayrollFormPage = lazy(() => import('./pages/hr/PayrollFormPage'));
 const LeaveRequestsPage = lazy(() => import('./pages/hr/LeaveRequestsPage'));
 const LeaveBalancesPage = lazy(() => import('./pages/hr/LeaveBalancesPage'));
 const HrCompliancePage = lazy(() => import('./pages/hr/HrCompliancePage'));
+const StockMovementFormPage = lazy(() => import('./pages/stock/StockMovementFormPage'));
+const ProductDetailPage = lazy(() => import('./pages/products/ProductDetailPage'));
+const AdminBrandingPage = lazy(() => import('./pages/admin/AdminBrandingPage'));
 const UserProfilePage = lazy(() => import('./pages/profile/UserProfilePage'));
 
 const LoadingFallback = () => (
@@ -385,6 +388,20 @@ function App() {
           }
         />
         <Route
+          path="/admin/branding"
+          element={
+            <PrivateRoute>
+              <AdminRoute>
+                <Layout>
+                  <Suspense fallback={<LoadingFallback />}>
+                    <AdminBrandingPage />
+                  </Suspense>
+                </Layout>
+              </AdminRoute>
+            </PrivateRoute>
+          }
+        />
+        <Route
           path="/customers"
           element={
             <PrivateRoute>
@@ -439,6 +456,18 @@ function App() {
               <Layout>
                 <Suspense fallback={<LoadingFallback />}>
                   <ProductsListPage />
+                </Suspense>
+              </Layout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/products/:id"
+          element={
+            <PrivateRoute>
+              <Layout>
+                <Suspense fallback={<LoadingFallback />}>
+                  <ProductDetailPage />
                 </Suspense>
               </Layout>
             </PrivateRoute>
@@ -1427,6 +1456,18 @@ function App() {
               <Layout>
                 <Suspense fallback={<LoadingFallback />}>
                   <StockMovementsListPage />
+                </Suspense>
+              </Layout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/stock/movements/new"
+          element={
+            <PrivateRoute>
+              <Layout>
+                <Suspense fallback={<LoadingFallback />}>
+                  <StockMovementFormPage />
                 </Suspense>
               </Layout>
             </PrivateRoute>
