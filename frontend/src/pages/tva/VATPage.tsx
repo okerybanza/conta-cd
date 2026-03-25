@@ -51,6 +51,27 @@ function VATPage() {
     }
   };
 
+  const [exporting, setExporting] = useState(false);
+
+  const handleExportDeclaration = async () => {
+    try {
+      setExporting(true);
+      const period = filters.period || 'month';
+      const res = await tvaService.generateVATDeclaration(period);
+      // Try to download as JSON/text if no blob
+      const blob = new Blob([JSON.stringify(res.data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `declaration-tva-${new Date().toISOString().split('T')[0]}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch {
+      // Fallback: print current report as text
+      window.print();
+    } finally { setExporting(false); }
+  };
+
   const handlePeriodChange = (period: 'month' | 'quarter' | 'year' | 'custom') => {
     if (period === 'custom') {
       setFilters({ ...filters, period: undefined });
@@ -86,14 +107,24 @@ function VATPage() {
           <h1 className="text-2xl font-bold text-gray-900">Gestion TVA</h1>
           <p className="text-gray-600 mt-1">Rapport TVA, TVA collectée, déductible et à payer</p>
         </div>
-        <button
-          onClick={loadReport}
-          disabled={loading}
-          className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
-        >
-          <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
-          Actualiser
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={handleExportDeclaration}
+            disabled={exporting || !report}
+            className="flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 disabled:opacity-50"
+          >
+            <Download className="h-4 w-4" />
+            {exporting ? 'Export...' : 'Exporter declaration'}
+          </button>
+          <button
+            onClick={loadReport}
+            disabled={loading}
+            className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+          >
+            <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
+            Actualiser
+          </button>
+        </div>
       </div>
 
       {/* Filtres */}
