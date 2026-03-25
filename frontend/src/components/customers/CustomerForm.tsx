@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import customerService, { CreateCustomerData } from '../../services/customer.service';
 import { useToastContext } from '../../contexts/ToastContext';
+import { Upload, X } from 'lucide-react';
 
 interface CustomerFormProps {
   customerId?: string;
@@ -28,6 +29,8 @@ export function CustomerForm({ customerId, onSuccess, onCancel }: CustomerFormPr
     notes: '',
   });
   const [loading, setLoading] = useState(false);
+  const [logoFile, setLogoFile] = useState<File | null>(null);
+  const [logoPreview, setLogoPreview] = useState<string | null>(null);
 
   useEffect(() => {
     const loadCustomer = async () => {
@@ -52,6 +55,31 @@ export function CustomerForm({ customerId, onSuccess, onCancel }: CustomerFormPr
 
     loadCustomer();
   }, [customerId, showError]);
+
+  const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 2 * 1024 * 1024) {
+        showError('Le logo ne doit pas dépasser 2 MB');
+        return;
+      }
+      if (!file.type.startsWith('image/')) {
+        showError('Le fichier doit être une image');
+        return;
+      }
+      setLogoFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setLogoPreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const removeLogo = () => {
+    setLogoFile(null);
+    setLogoPreview(null);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -111,10 +139,45 @@ export function CustomerForm({ customerId, onSuccess, onCancel }: CustomerFormPr
           </div>
         </div>
       ) : (
-        <div>
-          <label className="block text-sm font-medium mb-1">Nom entreprise</label>
-          <input className="input" value={form.businessName || ''} onChange={(e) => setForm((p) => ({ ...p, businessName: e.target.value }))} />
-        </div>
+        <>
+          <div>
+            <label className="block text-sm font-medium mb-1">Nom entreprise</label>
+            <input className="input" value={form.businessName || ''} onChange={(e) => setForm((p) => ({ ...p, businessName: e.target.value }))} />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-1">Logo entreprise</label>
+            <div className="space-y-2">
+              {logoPreview ? (
+                <div className="relative inline-block">
+                  <img src={logoPreview} alt="Logo preview" className="w-32 h-32 object-contain border border-gray-200 rounded-lg p-2" />
+                  <button
+                    type="button"
+                    onClick={removeLogo}
+                    className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              ) : (
+                <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-primary hover:bg-gray-50">
+                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                    <Upload className="w-8 h-8 text-gray-400 mb-2" />
+                    <p className="text-xs text-gray-500">Cliquez pour uploader le logo</p>
+                    <p className="text-xs text-gray-400 mt-1">PNG, JPG, JPEG (max 2MB)</p>
+                  </div>
+                  <input
+                    type="file"
+                    className="hidden"
+                    accept="image/png,image/jpeg,image/jpg"
+                    onChange={handleLogoChange}
+                  />
+                </label>
+              )}
+            </div>
+            <p className="text-xs text-gray-500 mt-1">Le logo sera affiché sur les documents (factures, devis)</p>
+          </div>
+        </>
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
