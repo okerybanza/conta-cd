@@ -104,6 +104,9 @@ const HrCompliancePage = lazy(() => import('./pages/hr/HrCompliancePage'));
 const StockMovementFormPage = lazy(() => import('./pages/stock/StockMovementFormPage'));
 const ProductDetailPage = lazy(() => import('./pages/products/ProductDetailPage'));
 const AdminBrandingPage = lazy(() => import('./pages/admin/AdminBrandingPage'));
+const RecurringInvoiceDetailPage = lazy(() => import('./pages/recurringInvoices/RecurringInvoiceDetailPage'));
+const ContractsListPage = lazy(() => import('./pages/contracts/ContractsListPage'));
+const WarehouseDetailPage = lazy(() => import('./pages/warehouses/WarehouseDetailPage'));
 const UserProfilePage = lazy(() => import('./pages/profile/UserProfilePage'));
 
 const LoadingFallback = () => (
@@ -892,6 +895,18 @@ function App() {
           }
         />
         <Route
+          path="/recurring-invoices/:id"
+          element={
+            <PrivateRoute>
+              <Layout>
+                <Suspense fallback={<LoadingFallback />}>
+                  <RecurringInvoiceDetailPage />
+                </Suspense>
+              </Layout>
+            </PrivateRoute>
+          }
+        />
+        <Route
           path="/payments/paypal/return"
           element={
             <PrivateRoute>
@@ -1120,6 +1135,18 @@ function App() {
               <Layout>
                 <Suspense fallback={<LoadingFallback />}>
                   <AccountantCompaniesPage />
+                </Suspense>
+              </Layout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/contracts"
+          element={
+            <PrivateRoute>
+              <Layout>
+                <Suspense fallback={<LoadingFallback />}>
+                  <ContractsListPage />
                 </Suspense>
               </Layout>
             </PrivateRoute>
@@ -1504,6 +1531,18 @@ function App() {
               <Layout>
                 <Suspense fallback={<LoadingFallback />}>
                   <WarehouseFormPage />
+                </Suspense>
+              </Layout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/stock/warehouses/:id"
+          element={
+            <PrivateRoute>
+              <Layout>
+                <Suspense fallback={<LoadingFallback />}>
+                  <WarehouseDetailPage />
                 </Suspense>
               </Layout>
             </PrivateRoute>

@@ -168,6 +168,15 @@ const accountantService = {
     const response = await api.post('/accountants/cabinet', data);
     return response.data;
   },
+
+  async getById(id: string): Promise<Accountant> {
+    const response = await api.get(`/accountants/${id}`);
+    return response.data?.data ?? response.data;
+  },
+
+  async delete(id: string): Promise<void> {
+    await api.delete(`/accountants/${id}`);
+  },
 };
 
 export default accountantService;
