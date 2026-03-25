@@ -89,9 +89,30 @@ class NotificationService {
   }
 
   async testSMS(data: TestSMSData): Promise<void> {
-    await api.post('/notifications/test/sms', data);
+        await api.post('/notifications/test/sms', data);
+  }
+
+  async getUnreadCount(): Promise<number> {
+    try {
+      const response = await api.get('/notifications', { params: { read: false, limit: 1 } });
+      return response.data?.pagination?.total ?? response.data?.data?.length ?? 0;
+    } catch { return 0; }
+  }
+
+  async getRecent(limit = 5): Promise<any[]> {
+    try {
+      const response = await api.get('/notifications', { params: { limit } });
+      return response.data?.data ?? [];
+    } catch { return []; }
+  }
+
+  async markAsRead(id: string): Promise<void> {
+    await api.patch(`/notifications/${id}/read`);
+  }
+
+  async markAllAsRead(): Promise<void> {
+    await api.patch('/notifications/read-all');
   }
 }
 
 export default new NotificationService();
-

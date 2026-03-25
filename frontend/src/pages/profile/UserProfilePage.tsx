@@ -71,8 +71,8 @@ function UserProfilePage() {
           twoFactorEnabled: userData.twoFactorEnabled,
           lastLoginAt: userData.lastLoginAt,
           createdAt: userData.createdAt,
-          language: 'fr', // TODO: Récupérer depuis les préférences
-          timezone: 'Africa/Kinshasa', // TODO: Récupérer depuis les préférences
+          language: (userData as any).language ?? 'fr',
+          timezone: (userData as any).timezone ?? 'Africa/Kinshasa'
         };
         setProfile(profileData);
         setFormData(profileData);
