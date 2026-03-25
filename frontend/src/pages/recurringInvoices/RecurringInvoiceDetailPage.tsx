@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft, Edit, Trash2, Play, Pause, AlertCircle, RefreshCw } from 'lucide-react';
 import recurringInvoiceService, { RecurringInvoice } from '../../services/recurringInvoice.service';
 import api from '../../services/api';
+import { useConfirm } from '../../hooks/useConfirm';
 
 const FREQ_LABELS: Record<string, string> = {
   daily: 'Quotidienne', weekly: 'Hebdomadaire', monthly: 'Mensuelle',
@@ -23,6 +24,7 @@ const fmtDate = (d?: string) => d ? new Date(d).toLocaleDateString('fr-FR') : '�
 export default function RecurringInvoiceDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const confirm = useConfirm();
   const [ri, setRi] = useState<RecurringInvoice | null>(null);
   const [invoices, setInvoices] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -62,7 +64,22 @@ export default function RecurringInvoiceDetailPage() {
   };
 
   const handleDelete = async () => {
-    if (!window.confirm('Supprimer cette facture recurrente ?')) return;
+    const confirmed = await confirm.confirm({
+      title: 'Supprimer la facture récurrente',
+      message: `Êtes-vous sûr de vouloir supprimer la facture récurrente "${ri?.name}" ?`,
+      confirmText: 'Supprimer',
+      variant: 'danger',
+      impact: 'Cette facture récurrente sera définitivement supprimée.',
+      isIrreversible: true,
+      consequences: [
+        'Aucune nouvelle facture ne sera générée automatiquement',
+        'Les factures déjà générées ne seront pas supprimées',
+        'Cette action ne peut pas être annulée',
+      ],
+    });
+
+    if (!confirmed) return;
+
     try {
       setDeleting(true);
       await recurringInvoiceService.delete(id!);

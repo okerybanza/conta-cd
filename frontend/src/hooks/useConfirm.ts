@@ -8,6 +8,10 @@ interface ConfirmOptions {
   variant?: 'danger' | 'warning' | 'info';
   requireJustification?: boolean;
   justificationPlaceholder?: string;
+  // DOC-10 : Impact et irréversibilité
+  impact?: string;
+  isIrreversible?: boolean;
+  consequences?: string[];
 }
 
 export function useConfirm() {

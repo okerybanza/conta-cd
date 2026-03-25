@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft, Edit, Trash2, AlertCircle, Package } from 'lucide-react';
 import warehouseService, { Warehouse } from '../../services/warehouse.service';
 import api from '../../services/api';
+import { useConfirm } from '../../hooks/useConfirm';
 
 const MOVEMENT_TYPE_LABELS: Record<string, string> = {
   IN: 'Entree', OUT: 'Sortie', TRANSFER: 'Transfert', ADJUSTMENT: 'Ajustement',
@@ -15,6 +16,7 @@ const MOVEMENT_TYPE_COLORS: Record<string, string> = {
 export default function WarehouseDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const confirm = useConfirm();
   const [warehouse, setWarehouse] = useState<Warehouse | null>(null);
   const [movements, setMovements] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -40,7 +42,22 @@ export default function WarehouseDetailPage() {
   };
 
   const handleDelete = async () => {
-    if (!window.confirm('Supprimer cet entrepot ?')) return;
+    const confirmed = await confirm.confirm({
+      title: 'Supprimer l\'entrepôt',
+      message: `Êtes-vous sûr de vouloir supprimer l'entrepôt "${warehouse?.name}" ?`,
+      confirmText: 'Supprimer',
+      variant: 'danger',
+      impact: 'Cet entrepôt sera définitivement supprimé.',
+      isIrreversible: true,
+      consequences: [
+        'L\'historique des mouvements de stock sera conservé',
+        'Les produits ne seront plus associés à cet entrepôt',
+        'Si c\'est l\'entrepôt par défaut, vous devrez en définir un nouveau',
+      ],
+    });
+
+    if (!confirmed) return;
+
     try {
       setDeleting(true);
       await warehouseService.delete(id!);

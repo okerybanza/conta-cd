@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Plus, FileText, AlertCircle, Eye, Edit, Trash2 } from 'lucide-react';
 import contractService, { Contract } from '../../services/contract.service';
+import { useConfirm } from '../../hooks/useConfirm';
 
 const STATUS_LABELS: Record<string, string> = {
   draft: 'Brouillon', pending: 'En attente', signed: 'Signe',
@@ -18,6 +19,7 @@ const fmtDate = (d?: string) => d ? new Date(d).toLocaleDateString('fr-FR') : '�
 
 export default function ContractsListPage() {
   const navigate = useNavigate();
+  const confirm = useConfirm();
   const [contracts, setContracts] = useState<Contract[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -38,13 +40,29 @@ export default function ContractsListPage() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!window.confirm('Annuler ce contrat ?')) return;
+    const contract = contracts.find(c => c.id === id);
+    const confirmed = await confirm.confirm({
+      title: 'Annuler le contrat',
+      message: `Êtes-vous sûr de vouloir annuler le contrat "${contract?.title}" ?`,
+      confirmText: 'Annuler le contrat',
+      variant: 'danger',
+      impact: 'Ce contrat sera marqué comme annulé.',
+      isIrreversible: true,
+      consequences: [
+        'Le contrat ne sera plus actif',
+        'Les parties seront notifiées de l\'annulation',
+        'Cette action ne peut pas être annulée',
+      ],
+    });
+
+    if (!confirmed) return;
+
     try {
       setDeleting(id);
       await contractService.cancel(id);
       setContracts(c => c.filter(x => x.id !== id));
     } catch {
-      setError('Erreur lors de la suppression.');
+      setError('Erreur lors de l\'annulation du contrat.');
     } finally {
       setDeleting(null);
     }

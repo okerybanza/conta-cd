@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft, Edit, Trash2, Package, AlertCircle } from 'lucide-react';
 import api from '../../services/api';
+import { useConfirm } from '../../hooks/useConfirm';
 
 const MOVEMENT_TYPE_LABELS: Record<string, string> = {
   IN: 'Entree', OUT: 'Sortie', TRANSFER: 'Transfert', ADJUSTMENT: 'Ajustement',
@@ -16,6 +17,7 @@ const MOVEMENT_TYPE_COLORS: Record<string, string> = {
 export default function ProductDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const confirm = useConfirm();
   const [product, setProduct] = useState<any>(null);
   const [movements, setMovements] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -43,7 +45,22 @@ export default function ProductDetailPage() {
   }, [id]);
 
   const handleDelete = async () => {
-    if (!window.confirm('Supprimer ce produit ?')) return;
+    const confirmed = await confirm.confirm({
+      title: 'Supprimer le produit',
+      message: `Êtes-vous sûr de vouloir supprimer le produit "${product?.name}" ?`,
+      confirmText: 'Supprimer',
+      variant: 'danger',
+      impact: 'Ce produit sera définitivement supprimé de votre catalogue.',
+      isIrreversible: true,
+      consequences: [
+        'Le produit ne sera plus disponible pour les nouvelles factures',
+        'L\'historique des mouvements de stock sera conservé',
+        'Les factures existantes ne seront pas affectées',
+      ],
+    });
+
+    if (!confirmed) return;
+
     try {
       setDeleting(true);
       await api.delete(`/products/${id}`);
